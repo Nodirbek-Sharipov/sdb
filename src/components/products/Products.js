@@ -5,7 +5,7 @@ import CartIconSmall from "../icons/CartIconSmall";
 import product_img from "../../assets/images/product_image.png"
 
 function Products(props) {
-    const arr = [1, 2,3,4,5,6,7,8,9];
+    const arr = [1, 2,3,4,5,6,7,8];
     return (
         <div className="products">
            <div className="container">
@@ -17,7 +17,7 @@ function Products(props) {
                    {
                        arr.map((el) => {
                            return(
-                               <div className="product" key={el}>
+                               <a href="#" className="product" key={el}>
                                    <div className="product__img">
                                        <img src={product_img} alt="product__img"/>
                                    </div>
@@ -66,7 +66,7 @@ function Products(props) {
                                </span>
                                        </button>
                                    </div>
-                               </div>
+                               </a>
                            )
                        })
                    }
