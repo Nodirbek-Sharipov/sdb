@@ -12,7 +12,7 @@ export const publicRoutes =[
         component: CategoryPage
     },
     {
-        path: '/product/:id',
+        path: '/products/:id',
         component: ProductPage
     },
 ];
