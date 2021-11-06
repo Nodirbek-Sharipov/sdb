@@ -20,42 +20,71 @@ $black-color: #000;
 	padding: 0 20px;
 }
 
-.container-small{
-	width: 100%;
-	max-width: 1100px;
-	margin: 0 auto;
-	padding: 0 20px;
-}
+//.container-small{
+//	width: 100%;
+//	max-width: 1100px;
+//	margin: 0 auto;
+//	padding: 0 20px;
+//}
 
 .wrapper {
 	position: relative;
 	min-height: 100vh;
+	font-family: $main-font;
+	font-size: 14px;
+	font-weight: normal;
+	transition: all 0.3s;
+	@include d-flex(unset, unset,column,unset);
+
+	&.modal_active{
+		&:before{
+			content: '';
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background: rgba(0, 0, 0, 0.6);
+			z-index: 10;
+		}
+	}
+}
+
+.pages{
+	flex: 1 1 100%	;
 }
 
 /* N A V B A R - S T A R T */
 
 .navbar{
 	position: relative;
-	box-shadow: 0 2px 3px 0 #0000000f;
+	z-index: 10;
+
+
+	&__top{
+		background-color: #fff;
+		box-shadow: 0 2px 3px 0 #0000000f;
+		z-index: 10;
+	}
 
 	&__row{
-		@include d-flex(center, space-between, row, no-wrap);
+		@include d-flex(center, space-between, row, unset);
 	}
 
 	&__left{
-		height: 90px;
-		@include d-flex(center, flex-start, row, no-wrap);
+		@include adaptive-value('height', 90, 45, 1);
+		@include d-flex(center, flex-start, row, unset);
 	}
 
 	&__logo{
-		width: 70px;
-		height: 50px;
+		@include adaptive-value('width', 70, 40, 1);
+		@include adaptive-value('height', 50, 40, 1);
 		@include adaptive-value('margin-right', 40, 20, 1);
 
 		img{
 			width: 100%;
 			height: 100%;
-			object-fit: cover;
+			object-fit: contain;
 		}
 	}
 
@@ -63,20 +92,23 @@ $black-color: #000;
 		background: $main-color;
 		border: 1px solid transparent;
 		border-radius: 6px;
-		padding: 10px 25px 10px 15px;
-		@include d-flex(center, flex-start, row, no-wrap);
+		@include adaptive-value('padding-right', 20, 10, 1);
+		@include adaptive-value('padding-left', 20, 10, 1);
+		@include adaptive-value('padding-top', 10, 5, 1);
+		@include adaptive-value('padding-bottom', 10, 5, 1);
+		@include d-flex(center, flex-start, row, unset);
 		cursor: pointer;
 
 
 		&-icon{
-			margin-right: 20px;
+			@include adaptive-value('margin-right', 20, 10, 1);
 		}
 
 		&-text{
 			font-family: $main-font;
 			font-style: normal;
 			font-weight: 500;
-			@include adaptive-value('font-size', 20, 16, 1);
+			@include adaptive-value('font-size', 20, 14, 1);
 			line-height: 130%;
 			color: #FFFFFF;
 		}
@@ -84,10 +116,14 @@ $black-color: #000;
 
 	&__main{
 		flex: 1 1 100%;
-		height: 90px;
-		@include d-flex(center, flex-start, row, no-wrap);
-		padding: 20px 30px;
-		margin: 0 30px;
+		@include adaptive-value('height', 90, 45, 1);
+		@include d-flex(center, flex-start, row, unset);
+		@include adaptive-value('padding-right', 30, 15, 1);
+		@include adaptive-value('padding-left', 30, 15, 1);
+		@include adaptive-value('padding-top', 20, 10, 1);
+		@include adaptive-value('padding-bottom', 20,10, 1);
+		@include adaptive-value('margin-right', 30, 15, 1);
+		@include adaptive-value('margin-left', 30, 15, 1);
 		border-right: 1px solid rgba(206, 206, 206, 0.15);
 		border-left: 1px solid rgba(206, 206, 206, 0.15);
 	}
@@ -104,7 +140,7 @@ $black-color: #000;
 			font-family: $main-font;
 			font-style: normal;
 			font-weight: normal;
-			font-size: 18px;
+			@include adaptive-value('font-size', 18, 14, 1);
 			line-height: 120%;
 			color: #888888;
 		}
@@ -112,12 +148,17 @@ $black-color: #000;
 
 	&__search-btn{
 		height: 100%;
-		padding: 0 20px;
+		@include adaptive-value('padding-right', 20, 5, 1);
+		@include adaptive-value('padding-left', 20, 5, 1);
 		background: #FFFFFF;
 		border: 1px solid $border-color;
 		border-radius: 6px;
 		cursor: pointer;
 		transition: all 0.3s;
+
+		@media all and (max-width: 768px){
+			display: none;
+		}
 
 		&:hover{
 			border-color: $main-color;
@@ -125,23 +166,31 @@ $black-color: #000;
 	}
 
 	&__right{
-		@include d-flex(center, space-between, row, no-wrap);
+		@include d-flex(center, space-between, row, unset);
 	}
 
 	&__button{
-		width: 67px;
-		height: 47px;
-		@include d-flex(center,center, row, no-wrap);
+		@include adaptive-value('width', 70, 25, 1);
+		@include adaptive-value('height', 50, 25, 1);
+		@include d-flex(center,center, row, unset);
 		border: 1px solid $border-color;
 		border-radius: 6px;
 		cursor: pointer;
 		transition: all 0.3s;
 		background-color: #fff;
 		&:not(:last-child){
-			margin-right: 30px;
+			@include adaptive-value('margin-right', 30, 15, 1);
+
 		}
 		svg path{
 			transition: all 0.3s;
+		}
+
+		&-cart,
+		&-prof{
+			@media all and (max-width: 768px){
+				display: none;
+			}
 		}
 
 		&:hover{
@@ -160,17 +209,112 @@ $black-color: #000;
 	}
 }
 
+.navbarModal{
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	height: 0;
+	background-color: #fff;
+	opacity: 0;
+	visibility: hidden;
+	border-top: 1px solid $border-color;
+	padding: 20px 0;
+	z-index: 13;
+	transition: all 0.3s;
+
+	&.active{
+		height: 400px;
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&__row{
+		@include d-flex(flex-start, unset, row, unset);
+	}
+
+	&__sidebar{
+		width: 20%;
+	}
+
+	&__nav{
+		&-link{
+			@include d-flex(center, unset, row, unset);
+			padding: 8px;
+			transition: all 0.3s;
+
+			&.active{
+				background-color:  #F3F4F5;
+			}
+		}
+
+		&-link_text{
+			flex:1 1 80%;
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: normal;
+			@include adaptive-value('font-size', 18, 14, 1);
+			line-height: 120%;
+			color: $black-color;
+		}
+
+		&-link_icon:first-child{
+			margin-right: 10px;
+		}
+	}
+
+	&__main{
+		width: 80%;
+		padding-left: 30px;
+
+		&-title{
+			margin-bottom: 15px;
+			h1{
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: bold;
+				@include adaptive-value('font-size', 36, 18, 1);
+				line-height: 135%;
+				color: $main-color;
+			}
+		}
+
+		&-list{
+			@include d-flex(flex-start, unset, row, wrap);
+			&__item{
+				margin-bottom: 20px;
+				width: 30%;
+			}
+
+			&__link{
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: normal;
+				@include adaptive-value('font-size', 18, 14, 1);
+				line-height: 130%;
+				color: $black-color;
+				transition: all 0.3s;
+
+				&:hover{
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+}
+
 /* N A V B A R - E N D */
 
 /* B A N N E R  - S T A R T */
 
 .banner{
 	position: relative;
-	max-height: 400px;
+	@include adaptive-value('height', 400, 150, 1);
+
 
 	&__img{
 		width: 100%;
-		height: 400px;
+		@include adaptive-value('height', 400, 150, 1);
+
 		img{
 			width: 100%;
 			height: 100%;
@@ -186,10 +330,12 @@ $black-color: #000;
 .products{
 	position: relative;
 	height: auto;
-	margin: 50px 0;
+	@include adaptive-value('margin-top', 50, 25,1);
+	@include adaptive-value('margin-bottom', 50, 25,1);
 
 	&__title{
-		margin-bottom: 50px;
+		@include adaptive-value('margin-bottom', 50, 25,1);
+
 		h1{
 			font-family: $main-font;
 			font-style: normal;
@@ -209,7 +355,7 @@ $black-color: #000;
 	width: 100%;
 	height: 500px;
 	padding: 25px;
-	margin-bottom: 30px;
+	@include adaptive-value('margin-bottom', 30, 20,1);
 	border: 1px solid $border-color;
 	border-radius: 5px;
 	transition: all .3s;
@@ -410,7 +556,18 @@ $black-color: #000;
 		}
 
 		&__img{
+			width: 45%;
+			height: 45%;
 			margin-bottom: 20px;
+			@media all and (max-width: 768px){
+				margin-bottom: 0px;
+			}
+
+			img{
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+			}
 		}
 
 		&__title{
@@ -450,6 +607,12 @@ $black-color: #000;
 		@include adaptive-value('padding-top', 80, 40, 1);
 		@include adaptive-value('padding-left', 40, 20, 1);
 		@include adaptive-value('padding-right', 40, 20, 1);
+
+		@media all and (max-width: 768px){
+			padding-left: 0;
+			padding-right: 0;
+			border: none;
+		}
 	}
 
 	&__block{
@@ -457,7 +620,7 @@ $black-color: #000;
 		@include d-flex(center, unset, row, wrap);
 		@media all and (max-width: 768px){
 			width: 100%;
-			margin-bottom: 20px;
+			margin-bottom: 40px;
 		}
 	}
 
@@ -593,3 +756,79 @@ $black-color: #000;
 }
 
 /*F O O T E R - E N D */
+
+/* C A T E G O R Y P A G E- S T A R T*/
+
+.categoryPage{
+	position: relative;
+	height: auto;
+
+	&__row{
+		@include d-flex(unset, unset, row,unset);
+	}
+
+	&__title{
+		@include adaptive-value('margin-top', 50, 25, 1);
+		@include adaptive-value('margin-bottom', 50, 25, 1);
+		h1{
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: bold;
+			@include adaptive-value('font-size', 48, 24, 1);
+			line-height: 130%;
+			color: $black-color;
+		}
+	}
+
+	&__sidebar{
+		width: 22%;
+		@include adaptive-value('padding', 20, 10,1);
+		border: 1px solid $border-color;
+		height: auto;
+
+		&-list__icon{
+			margin-right: 6px;
+		}
+
+		&-list__text{
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 120%;
+			color: $black-color;
+		}
+
+		&-list__item{
+			margin-bottom: 10px;
+		}
+
+		&-title{
+			margin-bottom: 10px;
+			h3{
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: bold;
+				@include adaptive-value('font-size', 18, 14, 1);
+				line-height: 130%;
+				color: $black-color;
+			}
+		}
+	}
+
+	&__products{
+		width: 78%;
+
+		.products{
+			margin: 0;
+
+			&__title{
+				display: none;
+			}
+		}
+
+
+	}
+}
+
+/* C A T E G O R Y P A G E - E N D*/

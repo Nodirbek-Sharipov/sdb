@@ -1,4 +1,6 @@
-let initialState =  [
+const FILTER_CATEGORY_NAME = 'FILTER_CATEGORY_NAME';
+
+let unFilterArr = [
     {
         "_id": "6184040e94db13665d7d9ebe",
         "title": "Смартфон Apple iPhone 13 Pro 512 ГБ, графитовый",
@@ -349,13 +351,26 @@ let initialState =  [
         "__v": 0,
         "id": "618416a039a48b522e80221a"
     }
-];
+]
 
-function MainPageReducer(state = initialState, action) {
+let initialState = {
+    category_name: null,
+    items:  [],
+};
+
+function FilterReducer(state = initialState, action) {
     switch (action.type) {
+        case FILTER_CATEGORY_NAME:
+            state.category_name = action.name;
+            state.items = unFilterArr.filter(el => el.category.name === action.name);
+            return state;
         default:
             return state;
     }
 }
 
-export default MainPageReducer;
+export const filterCategoryNameActionCreator = (name) => ({
+    type: FILTER_CATEGORY_NAME, name: name
+})
+
+export default FilterReducer;

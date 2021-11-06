@@ -3,7 +3,6 @@ import Banner from "../../components/banner/Banner";
 import Products from "../../components/products/Products";
 import Brands from "../../components/brends/Brands";
 import Service from "../../components/service/Service";
-import Footer from "../../components/footer/Footer";
 import StoreContext from "../../store/contextStore";
 
 function MainPage(props) {
@@ -14,17 +13,24 @@ function MainPage(props) {
                 {
                     (store) =>{
                         let state = store.getState();
-
+                        let specialProducts = [];
+                        state.mainPageReducer.forEach(item =>{
+                            if(item.isSale){
+                                specialProducts.push(item)
+                            }
+                        })
+                        // console.log(state.mainPageReducer.filter(el => el.category.name === 'Kompyuterlar'))
                         return (
-                            <Products products_title={'Sizbop tovarlar 🔥'} state={state.mainPageReducer}/>
-                        )
+                            <>
+                                <Products products_title={'Sizbop tovarlar 🔥'} state={state.mainPageReducer}/>
+                                <Products products_title={'Maxsus chegirmalar 😍'} state={specialProducts}/>
+                            </>
+                    )
                     }
                 }
             </StoreContext.Consumer>
-            {/*<Products products_title={'Maxsus chegirmalar 😍'} prodcuts_num={4}/>*/}
             <Brands brands_num={8}/>
             <Service/>
-            <Footer/>
         </div>
     );
 }

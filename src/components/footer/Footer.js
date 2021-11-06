@@ -17,10 +17,10 @@ function Footer(props) {
                         </div>
 
                         <div className="footer__links">
-                            <Link className="footer__link">To’lov shartlari</Link>
-                            <Link className="footer__link">Yetkazib berish xizmati haqida</Link>
-                            <Link className="footer__link">Biz haqimizda</Link>
-                            <Link className="footer__link">Aksiyalar va qaynoq chegirmalar</Link>
+                            <Link to='#' className="footer__link">To’lov shartlari</Link>
+                            <Link to='#' className="footer__link">Yetkazib berish xizmati haqida</Link>
+                            <Link to='#' className="footer__link">Biz haqimizda</Link>
+                            <Link to='#' className="footer__link">Aksiyalar va qaynoq chegirmalar</Link>
                         </div>
                     </div>
 
@@ -56,7 +56,7 @@ function Footer(props) {
                         </div>
 
                         <div className="social__links">
-                            <Link className="social__link">
+                            <Link to='#' className="social__link">
                                <span className="social__link-icon">
                                    <TelegramIcon/>
                                </span>
@@ -66,7 +66,7 @@ function Footer(props) {
                                </span>
                             </Link>
 
-                            <Link className="social__link">
+                            <Link to='#' className="social__link">
                                <span className="social__link-icon">
                                    <InstagramIcon/>
                                </span>

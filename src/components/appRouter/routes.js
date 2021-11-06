@@ -1,6 +1,6 @@
 import MainPage from "../../pages/main/MainPage";
-import CategoryPage from "../../pages/category/CategoryPage";
 import ProductPage from "../../pages/product/ProductPage";
+import CategoryPageContainer from "../../pages/category/CategoryPage";
 
 export const publicRoutes =[
     {
@@ -8,8 +8,8 @@ export const publicRoutes =[
         component: MainPage
     },
     {
-        path: '/category',
-        component: CategoryPage
+        path: '/category/:id',
+        component: CategoryPageContainer
     },
     {
         path: '/products/:id',

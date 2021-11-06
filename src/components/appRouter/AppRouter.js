@@ -4,7 +4,7 @@ import {publicRoutes} from "./routes";
 
 function AppRouter(props) {
     return (
-        <div>
+        <div className="pages">
             <Switch>
                 {
                     publicRoutes.map((item) => {

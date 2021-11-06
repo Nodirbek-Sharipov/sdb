@@ -2,7 +2,7 @@ import React from 'react';
 import StarIcon from "../icons/StarIcon";
 import BoxIcon from "../icons/BoxIcon";
 import CartIconSmall from "../icons/CartIconSmall";
-import product_img from "../../assets/images/product_image.png"
+import {Link} from "react-router-dom";
 
 function Products(props) {
     let arr = props.state;
@@ -18,7 +18,7 @@ function Products(props) {
                     {
                         arr.map((el) => {
                             return (
-                                <a href="#" className="product" key={el.id}>
+                                <Link to={'/products/' + el.title} className="product" key={el.id}>
                                     <div className="product__img">
                                         <img src={el.image} alt="product__img"/>
                                     </div>
@@ -68,7 +68,7 @@ function Products(props) {
                                            </span>
                                         </button>
                                     </div>
-                                </a>
+                                </Link>
                             )
                         })
                     }
