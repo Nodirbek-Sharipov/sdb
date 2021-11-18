@@ -14,12 +14,14 @@ function HomeIcon(props) {
                 stroke="#000"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                {...props}
             />
             <path
                 d="M12.5 5.093V1.5H11v2.157m4 3.843L8.34 1.124c-.156-.165-.521-.166-.68 0L1 7.5h14z"
                 stroke="#000"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                {...props}
             />
         </svg>
     )

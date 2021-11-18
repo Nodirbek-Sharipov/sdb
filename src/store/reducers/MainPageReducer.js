@@ -1,3 +1,6 @@
+import axios from "axios";
+const GET_REPOS = 'GET_REPOS';
+
 let initialState =  [
     {
         "_id": "6184040e94db13665d7d9ebe",
@@ -350,12 +353,50 @@ let initialState =  [
         "id": "618416a039a48b522e80221a"
     }
 ];
+let defaultState = {
+    items:[]
+}
+
+// axios.get('https://api.sdb.uz/api/v1/products').then(response => {
+//     console.log(response)
+// })
 
 function MainPageReducer(state = initialState, action) {
     switch (action.type) {
+        case GET_REPOS:
+                state.items = action.payload;
+                return state;
+
         default:
             return state;
     }
 }
+
+var options = {
+    method: 'GET',
+    url: 'https://magic-aliexpress1.p.rapidapi.com/api/category/100003819/products',
+    headers: {
+        'x-rapidapi-host': 'magic-aliexpress1.p.rapidapi.com',
+        'x-rapidapi-key': 'ffd4c4b3fdmshc217a18ca2f3996p1c8588jsn10276e403bd0'
+    }
+};
+
+export const setRepos = (payload) =>({type:GET_REPOS, payload: payload})
+
+export const getRepos = () => {
+    // return async (dispatch) =>{
+    //     const response = await axios.get(' https://api.ebay.com/buy/marketing/v1_beta/merchandised_product');
+    //     dispatch(setRepos(response.data))
+    // }
+    return async (dispatch) => {
+        axios.request(options).then(function (response) {
+            dispatch(setRepos(response.data));
+            console.log(response.data);
+        }).catch(function (error) {
+            console.error(error);
+        });
+    }
+}
+
 
 export default MainPageReducer;

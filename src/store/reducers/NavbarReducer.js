@@ -213,11 +213,11 @@ const NavbarReducer = (state = initialState, action) =>{
     }
 }
 
-export const changeNavbarActiveActionCreator = () =>({
+export const changeNavbarActiveAC = () =>({
     type:CHANGE_NAVBAR_ACTIVE,
 });
 
-export const changeLinkIsActiveActionCreator = (id, bool) =>({
+export const changeLinkIsActiveAC = (id, bool) =>({
     type:CHANGE_LINK_ISACTIVE, bool: bool, id:id
 });
 

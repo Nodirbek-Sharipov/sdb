@@ -78,8 +78,18 @@ function Footer(props) {
                         </div>
                     </div>
                 </div>
-                <div className="footer__bottom">
-                    <p>Powered by <a href="https://crypton.uz/">CRYPTON</a></p>
+            </div>
+            <div className="footer__bottom">
+                <div className="container">
+                    {/*<p>Powered by <a href="https://crypton.uz/">CRYPTON</a></p>*/}
+                    <div className="footer__bottom-row">
+                        <p className="footer__bottom-text">
+                            Barcha huquqlar himoyalangan.
+                        </p>
+                        <p className="footer__bottom-text">
+                            Sayt yaratuvchisi: <a href='https://appx.uz' target="_blank"> Appx Group</a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

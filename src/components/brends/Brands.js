@@ -1,5 +1,6 @@
 import React from 'react';
 import brand_img from '../../assets/images/brend_img.png'
+import {Link} from "react-router-dom";
 
 function Brands(props) {
     const arr = [];
@@ -13,7 +14,7 @@ function Brands(props) {
                     {
                         arr.map(el =>{
                             return(
-                                <a href="#" className="brand" key={el}>
+                                <Link to="/" className="brand" key={el}>
                                     <div className="brand__img">
                                         <img src={brand_img} alt="brand_img"/>
                                     </div>
@@ -21,7 +22,7 @@ function Brands(props) {
                                     <div className="brand__title">
                                         <h3>Apple</h3>
                                     </div>
-                                </a>
+                                </Link>
                         )
                     })
                     }

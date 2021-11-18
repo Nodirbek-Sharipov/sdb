@@ -355,22 +355,36 @@ let unFilterArr = [
 
 let initialState = {
     category_name: null,
+    brand_name: null,
     items:  [],
 };
 
 function FilterReducer(state = initialState, action) {
     switch (action.type) {
         case FILTER_CATEGORY_NAME:
-            state.category_name = action.name;
-            state.items = unFilterArr.filter(el => el.category.name === action.name);
-            return state;
+            if(action.brand_name !== 'all'){
+                state.category_name = action.category_name;
+                state.brand_name = action.brand_name;
+                state.items = unFilterArr.filter(el => el.category.name === action.category_name).filter(item => item.brand.name === action.brand_name);
+               return state
+            } else{
+                state.category_name = action.category_name;
+                state.brand_name = action.brand_name;
+                state.items = unFilterArr.filter(el => el.category.name === action.category_name);
+                return state;
+            }
+
         default:
             return state;
     }
 }
 
-export const filterCategoryNameActionCreator = (name) => ({
-    type: FILTER_CATEGORY_NAME, name: name
+export const filterCategoryNameAC = (category_name, brand_name) => ({
+    type: FILTER_CATEGORY_NAME, category_name: category_name, brand_name: brand_name
 })
+
+// export const filterBrandNameAC = (category_name, brand_name) => ({
+//     type: FILTER_CATEGORY_NAME, category_name: category_name, brand_name: brand_name
+// })
 
 export default FilterReducer;
