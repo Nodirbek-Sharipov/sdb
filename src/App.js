@@ -1,9 +1,7 @@
-import react, {useContext} from "react";
-import NavbarContainer from "./components/navbar/Navbar";
+import React from "react";
 import './assets/style/style.scss'
 import AppRouter from "./components/appRouter/AppRouter";
 import Footer from "./components/footer/Footer";
-import StoreContext from "./store/contextStore";
 import {useStore} from "react-redux";
 import Navbar from "./components/navbar/Navbar";
 function App() {

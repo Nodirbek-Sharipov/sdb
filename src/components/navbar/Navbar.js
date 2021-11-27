@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import logo from '../../assets/images/menu-logo.png'
 import MenuIcon from "../icons/MenuIcon";
 import SearchIcon from "../icons/SearchIcon";
@@ -7,79 +7,26 @@ import UserIcon from "../icons/UserIcon";
 import ArrowRightIcon from "../icons/ArrowRightIcon";
 import {Link} from "react-router-dom";
 import CloseIcon from "../icons/CloseIcon";
-import StoreContext from "../../store/contextStore";
-import {
-    changeLinkIsActiveAC,
-    changeNavbarActiveAC,
-
-} from "../../store/reducers/NavbarReducer";
+import { changeNavbarActiveAC, getCategories} from "../../store/reducers/NavbarReducer";
 import {filterCategoryNameAC} from "../../store/reducers/FilterReducer";
 import HomeIcon from "../icons/HomeIcon";
-import {connect, useDispatch, useSelector} from "react-redux";
-//
-// function NavbarContainer(){
-//     // return(
-//     //     <StoreContext.Consumer>
-//     //         {
-//     //             (store) =>{
-//     //                 let state = store.getState();
-//     //                 let changeNavbarActive = () =>{
-//     //                     store.dispatch(changeNavbarActiveActionCreator())
-//     //                 }
-//     //
-//     //                 let changeLinkIsActive = (id, bool) =>{
-//     //                     store.dispatch(changeLinkIsActiveActionCreator(id, bool))
-//     //                 }
-//     //                 let filterCategoryName = (category_name, brand_name = 'all') =>{
-//     //                     store.dispatch(filterCategoryNameActionCreator(category_name, brand_name))
-//     //                 }
-//     //                 return(
-//     //                     <Navbar
-//     //                         navbarActive={state.navbarLinks.navbarActive}
-//     //                         navbarLinks={state.navbarLinks.navbarLinks}
-//     //                         changeNavbarActive={changeNavbarActive}
-//     //                         changeLinkIsActive={changeLinkIsActive}
-//     //                         filterCategoryName={filterCategoryName}
-//     //                     />
-//     //                 )
-//     //             }
-//     //         }
-//     //     </StoreContext.Consumer>
-//     // )
-//
-//     const state = (state) =>{
-//         console.log(state)
-//         return {
-//             navbarActive: state.navbarLinks.navbarActive,
-//             navbarLinks: state.navbarLinks.navbarLinks
-//         }
-//     }
-//
-//     const dispatch = (dispatch) =>{
-//         return {
-//             changeNavbarActive: () =>{
-//                 dispatch(changeNavbarActiveActionCreator())
-//             },
-//             changeLinkIsActive: (id, bool) =>{
-//                 dispatch(changeLinkIsActiveActionCreator(id, bool))
-//             },
-//             filterCategoryName: (category_name, brand_name = 'all') =>{
-//                 dispatch(filterCategoryNameActionCreator(category_name, brand_name))
-//             },
-//
-//         }
-//     }
-//
-//    return connect(state,dispatch)(Navbar)
-// }
-
+import {useDispatch, useSelector} from "react-redux";
 
 function Navbar (props) {
 
+    const [activeLinkId, setActiveLinkId] = useState(null);
     const state = useSelector(state => state.navbarLinks);
     const dispatch = useDispatch();
 
-    // let data = state.navbarLinks;
+    useEffect(() =>{
+        dispatch(getCategories())
+    },[])
+
+    const changeActiveLinkId = (id) =>{
+        setActiveLinkId(id);
+    }
+
+    console.log(state)
 
     return (
         <div className="navbar">
@@ -146,24 +93,21 @@ function Navbar (props) {
                                             <li
                                                 className="navbarModal__nav-item "
                                                 key={el.id}
-                                                onMouseOver={() =>{dispatch(changeLinkIsActiveAC(el.id, true))}}
-                                                onClick={() => {dispatch(filterCategoryNameAC(el.title, 'all'))}}
+                                                onClick={() =>{changeActiveLinkId(el.id)} }
                                             >
-                                                <Link
-                                                    to={el.path}
+                                                <div
                                                     className={el.isActive ? "navbarModal__nav-link active" : "navbarModal__nav-link"}
-                                                    onClick={() => {dispatch(changeNavbarActiveAC())}}
                                                 >
                                                     <span className="navbarModal__nav-link_icon">
-                                                        {el.icon}
+                                                        <img src={el.image} alt=""/>
                                                     </span>
                                                     <span className="navbarModal__nav-link_text">
-                                                        {el.title}
+                                                        {el.name_uz}
                                                     </span>
                                                     <span className="navbarModal__nav-link_icon">
                                                         <ArrowRightIcon/>
                                                     </span>
-                                                </Link>
+                                                </div>
                                             </li>
                                         )
                                     })
@@ -174,16 +118,16 @@ function Navbar (props) {
                         <div className="navbarModal__main">
                             {
                                 state.navbarLinks.map(link =>{
-                                    if(link.isActive){
+                                    if(link.id === activeLinkId){
                                         return(
                                             <div key={link.id}>
                                                 <div className="navbarModal__main-title">
-                                                    <h1>{link.title}</h1>
+                                                    <h1>{link.name_uz}</h1>
                                                 </div>
 
                                                 <ul className="navbarModal__main-list">
                                                     {
-                                                        link.links.map(item => {
+                                                        link.children.map(item => {
                                                             return (
                                                                 <li
                                                                     className="navbarModal__main-list__item"
@@ -193,7 +137,7 @@ function Navbar (props) {
                                                                     <Link
                                                                         to={item.link_path}
                                                                         className="navbarModal__main-list__link">
-                                                                        {item.link_title}
+                                                                        {item.name_uz}
                                                                     </Link>
                                                                 </li>
                                                             )
