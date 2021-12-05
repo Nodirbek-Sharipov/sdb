@@ -1,6 +1,6 @@
 import axios from "axios";
-// const baseUrl = "https://api.sdb.uz/dev";
-const baseUrl = "http://localhost:3333/dev";
+const baseUrl = "https://api.sdb.uz/dev";
+// const baseUrl = "http://localhost:3333/dev";
 
 const $host = axios.create({
     baseURL: baseUrl

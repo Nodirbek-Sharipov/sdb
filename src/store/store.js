@@ -8,7 +8,7 @@ import thunk from "redux-thunk";
 const reducers = combineReducers({
     mainPageReducer: MainPageReducer,
     navbarLinks: NavbarReducer,
-    filterItems: FilterReducer
+    filterReducer: FilterReducer
 });
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));

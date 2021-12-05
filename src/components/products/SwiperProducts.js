@@ -29,13 +29,25 @@ function SwiperProducts({title,products}) {
 
                         <Swiper
                             modules={[Navigation, Pagination]}
-                            spaceBetween={30}
+                            spaceBetween={20}
                             navigation={{
                                 prevEl: navigationPrevRef.current,
                                 nextEl: navigationNextRef.current,
                             }}
 
-                            slidesPerView={5}
+                            // slidesPerView={products.length > 5 ? 5 : products.length}
+                            slidesPerView={'auto'}
+                            breakpoints={{
+                                768: {
+                                    width: 768,
+                                    slidesPerView: 2,
+                                },
+
+                                568:{
+                                    width: 568,
+                                    slidesPerView: 1,
+                                }
+                            }}
                         >
                             {
                                 products.map(el =>{

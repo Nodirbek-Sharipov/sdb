@@ -21,7 +21,6 @@ export const setBrands = (payload) =>({type:GET_BRANDS, brands: payload})
 export const getBrands = () =>{
     return async (dispatch) =>{
         $host.get('/v1/brand/list').then(function (response){
-            console.log(response.data)
             dispatch(setBrands(response.data.brands))
         }).catch(error => {console.log(error);});
     }

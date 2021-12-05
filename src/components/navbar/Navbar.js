@@ -8,13 +8,20 @@ import ArrowRightIcon from "../icons/ArrowRightIcon";
 import {Link} from "react-router-dom";
 import CloseIcon from "../icons/CloseIcon";
 import { changeNavbarActiveAC, getCategories} from "../../store/reducers/NavbarReducer";
-import {filterCategoryNameAC} from "../../store/reducers/FilterReducer";
 import HomeIcon from "../icons/HomeIcon";
 import {useDispatch, useSelector} from "react-redux";
+import {
+    Accordion,
+    AccordionItem,
+    AccordionItemButton,
+    AccordionItemHeading,
+    AccordionItemPanel
+} from "react-accessible-accordion";
+import {getCategoryProducts} from "../../store/reducers/FilterReducer";
 
-function Navbar (props) {
+function Navbar () {
 
-    const [activeLinkId, setActiveLinkId] = useState(null);
+    const [activeLinkId, setActiveLinkId] = useState(1);
     const state = useSelector(state => state.navbarLinks);
     const dispatch = useDispatch();
 
@@ -25,8 +32,6 @@ function Navbar (props) {
     const changeActiveLinkId = (id) =>{
         setActiveLinkId(id);
     }
-
-    console.log(state)
 
     return (
         <div className="navbar">
@@ -66,17 +71,17 @@ function Navbar (props) {
                                 <span className="navbar__button-text">UZ</span>
                             </button>
 
-                            <button className="navbar__button navbar__button-cart">
-                            <span className="navbar__button-icon">
-                                <CartIcon width="26px" height="26px" fill={"#050448"}/>
-                            </span>
-                            </button>
+                            <Link to="/cart" className="navbar__button navbar__button-cart">
+                                <span className="navbar__button-icon">
+                                    <CartIcon width="26px" height="26px" fill={"#050448"}/>
+                                </span>
+                            </Link>
 
-                            <button className="navbar__button navbar__button-prof">
-                            <span className="navbar__button-icon">
-                                <UserIcon width="26px" height="26px" fill={"#050448"}/>
-                            </span>
-                            </button>
+                            <Link to="/profile" className="navbar__button navbar__button-prof">
+                                <span className="navbar__button-icon">
+                                    <UserIcon width="26px" height="26px" fill={"#050448"}/>
+                                </span>
+                            </Link>
 
                         </div>
                     </div>
@@ -132,13 +137,31 @@ function Navbar (props) {
                                                                 <li
                                                                     className="navbarModal__main-list__item"
                                                                     key={item.id}
-                                                                    onClick={() => dispatch(filterCategoryNameAC(link.title, item.link_title))}
                                                                 >
                                                                     <Link
-                                                                        to={item.link_path}
+                                                                        to={`${item.slug}`}
+                                                                        onClick={() =>{dispatch(getCategoryProducts(item.slug))}}
                                                                         className="navbarModal__main-list__link">
                                                                         {item.name_uz}
                                                                     </Link>
+                                                                    <ul className="navbarModal__main-list">
+                                                                        {
+                                                                            item.children.map(el => {
+                                                                                return (
+                                                                                    <li
+                                                                                        className="navbarModal__main-list__item"
+                                                                                        key={el.id}
+                                                                                    >
+                                                                                        <Link
+                                                                                            to={`${el.slug}`}
+                                                                                            className="navbarModal__main-list__link">
+                                                                                            {el.name_uz}
+                                                                                        </Link>
+                                                                                    </li>
+                                                                                )
+                                                                            })
+                                                                        }
+                                                                    </ul>
                                                                 </li>
                                                             )
                                                         })
@@ -150,6 +173,47 @@ function Navbar (props) {
                                 })
                             }
                         </div>
+                    </div>
+
+                    <div className="navbarModal__mobile">
+                        <Accordion allowZeroExpanded onChange={() => console.log('Hello world')}>
+                            {state.navbarLinks.map((item) => (
+                                <AccordionItem key={item.id}>
+                                    <AccordionItemHeading>
+                                        <AccordionItemButton>
+                                            <span className="accordion__button_text">
+                                                {item.name_uz}
+                                            </span>
+                                            <span className="accordion__button_icon">
+                                                <ArrowRightIcon/>
+                                            </span>
+                                        </AccordionItemButton>
+                                    </AccordionItemHeading>
+                                    <AccordionItemPanel>
+                                        <ul className="panel__list">
+                                            {
+                                                item.children.map(link =>{
+                                                    return(
+                                                        <li className="panel__list-item" key={link.id}>
+                                                            {link.name_uz}
+                                                            <ul className="panel__list-item-list">
+                                                                {
+                                                                    link.children.map(el =>{
+                                                                        return(
+                                                                            <li className="panel__list-item-link" key={el.id}>{el.name_uz} </li>
+                                                                        )
+                                                                    })
+                                                                }
+                                                            </ul>
+                                                        </li>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
+                                    </AccordionItemPanel>
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
                     </div>
                 </div>
             </div>
@@ -181,7 +245,7 @@ function Navbar (props) {
                         </li>
 
                         <li className="navbar__mobile-item">
-                            <Link to='/'>
+                            <Link to='/cart'>
                                 <span className="navbar__mobile-icon">
                                     <CartIcon  fill={'#767676'} width={26} height={26}/>
                                 </span>
@@ -193,7 +257,7 @@ function Navbar (props) {
                         </li>
 
                         <li className="navbar__mobile-item">
-                            <Link to='/'>
+                            <Link to='/profile'>
                                 <span className="navbar__mobile-icon">
                                     <UserIcon  fill={'#767676'} width={26} height={26}/>
                                 </span>

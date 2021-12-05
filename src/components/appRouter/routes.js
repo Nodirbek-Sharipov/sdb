@@ -1,6 +1,8 @@
 import MainPage from "../../pages/main/MainPage";
 import ProductPage from "../../pages/product/ProductPage";
 import CategoryPage from "../../pages/category/CategoryPage";
+import Cart from "../../pages/cart/Cart";
+import User from "../../pages/user/User";
 
 export const publicRoutes =[
     {
@@ -15,5 +17,13 @@ export const publicRoutes =[
         path: '/products/:id',
         component: ProductPage
     },
+    {
+        path: '/cart',
+        component: Cart
+    },
+    {
+        path: '/profile',
+        component: User
+    }
 ];
 

@@ -10,6 +10,7 @@ $main-color: #050448;
 $border-color:  #EBEBEB;
 $grey-color: #515151;
 $black-color: #000;
+$white-color: #fff;
 
 // Variables end
 
@@ -26,6 +27,16 @@ $black-color: #000;
 //	margin: 0 auto;
 //	padding: 0 20px;
 //}
+
+
+html{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: unset;
+}
 
 .wrapper {
 	position: relative;
@@ -62,24 +73,37 @@ $black-color: #000;
 
 
 	&__top{
-		background-color: #fff;
+		background-color: $white-color;
 		box-shadow: 0 2px 3px 0 #0000000f;
 		z-index: 10;
 	}
 
 	&__row{
 		@include d-flex(center, space-between, row, unset);
+
+		@media all and (max-width: 568px){
+			flex-wrap: wrap;
+		}
 	}
 
 	&__left{
 		@include adaptive-value('height', 90, 45, 1);
 		@include d-flex(center, flex-start, row, unset);
+
+		@media all and (max-width: 568px){
+			flex: 1;
+			flex-direction: row-reverse;
+		}
 	}
 
 	&__logo{
 		@include adaptive-value('width', 70, 40, 1);
 		@include adaptive-value('height', 50, 40, 1);
 		@include adaptive-value('margin-right', 40, 20, 1);
+
+		@media all and (max-width: 568px){
+			flex: 1;
+		}
 
 		img{
 			width: 100%;
@@ -99,6 +123,10 @@ $black-color: #000;
 		@include d-flex(center, flex-start, row, unset);
 		cursor: pointer;
 
+		@media all and (max-width: 568px){
+			margin: 0 auto 0 0;
+		}
+
 
 		&-icon{
 			@include adaptive-value('margin-right', 20, 10, 1);
@@ -110,7 +138,7 @@ $black-color: #000;
 			font-weight: 500;
 			@include adaptive-value('font-size', 20, 14, 1);
 			line-height: 130%;
-			color: #FFFFFF;
+			color: $white-color;
 		}
 	}
 
@@ -126,6 +154,13 @@ $black-color: #000;
 		@include adaptive-value('margin-left', 30, 15, 1);
 		border-right: 1px solid rgba(206, 206, 206, 0.15);
 		border-left: 1px solid rgba(206, 206, 206, 0.15);
+
+		@media all and (max-width: 568px){
+			order: 2;
+			border: 1px solid $main-color;
+			margin: 10px 0;
+			border-radius: 6px;
+		}
 	}
 
 	&__input{
@@ -143,6 +178,13 @@ $black-color: #000;
 			@include adaptive-value('font-size', 18, 14, 1);
 			line-height: 120%;
 			color: #888888;
+
+			&::placeholder{
+				@media all and (max-width: 568px){
+					color:  $main-color;
+					font-weight: 500;
+				}
+			}
 		}
 	}
 
@@ -150,14 +192,15 @@ $black-color: #000;
 		height: 100%;
 		@include adaptive-value('padding-right', 20, 5, 1);
 		@include adaptive-value('padding-left', 20, 5, 1);
-		background: #FFFFFF;
+		background: $white-color;
 		border: 1px solid $border-color;
 		border-radius: 6px;
 		cursor: pointer;
 		transition: all 0.3s;
 
 		@media all and (max-width: 768px){
-			display: none;
+			border: none;
+			outline: none;
 		}
 
 		&:hover{
@@ -167,21 +210,30 @@ $black-color: #000;
 
 	&__right{
 		@include d-flex(center, space-between, row, unset);
+
+
+		@media all and (max-width: 568px){
+			order: 1;
+		}
 	}
 
 	&__button{
-		@include adaptive-value('width', 70, 25, 1);
-		@include adaptive-value('height', 50, 25, 1);
+		@include adaptive-value('width', 70, 40, 1);
+		@include adaptive-value('height', 50, 40, 1);
 		@include d-flex(center,center, row, unset);
 		border: 1px solid $border-color;
 		border-radius: 6px;
 		cursor: pointer;
 		transition: all 0.3s;
-		background-color: #fff;
+		background-color: $white-color;
 		&:not(:last-child){
 			@include adaptive-value('margin-right', 30, 15, 1);
-
 		}
+
+		@media all and (max-width: 568px){
+			margin-right: 0 !important;
+		}
+
 		svg path{
 			transition: all 0.3s;
 		}
@@ -214,7 +266,7 @@ $black-color: #000;
 	top: 100%;
 	width: 100%;
 	height: 0;
-	background-color: #fff;
+	background-color: $white-color;
 	opacity: 0;
 	visibility: hidden;
 	border-top: 1px solid $border-color;
@@ -226,13 +278,66 @@ $black-color: #000;
 		height: 400px;
 		opacity: 1;
 		visibility: visible;
+
+		@media all and (max-width: 768px){
+			height: auto;
+		}
 	}
 
 	&__row{
 		@include d-flex(flex-start, unset, row, unset);
 		@media all and (max-width: 768px){
 			flex-direction: column;
+			display: none;
 		}
+	}
+
+	&__mobile{
+		display: none;
+		@media all and (max-width: 768px){
+			display: block;
+		}
+
+		.accordion__button{
+			width: 100%;
+			height: 60px;
+			padding: 0 15px;
+			margin-bottom: 10px;
+			background: $border-color;
+			border-radius: 10px;
+			@include d-flex(center, center, row, unset);
+
+			&_text{
+				flex: 1;
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: normal;
+				font-size:18px;
+				line-height: 120%;
+				color: $black-color;
+			}
+		}
+
+		.panel__list{
+			width: 100%;
+			padding: 0 15px;
+
+			&-item{
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: bold;
+				font-size:16px;
+				line-height: 120%;
+				color: $black-color;
+				margin-bottom: 10px;
+
+				&-link{
+					font-weight: 500;
+					margin-bottom: 4px;
+				}
+			}
+		}
+
 	}
 
 	&__sidebar{
@@ -247,6 +352,7 @@ $black-color: #000;
 			@include d-flex(center, unset, row, unset);
 			padding: 8px;
 			transition: all 0.3s;
+			cursor: pointer;
 
 			&.active{
 				background-color:  #F3F4F5;
@@ -261,6 +367,16 @@ $black-color: #000;
 			@include adaptive-value('font-size', 18, 14, 1);
 			line-height: 120%;
 			color: $black-color;
+		}
+
+		&-link_icon{
+			width: 30px;
+			height: 30px;
+
+			img{
+				width: 100%;
+				height: 100%;
+			}
 		}
 
 		&-link_icon:first-child{
@@ -293,12 +409,23 @@ $black-color: #000;
 			&__item{
 				margin-bottom: 20px;
 				width: 30%;
+
+				.navbarModal__main-list{
+					flex-direction: column;
+					.navbarModal__main-list__item{
+						margin-bottom: 2px;
+						width: 100%;
+					}
+					.navbarModal__main-list__link{
+						font-weight: normal;
+					}
+				}
 			}
 
 			&__link{
 				font-family: $main-font;
 				font-style: normal;
-				font-weight: normal;
+				font-weight: bold;
 				@include adaptive-value('font-size', 18, 14, 1);
 				line-height: 130%;
 				color: $black-color;
@@ -318,9 +445,10 @@ $black-color: #000;
 	left: 0;
 	width: 100%;
 	height: auto;
-	background-color: #ffffff;
+	background-color: $white-color;
 	border-top: 1px solid $border-color;
 	display: none;
+	user-select: none;
 
 	@media all and (max-width: 768px){
 		display: block;
@@ -336,6 +464,7 @@ $black-color: #000;
 	a{
 		@include d-flex(center, unset, column, unset);
 		padding: 16px 0;
+		user-select: none;
 	}
 
 	&-icon{
@@ -349,6 +478,7 @@ $black-color: #000;
 		font-size: 10px;
 		line-height: 12px;
 		color: #767676;
+		user-select: none;
 	}
 }
 
@@ -516,7 +646,8 @@ $black-color: #000;
 
 	&__img{
 		width: 100%;
-		height: 180px;
+		height: 280px;
+		margin-bottom: 15px;
 
 		img{
 			width: 100%;
@@ -549,6 +680,7 @@ $black-color: #000;
 	}
 
 	&__price{
+		margin-bottom: 15px;
 		&-text{
 			background: $main-color;
 			border-radius: 1px;
@@ -559,23 +691,22 @@ $black-color: #000;
 			font-weight: bold;
 			font-size: 10px;
 			line-height: 12px;
-			color: #FFFFFF;
+			color: $white-color;
 		}
 
 		&-num{
 			font-family: $main-font;
 			font-style: normal;
 			font-weight: bold;
-			font-size: 14px;
-			line-height: 17px;
-			color: $main-color;
+			font-size: 18px;
+			line-height: 130%;
+			color: $black-color;
 		}
 	}
 
 	&__title{
-		height: 50px;
 		width: 100%;
-		margin-bottom: 30px;
+		margin-bottom: 15px;
 
 		h3{
 			white-space: nowrap;
@@ -599,7 +730,7 @@ $black-color: #000;
 		margin: 0 auto;
 		border: 2px solid $main-color;
 		border-radius: 4px;
-		padding: 15px 0;
+		padding: 10px 0;
 		cursor: pointer;
 		transition:all 0.3s;
 		&:not(:last-child){
@@ -607,20 +738,20 @@ $black-color: #000;
 		}
 
 			//&-add:hover{
-			//	background-color: $main-color;
+			//	background-color: $black-color;
 			//	.product__btn-text{
-			//		color: #ffffff;
+			//		color: $white-color;
 			//	}
 			//
 			//	.product__btn-icon svg path{
-			//		fill: #fff;
+			//		fill: $white-color;
 			//	}
 			//}
 			//
 			//&-order:hover{
-			//	background-color: #FFFFFF;
+			//	background-color: $black-color;
 			//	.product__btn-text{
-			//		color: $main-color;
+			//		color: $white-color;
 			//	}
 			//
 			//	.product__btn-icon svg {
@@ -633,22 +764,22 @@ $black-color: #000;
 			margin-left: 10px;
 			font-family: $main-font;
 			font-style: normal;
-			font-weight: 500;
-			font-size: 14px;
+			font-weight: 600;
+			font-size: 16px;
 			line-height: 120%;
 		}
 
 		&-add{
-			background-color: #FFFFFF;
+			background-color: $white-color;
 			.product__btn-text{
-				color: $main-color;
+				color: $black-color;
 			}
 		}
 
 		&-order{
 			background-color: $main-color;
 			.product__btn-text{
-				color: #ffffff;
+				color: $white-color;
 			}
 		}
 	}
@@ -791,6 +922,8 @@ $black-color: #000;
 .footer{
 	position: relative;
 	height: auto;
+	background-color: $main-color;
+	padding-top: 20px;
 
 	@media all and (max-width: 768px){
 		margin-bottom: 80px;
@@ -816,7 +949,7 @@ $black-color: #000;
 			font-weight: bold;
 			font-size: 30px;
 			line-height: 135%;
-			color: $main-color;
+			color: $white-color;
 		}
 	}
 
@@ -830,18 +963,22 @@ $black-color: #000;
 		font-weight: bold;
 		font-size: 18px;
 		line-height: 130%;
-		color: #1E1E1E;
+		color: $white-color;
 		margin-bottom: 12px;
 		transition: all 0.3s;
 
 		&:hover{
-			color: $main-color;
+			color: $border-color;
 			text-decoration: underline;
 		}
 	}
 
 	&__info{
 		margin-bottom: 20px;
+		svg{
+			fill: $white-color;
+		}
+
 		&-text{
 			margin-left: 10px;
 			font-family: $main-font;
@@ -849,7 +986,7 @@ $black-color: #000;
 			font-weight: 500;
 			font-size: 18px;
 			line-height: 130%;
-			color: $black-color;
+			color: $white-color;
 
 		}
 	}
@@ -869,7 +1006,13 @@ $black-color: #000;
 			font-weight: bold;
 			font-size: 14px;
 			line-height: 125%;
-			color: $black-color;
+			color: $white-color;
+		}
+
+		svg{
+			path{
+				fill: $white-color;
+			}
 		}
 	}
 
@@ -878,6 +1021,7 @@ $black-color: #000;
 		@include adaptive-value('padding-top', 30, 15, 1);
 		@include adaptive-value('padding-bottom', 30, 15, 1);
 		background-color: $main-color;
+		border-top: 1px solid $border-color;
 
 		&-row{
 			@include d-flex(center, space-between, row, wrap);
@@ -889,7 +1033,7 @@ $black-color: #000;
 			font-weight: normal;
 			@include adaptive-value('font-size', 18, 10, 1);
 			line-height: 125%;
-			color: #FFFFFF;
+			color: $white-color;
 			transition: all 0.3s;
 		}
 
@@ -958,7 +1102,7 @@ $black-color: #000;
 			font-weight: normal;
 			font-size: 14px;
 			line-height: 120%;
-			color: #FFFFFF;
+			color: $white-color;
 			margin-right: 10px;
 		}
 	}
@@ -1068,6 +1212,10 @@ $black-color: #000;
 
 		&-row{
 			@include d-flex(flex-start, unset, row, wrap);
+
+			@media all and (max-width: 768px){
+				flex-direction: column;
+			}
 		}
 
 
@@ -1076,6 +1224,9 @@ $black-color: #000;
 			height: auto;
 			@include adaptive-value('margin-right', 100, 50, 1);
 
+			@media all and (max-width: 768px){
+				width: 100%;
+			}
 
 			img{
 				width: 100%;
@@ -1086,6 +1237,10 @@ $black-color: #000;
 
 		&-content{
 			width: 22%;
+
+			@media all and (max-width: 768px){
+				width: 100%;
+			}
 		}
 
 		&-price{
@@ -1163,3 +1318,432 @@ $black-color: #000;
 }
 
 /* P R O D U C T S P A G E - E N D */
+
+
+/* C A R T - S T A R T */
+
+.cart{
+	position: relative;
+	height: auto;
+	@include adaptive-value('margin-top', 30, 20, 1);
+	@include adaptive-value('margin-bottom', 30, 20, 1);
+
+	&__title{
+		margin-bottom: 30px;
+		h1{
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: bold;
+			@include adaptive-value('font-size', 36, 18, 1);
+			line-height: 120%;
+			color: $black-color;
+		}
+	}
+
+	&__row{
+		@include d-flex(flex-start, space-between, row, wrap);
+
+		@media all and (max-width: 768px){
+			flex-direction: column;
+		}
+
+	}
+
+	&__items{
+		width: 70%;
+
+		@media all and (max-width: 768px){
+			width: 100%;
+			margin-bottom: 30px;
+		}
+	}
+
+	&__sidebar{
+		width: 28%;
+
+		@media all and (max-width: 768px){
+			width: 100%;
+		}
+	}
+
+	&__item{
+		@include d-flex(flex-start, unset, row,unset);
+		margin-bottom: 15px;
+		padding-bottom: 15px;
+		border-bottom: 1px solid #eee;
+
+		@media all and (max-width: 568px){
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+
+		&:last-child{
+			border-bottom: none;
+			padding-bottom: 0;
+		}
+
+		&-img{
+			width: 100px;
+			height: 100px;
+			margin-right: 30px;
+			@media all and (max-width: 568px){
+				margin-bottom: 30px;
+			}
+
+			img{
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		&-content{
+			flex: 1 1 70%;
+			display: flex;
+			flex-direction: column;
+			@media all and (max-width: 568px){
+				order: 2;
+			}
+		}
+
+		&-text{
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: bold;
+			@include adaptive-value('font-size', 18, 14, 1);
+			line-height: 120%;
+			color: $black-color;
+			margin-bottom: 20px;
+		}
+
+		&-link{
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 14px;
+			line-height: 120%;
+			color: #6366F1;
+
+			&:not(:last-child){
+				margin-right: 30px;
+			}
+		}
+
+		&-block{
+			@media all and (max-width: 568px){
+				order: 1;
+			}
+		}
+
+		&-count{
+			border: 1px solid $main-color;
+			border-radius: 5px;
+			height: 30px;
+			display: flex;
+
+			button{
+				width: 33%;
+				background-color: transparent;
+				cursor: pointer;
+				font-size: 20px;
+			}
+
+			span{
+				width: 33%;
+				@include d-flex(center, center, row,unset);
+				border-left: 1px solid $main-color;
+				border-right: 1px solid $main-color;
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: bold;
+				font-size: 14px;
+				line-height: 120%;
+				color: $black-color;
+			}
+		}
+	}
+
+	&__sidebar{
+		border: 1px solid #C4C4C4;
+		border-radius: 20px;
+		padding: 25px;
+
+		&-item{
+			width: 100%;
+			@include d-flex(center, space-between, row, unset);
+			margin-bottom: 15px;
+		}
+
+		&-text{
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: bold;
+			font-size: 16px;
+			line-height: 120%;
+			color: $black-color;
+		}
+
+		&-btn{
+			width: 100%;
+			padding: 10px 0;
+			background: $main-color;
+			border-radius: 5px;
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: bold;
+			font-size: 16px;
+			line-height: 120%;
+			color: $white-color;
+			cursor: pointer;
+
+		}
+	}
+}
+
+/* C A R T - E N D */
+
+/* P R O F I L E - S T A R T*/
+
+.profile{
+	position: relative;
+	height: auto;
+	@include adaptive-value('padding-top', 50, 25, 1);
+	@include adaptive-value('padding-bottom', 50, 25, 1);
+
+	&__row{
+		@include d-flex(flex-start, space-between, row, wrap);
+
+		@media all and (max-width: 768px){
+			flex-direction: column;
+		}
+	}
+
+	&__col{
+		width: 48%;
+
+		@media all and (max-width: 768px){
+			width: 100%;
+		}
+	}
+
+	&__head{
+		@include d-flex(center, unset, row, unset);
+		@include adaptive-value('margin-bottom', 40, 20, 1);
+		@include adaptive-value('padding-bottom', 25, 15, 1);
+		border-bottom: 2px solid #e9e9e9;
+	}
+
+	&__info{
+		&-name{
+			margin-bottom: 10px;
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: bold;
+			@include adaptive-value('font-size', 36, 18, 1);
+			line-height: 130%;
+			color: $black-color;
+		}
+
+		&-num{
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: normal;
+			@include adaptive-value('font-size', 18, 14, 1);
+			line-height: 130%;
+			color: $black-color;
+
+		}
+	}
+
+	&__img{
+		width: 150px;
+		height: 150px;
+		margin-right: 20px;
+		border-radius: 50%;
+
+
+		img{
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+		}
+	}
+
+	&__nav{
+		@media all and (max-width: 768px){
+			@include d-flex(center, space-between ,row, unset);
+		}
+		&-btn{
+			display: block;
+			background-color: transparent;
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: 500;
+			@include adaptive-value('font-size', 24, 16, 1);
+			line-height: 125%;
+			color: $black-color;
+			border: 1px solid transparent;
+			cursor: pointer;
+
+			&:not(:last-child){
+				margin-bottom: 25px;
+			}
+
+			@media all and (max-width: 768px){
+				margin-bottom: 25px;
+				border: 1px solid $main-color;
+				padding: 10px 15px;
+				border-radius: 6px;
+
+			}
+
+			&.active{
+				font-weight: bold;
+
+				@media all and (max-width: 768px){
+					background-color: $main-color;
+					color: $white-color;
+					font-weight: normal;
+				}
+			}
+		}
+	}
+
+	&__form{
+		padding: 50px 30px 30px 30px;
+		border: 1px solid #e9e9e9;
+
+		&-title{
+			@include adaptive-value('margin-bottom', 40, 20, 1);
+			h1{
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: bold;
+				@include adaptive-value('font-size', 36, 18, 1);
+				line-height: 130%;
+				color: $black-color;
+			}
+		}
+
+		form{
+			@include d-flex(unset, space-between, row, wrap);
+
+			.w-100{
+				width: 100% !important;
+			}
+
+			.form__group{
+				width: 49%;
+				margin-bottom: 25px;
+
+				@media all and (max-width: 768px){
+					width: 100%;
+				}
+
+				&-text{
+					font-family: $main-font;
+					font-style: normal;
+					font-weight: 500;
+					@include adaptive-value('font-size', 24, 16, 1);
+					line-height: 125%;
+					color: $black-color;
+					margin-bottom: 10px;
+				}
+
+
+
+				input{
+					width: 100%;
+					border: 1px solid $black-color;
+					border-radius: 10px;
+					padding: 14px 20px;
+					font-family: $main-font;
+					font-style: normal;
+					font-weight: normal;
+					@include adaptive-value('font-size', 18, 14, 1);
+					line-height: 120%;
+					color: $black-color;
+					outline: none;
+				}
+			}
+
+			.form__btn{
+				width: 34%;
+				background: $main-color;
+				border-radius: 10px;
+				padding: 14px 0;
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: bold;
+				@include adaptive-value('font-size', 18, 14, 1);
+				line-height: 120%;
+				color: $white-color;
+				cursor: pointer;
+
+				&-wrap{
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	&__orders{
+		padding: 20px;
+		border: 1px solid #E9E9E9;
+		border-radius: 5px;
+	}
+
+	&__order{
+		@include d-flex(center, unset, row, wrap);
+
+		&-img{
+			width: 90px;
+			height: 90px;
+			margin-right: 30px;
+			img{
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		&-content{
+			flex: 1;
+		}
+
+		&-title{
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: bold;
+			@include adaptive-value('font-size', 18, 14, 1);
+			line-height: 130%;
+			color: $black-color;
+			margin-bottom: 10px;
+		}
+
+		&-text{
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: normal;
+			@include adaptive-value('font-size', 14, 12, 1);
+			line-height: 130%;
+			color: $black-color;
+			margin-bottom: 10px;
+		}
+
+		&-btn{
+			display: block;
+			padding: 10px;
+			margin: 0 0 0 auto;
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: bold;
+			@include adaptive-value('font-size', 14, 12, 1);
+			line-height: 120%;
+			color: $white-color;
+			background-color: $main-color;
+			cursor: pointer;
+			outline: none;
+		}
+	}
+}
+
+/* P R O F I L E  - E N D*/

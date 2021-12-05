@@ -4,8 +4,6 @@ import Products from "../../components/products/Products";
 import Brands from "../../components/brends/Brands";
 import Service from "../../components/service/Service";
 import {useDispatch, useSelector} from "react-redux";
-
-
 import {getProducts} from "../../store/reducers/MainPageReducer";
 import SwiperProducts from "../../components/products/SwiperProducts";
 import {getBrands} from "../../store/reducers/BrandsReducer";
@@ -17,9 +15,7 @@ function MainPage() {
     useEffect(() =>{
         dispatch(getProducts());
         dispatch(getBrands())
-    },[])
-
-    console.log(state)
+    },[dispatch])
 
     return (
         <div className="mainPage">

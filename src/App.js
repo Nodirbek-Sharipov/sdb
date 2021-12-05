@@ -6,8 +6,9 @@ import {useStore} from "react-redux";
 import Navbar from "./components/navbar/Navbar";
 function App() {
     const  store  = useStore();
-    let state = store.getState()
+    let state = store.getState();
     let navbarActive = state.navbarLinks.navbarActive;
+
   return (
     <div className={navbarActive ? 'wrapper modal_active' : 'wrapper'}>
         <Navbar/>

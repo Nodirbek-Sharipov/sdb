@@ -2,7 +2,7 @@ import React from 'react';
 import Product from "./Product";
 
 function Products(props) {
-    let arr = props.state;
+
 
     return (
         <div className="products">
@@ -13,11 +13,12 @@ function Products(props) {
 
                 <div className="products__row">
                     {
-                        arr.map((el) => {
+                        props.state ?
+                            props.state.map((el) => {
                             return (
                                 <Product key={el.id} {...el}/>
                             )
-                        })
+                        }) : null
                     }
                 </div>
             </div>

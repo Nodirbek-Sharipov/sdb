@@ -20,8 +20,7 @@ export const setProducts = (payload) =>({type:GET_PRODUCTS, products: payload})
 
 export const getProducts = () =>{
     return async (dispatch) =>{
-        $authHost.get('/adminka/product/list').then(function (response){
-            console.log(response.data)
+        $authHost.get('/v1/product/list').then(function (response){
             dispatch(setProducts(response.data.products))
         }).catch(error => {console.log(error);});
     }
