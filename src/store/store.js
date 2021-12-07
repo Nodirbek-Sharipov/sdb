@@ -4,11 +4,17 @@ import NavbarReducer from "./reducers/NavbarReducer";
 import FilterReducer from "./reducers/FilterReducer";
 import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from "redux-thunk";
+import BrandsReducer from "./reducers/BrandsReducer";
+import CartReducer from "./reducers/CartReducer";
+import ProductReducer from "./reducers/ProductReducer";
 
 const reducers = combineReducers({
     mainPageReducer: MainPageReducer,
     navbarLinks: NavbarReducer,
-    filterReducer: FilterReducer
+    filterReducer: FilterReducer,
+    brands: BrandsReducer,
+    cart:CartReducer,
+    product: ProductReducer,
 });
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));

@@ -1,8 +1,6 @@
 import React from "react";
 import {$host} from "../../http";
-
 const CHANGE_NAVBAR_ACTIVE = 'CHANGE_NAVBAR_ACTIVE';
-const CHANGE_LINK_ISACTIVE = 'CHANGE_LINK_ISACTIVE';
 const GET_CATEGORIES = 'GET_CATEGORIES';
 
 let initialState = {
@@ -16,16 +14,7 @@ const NavbarReducer = (state = initialState, action) =>{
             state.navbarActive = !state.navbarActive;
             return state;
 
-        case CHANGE_LINK_ISACTIVE:
-            state.navbarLinks.forEach(el => {
-                if(el.id === action.id){
-                    state.navbarLinks.forEach(item =>{
-                        item.isActive = false
-                    })
-                    el.isActive = action.bool;
-                }
-            });
-            return state;
+
 
         case GET_CATEGORIES:
             state.navbarLinks = action.categories;
@@ -36,14 +25,7 @@ const NavbarReducer = (state = initialState, action) =>{
     }
 }
 
-export const changeNavbarActiveAC = () =>({
-    type:CHANGE_NAVBAR_ACTIVE,
-});
-
-export const changeLinkIsActiveAC = (id, bool) =>({
-    type:CHANGE_LINK_ISACTIVE, bool: bool, id:id
-});
-
+export const changeNavbarActiveAC = () =>({type:CHANGE_NAVBAR_ACTIVE});
 export const setCategories = (payload) =>({type: GET_CATEGORIES, categories: payload})
 
 export const getCategories = () =>{

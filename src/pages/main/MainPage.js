@@ -24,9 +24,7 @@ function MainPage() {
             <SwiperProducts title="Ommabop mahsulotlar" products={state.mainPageReducer.products}/>
             <SwiperProducts title="Yangi mahsulotlar" products={state.mainPageReducer.products}/>
             <SwiperProducts title="Telefonlar" products={state.mainPageReducer.products}/>
-
-            <Brands brands_num={8}/>
-
+            <Brands brands={state.brands.brands}/>
             <Service/>
         </div>
     );

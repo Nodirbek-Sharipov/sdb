@@ -23,6 +23,7 @@ function Navbar () {
 
     const [activeLinkId, setActiveLinkId] = useState(1);
     const state = useSelector(state => state.navbarLinks);
+    // const cartLength = JSON.parse(localStorage.getItem('cartArr')).cart.length;
     const dispatch = useDispatch();
 
     useEffect(() =>{
@@ -31,6 +32,11 @@ function Navbar () {
 
     const changeActiveLinkId = (id) =>{
         setActiveLinkId(id);
+    }
+
+    const linkHandler = (slug) =>{
+        dispatch(getCategoryProducts(slug))
+        dispatch(changeNavbarActiveAC())
     }
 
     return (
@@ -75,6 +81,7 @@ function Navbar () {
                                 <span className="navbar__button-icon">
                                     <CartIcon width="26px" height="26px" fill={"#050448"}/>
                                 </span>
+                                {/*<span className="navbar__button-cart-length">{cartLength}</span>*/}
                             </Link>
 
                             <Link to="/profile" className="navbar__button navbar__button-prof">
@@ -139,8 +146,8 @@ function Navbar () {
                                                                     key={item.id}
                                                                 >
                                                                     <Link
-                                                                        to={`${item.slug}`}
-                                                                        onClick={() =>{dispatch(getCategoryProducts(item.slug))}}
+                                                                        to={`/category/${item.slug}`}
+                                                                        onClick={() => linkHandler(item.slug)}
                                                                         className="navbarModal__main-list__link">
                                                                         {item.name_uz}
                                                                     </Link>
@@ -153,7 +160,8 @@ function Navbar () {
                                                                                         key={el.id}
                                                                                     >
                                                                                         <Link
-                                                                                            to={`${el.slug}`}
+                                                                                            to={`/category/${el.slug}`}
+                                                                                            onClick={() => linkHandler(item.slug)}
                                                                                             className="navbarModal__main-list__link">
                                                                                             {el.name_uz}
                                                                                         </Link>
@@ -195,12 +203,24 @@ function Navbar () {
                                                 item.children.map(link =>{
                                                     return(
                                                         <li className="panel__list-item" key={link.id}>
-                                                            {link.name_uz}
+                                                            <Link
+                                                                to={`/category/${link.slug}`}
+                                                                onClick={() => linkHandler(link.slug)}
+                                                                className="navbarModal__main-list__link">
+                                                                {link.name_uz}
+                                                            </Link>
                                                             <ul className="panel__list-item-list">
                                                                 {
                                                                     link.children.map(el =>{
                                                                         return(
-                                                                            <li className="panel__list-item-link" key={el.id}>{el.name_uz} </li>
+                                                                            <li className="panel__list-item-link" key={el.id}>
+                                                                                <Link
+                                                                                    to={`/category/${el.slug}`}
+                                                                                    onClick={() => linkHandler(el.slug)}
+                                                                                    className="navbarModal__main-list__link">
+                                                                                    {el.name_uz}
+                                                                                </Link>
+                                                                            </li>
                                                                         )
                                                                     })
                                                                 }
@@ -246,8 +266,9 @@ function Navbar () {
 
                         <li className="navbar__mobile-item">
                             <Link to='/cart'>
-                                <span className="navbar__mobile-icon">
+                                <span className="navbar__mobile-icon navbar__mobile-cart-icon">
                                     <CartIcon  fill={'#767676'} width={26} height={26}/>
+                                    {/*<span className="navbar__mobile-cart-length">{cartLength}</span>*/}
                                 </span>
 
                                 <span className="navbar__mobile-text">

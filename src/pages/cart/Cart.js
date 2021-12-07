@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import product_img from '../../assets/images/image 1006.png'
 
-function Cart(props) {
+function Cart() {
+
+    const cart = JSON.parse(localStorage.getItem('cartArr')).cart;
+
     return (
         <div className="cart">
             <div className="container">
@@ -11,54 +14,19 @@ function Cart(props) {
                 </div>
                 <div className="cart__row">
                     <div className="cart__items">
-                        <div className="cart__item">
-                            <div className="cart__item-img">
-                                <img src={product_img} alt="product_img"/>
-                            </div>
-                            <div className="cart__item-content">
-                                <p className="cart__item-text">Газовая плита Gefest 6500-04 0069, черный</p>
-                                <p className="cart__item-text">ID: 24410</p>
-                                <div className="cart__item-links">
-                                    <Link to="/" className="cart__item-link">Перейти к товару</Link>
-                                    <Link to="/" className="cart__item-link">Удалить</Link>
-                                </div>
-                            </div>
-                            <div className="cart__item-block">
-                                <div className="cart__item-text">8 388 000 сум</div>
-                                <div className="cart__item-count">
-                                    <button>-</button>
-                                    <span>1</span>
-                                    <button>+</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="cart__item">
-                            <div className="cart__item-img">
-                                <img src={product_img} alt="product_img"/>
-                            </div>
-                            <div className="cart__item-content">
-                                <p className="cart__item-text">Газовая плита Gefest 6500-04 0069, черный</p>
-                                <p className="cart__item-text">ID: 24410</p>
-                                <div className="cart__item-links">
-                                    <Link to="/" className="cart__item-link">Перейти к товару</Link>
-                                    <Link to="/" className="cart__item-link">Удалить</Link>
-                                </div>
-                            </div>
-                            <div className="cart__item-block">
-                                <div className="cart__item-text">8 388 000 сум</div>
-                                <div className="cart__item-count">
-                                    <button>-</button>
-                                    <span>1</span>
-                                    <button>+</button>
-                                </div>
-                            </div>
-                        </div>
+                        {
+                            cart.map((item,index) =>{
+                                return(
+                                    <CartItem product={item.product} key={index} quantity={item.product_quantity}/>
+                                )
+                            })
+                        }
                     </div>
 
                     <div className="cart__sidebar">
                         <div className="cart__sidebar-item">
                             <span className="cart__sidebar-text">Товары:</span>
-                            <span>2</span>
+                            {/*<span>{cart.cardLength}</span>*/}
                         </div>
                         <div className="cart__sidebar-item">
                             <span className="cart__sidebar-text">Стоимость:</span>
@@ -78,3 +46,43 @@ function Cart(props) {
 }
 
 export default Cart;
+
+const CartItem = ({product, product_quantity}) =>{
+    const [counter, setCounter] = useState(product_quantity ? product_quantity : 1);
+
+    const increase = () =>{
+        setCounter(counter + 1);
+    }
+
+    const decrease = () =>{
+        if(counter <= 1){
+            setCounter(1)
+        } else{
+            setCounter(counter - 1);
+        }
+    }
+
+    return(
+        <div className="cart__item">
+            <div className="cart__item-img">
+                <img src={product.images[0]} alt="product_img"/>
+            </div>
+            <div className="cart__item-content">
+                <p className="cart__item-text">{product.name_uz}</p>
+                <p className="cart__item-text">ID: {product.id}</p>
+                <div className="cart__item-links">
+                    <Link to="/" className="cart__item-link">Перейти к товару</Link>
+                    <Link to="/" className="cart__item-link">Удалить</Link>
+                </div>
+            </div>
+            <div className="cart__item-block">
+                <div className="cart__item-text">{Intl.NumberFormat().format(product.price)} сум</div>
+                <div className="cart__item-count">
+                    <button onClick={decrease}>-</button>
+                    <span>{counter}</span>
+                    <button onClick={increase}>+</button>
+                </div>
+            </div>
+        </div>
+    )
+}

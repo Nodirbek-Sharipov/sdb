@@ -93,6 +93,7 @@ html{
 		@media all and (max-width: 568px){
 			flex: 1;
 			flex-direction: row-reverse;
+			height: 55px;
 		}
 	}
 
@@ -103,12 +104,16 @@ html{
 
 		@media all and (max-width: 568px){
 			flex: 1;
+			height: 100%;
 		}
 
 		img{
 			width: 100%;
 			height: 100%;
-			object-fit: contain;
+			object-fit: cover;
+			@media all and (max-width: 568px) {
+				object-fit: contain;
+			}
 		}
 	}
 
@@ -240,6 +245,7 @@ html{
 
 		&-cart,
 		&-prof{
+			position: relative;
 			@media all and (max-width: 768px){
 				display: none;
 			}
@@ -257,6 +263,21 @@ html{
 			line-height: 130%;
 			color: $main-color;
 			transition: all 0.3s;
+		}
+
+		&-cart-length{
+			position: absolute;
+			top: 0;
+			right: 15px;
+			width: 15px;
+			height: 15px;
+			text-align: center;
+			background: $main-color;
+			color: $white-color;
+			border-radius: 50%;
+			font-family: $main-font;
+			font-size: 10px;
+			font-weight: bold;
 		}
 	}
 }
@@ -334,6 +355,10 @@ html{
 				&-link{
 					font-weight: 500;
 					margin-bottom: 4px;
+
+					.navbarModal__main-list__link{
+						font-weight: normal;
+					}
 				}
 			}
 		}
@@ -469,6 +494,27 @@ html{
 
 	&-icon{
 		margin-bottom: 5px;
+	}
+
+	&-cart{
+		&-icon{
+			position: relative;
+		}
+
+		&-length{
+				position: absolute;
+				top: -7px;
+				right: -7px;
+				width: 15px;
+				height: 15px;
+				text-align: center;
+				background: $main-color;
+				color: $white-color;
+				border-radius: 50%;
+				font-family: $main-font;
+				font-size: 10px;
+				font-weight: bold;
+		}
 	}
 
 	&-text{
@@ -634,6 +680,10 @@ html{
 		&:nth-child(3){
 			margin-right: 0;
 		}
+	}
+
+	@media all and (max-width: 768px) {
+		margin-right: 0 !important;
 	}
 
 	&:hover{
@@ -888,6 +938,7 @@ html{
 			flex-wrap: wrap;
 			width: 100%;
 			margin-bottom: 40px;
+			justify-content: center;
 		}
 	}
 
@@ -1223,6 +1274,7 @@ html{
 			width: 41%;
 			height: auto;
 			@include adaptive-value('margin-right', 100, 50, 1);
+			border: 1px solid $border-color;
 
 			@media all and (max-width: 768px){
 				width: 100%;
@@ -1262,16 +1314,25 @@ html{
 			@include adaptive-value('font-size', 18, 14, 1);
 			line-height: 120%;
 			color: $black-color;
-			margin-bottom: 20px;
 		}
 
 		&-images{
 			@include d-flex(flex-start, unset, row, wrap);
+			margin-bottom: 30px;
 		}
 
 		&-imgWrap{
 			width: 64px;
 			height: 64px;
+			cursor: pointer;
+
+			&:not(:last-child){
+				margin-right: 10px;
+			}
+
+			&.active{
+				border: 1px solid $main-color;
+			}
 
 			img{
 				width: 100%;
@@ -1314,6 +1375,62 @@ html{
 				font-weight: bold;
 			}
 		}
+
+		&-block{
+			@include d-flex(center, unset, row, unset);
+			margin-bottom: 20px;
+
+			&-store{
+				@include d-flex(center, unset, row, unset);
+				.store__btn{
+					border: 1px solid $border-color;
+					padding: 5px;
+					background: transparent;
+					font-family: $primary-font;
+					font-style: normal;
+					font-weight: 500;
+					font-size: 14px;
+					line-height: 120%;
+					color: $black-color;
+					margin-left: 10px;
+					cursor: pointer;
+
+					&.active{
+						border: 1px solid $main-color;
+					}
+				}
+			}
+
+			&-counter{
+				@include d-flex(center, unset, row, unset);
+				margin-left: 20px;
+				.counter__btn{
+					width: 30px;
+					height: 30px;
+					@include d-flex(center, center, row,unset);
+					border-radius: 50%;
+					background-color: $border-color;
+					font-family: $primary-font;
+					font-style: normal;
+					font-weight: 500;
+					font-size: 24px;
+					line-height: 130%;
+					color: $black-color;
+					cursor: pointer;
+				}
+
+				.counter__text{
+					margin: 0 20px;
+					font-family: $main-font;
+					font-style: normal;
+					font-weight: 600;
+					font-size: 20px;
+					line-height: 130%;
+					color: $black-color;
+				}
+			}
+		}
+
 	}
 }
 
@@ -1747,3 +1864,54 @@ html{
 }
 
 /* P R O F I L E  - E N D*/
+
+
+/* F U L L P A G E S P I N N E R - S T A R T */
+
+.loader-wrap{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-item: center;
+	justify-content: center;
+}
+.loading-content{
+	width: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.loader-item{
+	width: 20px;
+	height: 20px;
+	background: #050448;
+	border-radius: 50px;
+	transform: scale(0);
+	transition: all .5s linear;
+	animation: loading-spin .8s infinite both;
+}
+.loader-item:nth-child(1){
+	animation-delay: .2s;
+}
+.loader-item:nth-child(2){
+	animation-delay: .3s;
+}
+.loader-item:nth-child(3){
+	animation-delay: .4s;
+}
+.loader-item:nth-child(4){
+	animation-delay: .5s;
+}
+@keyframes loading-spin{
+	0%{
+		transform: scale(0);
+	}
+	50%{
+		transform: scale(1);
+	}
+	100%{
+		transform: scale(0);
+	}
+}
+
+/* F U L L P A G E S P I N N E R - E N D */
