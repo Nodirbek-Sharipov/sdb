@@ -1,20 +1,20 @@
 import React, {useState} from 'react';
 import profile_img from '../../assets/images/profile_img.png'
 import profile__order_img from '../../assets/images/product__order-img.png';
+import {useSelector} from "react-redux";
 
 function User(props) {
-
     const [isOrders, setIsOrders] = useState(false);
+    const state = useSelector(state => state);
+
 
     const changeIsOrders = (event) =>{
         if(event.target.name === 'order'){
             setIsOrders(true);
-            console.log(event.target.name, isOrders)
         } else{
             setIsOrders(false);
-            console.log(event.target.name, isOrders)
         }
-    }
+    };
 
     return (
         <div className="profile">
@@ -27,7 +27,7 @@ function User(props) {
                             </div>
                             <div className="profile__info">
                                 <h1 className="profile__info-name">Kamron Fozilov</h1>
-                                <p className="profile__info-num">+998914342828</p>
+                                <p className="profile__info-num">{state.user.user.phone}</p>
                             </div>
                         </div>
 

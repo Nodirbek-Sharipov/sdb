@@ -14,8 +14,6 @@ const NavbarReducer = (state = initialState, action) =>{
             state.navbarActive = !state.navbarActive;
             return state;
 
-
-
         case GET_CATEGORIES:
             state.navbarLinks = action.categories;
             return state;

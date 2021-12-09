@@ -4,11 +4,11 @@ const baseUrl = "https://api.sdb.uz/dev";
 
 const $host = axios.create({
     baseURL: baseUrl
-})
+});
 
 const $authHost = axios.create({
     baseURL: baseUrl
-})
+});
 
 $authHost.interceptors.request.use(
     (config) => {
@@ -16,7 +16,7 @@ $authHost.interceptors.request.use(
 
         if (accessToken) {
             config.headers["x-auth-token"] = accessToken;
-            config.headers.Authorization = `Bearer ${accessToken}`
+            config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
         return config;
     },
@@ -24,7 +24,6 @@ $authHost.interceptors.request.use(
         Promise.reject(error);
     }
 );
-
 
 $authHost.interceptors.response.use(
     (response) => {
@@ -55,7 +54,7 @@ $authHost.interceptors.response.use(
 
 const api = {
     login: (body) => {
-        return $authHost.post(`/adminka/auth/login`, body);
+        return $authHost.post(`/v1/auth/login`, body);
     },
     refreshToken: (body) => {
         return $authHost.post(`/v1/auth/refresh`, body);
@@ -63,28 +62,9 @@ const api = {
     logout: (body) => {
         return $authHost.delete(`/v1/auth/logout`, body);
     },
-    getProtected: () => {
-        return $authHost.get(`/protected_resource`);
+    verify: (body) => {
+        return $authHost.post(`/v1/auth/verify`, body);
     },
 };
-
-// const username = 'admin';
-// const password = 'password';
-//
-// const login = async () =>{
-//     try {
-//         let res;
-//         res = await api.login({username, password} );
-//
-//         let { accessToken, refreshToken } = res.data;
-//         localStorage.setItem("accessToken", accessToken);
-//         localStorage.setItem("refreshToken", refreshToken);
-//         console.log(res)
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
-//
-// login();
 
 export {api, $authHost, $host};

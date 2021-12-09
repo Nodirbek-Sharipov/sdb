@@ -1,31 +1,25 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import StarIcon from "../icons/StarIcon";
 import CartIconSmall from "../icons/CartIconSmall";
 import BoxIcon from "../icons/BoxIcon";
 import {useDispatch, useSelector} from "react-redux";
-import {addItemCategory} from "../../store/reducers/CartReducer";
+import {addItemCategory, addToCart} from "../../store/reducers/CartReducer";
 import {getCategoryProducts} from "../../store/reducers/FilterReducer";
 import {getBrands} from "../../store/reducers/BrandsReducer";
 import {getProduct} from "../../store/reducers/ProductReducer";
+import LoginModal from "../login/LoginModal";
+import {setIsActiveModal} from "../../store/reducers/MainPageReducer";
 
 function Product({...props}) {
     const dispatch = useDispatch();
     const store = useSelector(state => state);
+    const [loginModalBool, setLoginModalBool] = useState(false);
 
     useEffect(() => {
         let slug = window.location.pathname.split('/')[2];
         dispatch(getCategoryProducts(slug))
-    },[window.location])
-
-    const addProductCartBtn = (props) =>{
-        let product = {
-            product_quantity: 1,
-            product:{...props}
-        }
-        dispatch(addItemCategory(product));
-        localStorage.setItem('cartArr',JSON.stringify(store.cart));
-    }
+    },[window.location]);
 
     return (
         <div className="product">
@@ -77,7 +71,7 @@ function Product({...props}) {
             <div className="product__btns">
                 <button
                     className="product__btn product__btn-add"
-                    onClick={() =>addProductCartBtn({...props})}
+                    onClick={() => dispatch(addToCart({...props}))}
                 >
                     {/*<span className="product__btn-icon">*/}
                     {/*    <CartIconSmall/>*/}
@@ -87,7 +81,9 @@ function Product({...props}) {
                     </span>
                 </button>
 
-                <button className="product__btn product__btn-order">
+                <button className="product__btn product__btn-order"
+                    onClick={() => dispatch(setIsActiveModal(true))}
+                >
                     {/*<span className="product__btn-icon">*/}
                     {/*    <BoxIcon/>*/}
                     {/*</span>*/}

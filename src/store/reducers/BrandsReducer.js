@@ -4,7 +4,7 @@ const GET_BRANDS = 'GET_BRANDS';
 let defaultState = {
     brands:[],
     loading:false
-}
+};
 
 function BrandsReducer(state = defaultState, action) {
     switch (action.type) {

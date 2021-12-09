@@ -6,13 +6,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {getCategoryProducts} from "../../store/reducers/FilterReducer";
 import FullPageLoader from "../../components/loading/Loading";
 import {getBrands} from "../../store/reducers/BrandsReducer";
-
-function CategoryPage(props) {
+function CategoryPage() {
     const [sidebarIsActive, setSidebarIsActive] = useState(false);
     const dispatch = useDispatch();
     const state = useSelector(state => state);
     const products = state.filterReducer.products;
-
     useEffect(() => {
         let slug = window.location.pathname.split('/')[2];
         console.log(slug);
@@ -81,7 +79,6 @@ function CategoryPage(props) {
                </div>
            </div>
             {/*{state.filterReducer.loading && <FullPageLoader />}*/}
-
         </div>
 
 

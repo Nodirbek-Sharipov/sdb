@@ -2,10 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {getProduct} from "../../store/reducers/ProductReducer";
 import FullPageLoader from "../../components/loading/Loading";
+import {addToCart, adjustQty} from "../../store/reducers/CartReducer";
+import {setIsActiveModal} from "../../store/reducers/MainPageReducer";
 
 
 function ProductPage() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const state = useSelector(state => state.product);
 
     console.log(state);
@@ -28,8 +30,13 @@ function ProductPage() {
 export default ProductPage;
 
 const Product = ({product}) =>{
-    const [counter, setCounter] = useState(1);
     const [image, setImage] = useState(product.images[0]);
+    const [counter, setCounter] = useState(1);
+    const dispatch = useDispatch();
+
+    useEffect(() =>{
+    }, [counter]);
+
     const increase = () =>{
         setCounter(counter + 1);
     }
@@ -97,7 +104,7 @@ const Product = ({product}) =>{
                     </div>
 
                     <div className="product__btns">
-                        <button className="product__btn product__btn-add">
+                        <button className="product__btn product__btn-add" onClick={() => dispatch(addToCart({...product}, counter))}>
                             {/*<span className="product__btn-icon">*/}
                             {/*    <CartIconSmall/>*/}
                             {/*</span>*/}
@@ -110,7 +117,9 @@ const Product = ({product}) =>{
                             {/*<span className="product__btn-icon">*/}
                             {/*     <BoxIcon/>*/}
                             {/*</span>*/}
-                            <span className="product__btn-text">
+                            <span className="product__btn-text"
+                                  onClick={() => dispatch(setIsActiveModal(true))}
+                            >
                                 Buyurtma berish
                             </span>
                         </button>

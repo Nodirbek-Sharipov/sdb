@@ -1,4 +1,4 @@
-import {$authHost} from "../../http";
+import {$authHost, $host} from "../../http";
 const GET_PRODUCT = 'GET_PRODUCT';
 const SHOW_LOADER = 'SHOW_LOADER';
 const HIDE_LOADER = 'HIDE_LOADER';
@@ -33,7 +33,7 @@ export const setProduct = (payload) =>({type:GET_PRODUCT, payload: payload})
 export const getProduct = (slug) =>{
     return async (dispatch) =>{
         dispatch({ type: SHOW_LOADER })
-        $authHost.get(`/v1/product/${slug}`).then(function (response){
+        $host.get(`/v1/product/${slug}`).then(function (response){
             console.log(response.data)
             dispatch(setProduct(response.data))
             dispatch({ type: HIDE_LOADER })

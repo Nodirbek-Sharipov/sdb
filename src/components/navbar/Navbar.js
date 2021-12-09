@@ -5,7 +5,7 @@ import SearchIcon from "../icons/SearchIcon";
 import CartIcon from "../icons/CartIcon";
 import UserIcon from "../icons/UserIcon";
 import ArrowRightIcon from "../icons/ArrowRightIcon";
-import {Link} from "react-router-dom";
+import {Link, useHistory } from "react-router-dom";
 import CloseIcon from "../icons/CloseIcon";
 import { changeNavbarActiveAC, getCategories} from "../../store/reducers/NavbarReducer";
 import HomeIcon from "../icons/HomeIcon";
@@ -18,26 +18,53 @@ import {
     AccordionItemPanel
 } from "react-accessible-accordion";
 import {getCategoryProducts} from "../../store/reducers/FilterReducer";
+import {getUser} from "../../store/reducers/UserReducer";
 
-function Navbar () {
-
+function Navbar() {
     const [activeLinkId, setActiveLinkId] = useState(1);
+    const [serchedProducts, setSerchedProducts] = useState([]);
+    const [cartLength, setCartLength] = useState(0);
+    const [search, setSearch] = useState('');
+    const [searchTab, setSearchTab] = useState(false);
     const state = useSelector(state => state.navbarLinks);
-    // const cartLength = JSON.parse(localStorage.getItem('cartArr')).cart.length;
+    const cart = useSelector(state => state.cart.cart);
+    const products =useSelector(state => state.mainPageReducer.products);
     const dispatch = useDispatch();
-
-    useEffect(() =>{
-        dispatch(getCategories())
-    },[])
+    const history = useHistory();
 
     const changeActiveLinkId = (id) =>{
         setActiveLinkId(id);
-    }
+    };
 
     const linkHandler = (slug) =>{
-        dispatch(getCategoryProducts(slug))
-        dispatch(changeNavbarActiveAC())
+        dispatch(getCategoryProducts(slug));
+        dispatch(changeNavbarActiveAC());
+    };
+
+    const filterSearchedProducts = () =>{
+    const productss = products.filter(item => {if(search !== ''){return item.name_uz.toLowerCase().includes(search.toLowerCase())} else{return null}});
+      setSerchedProducts(productss);
+    };
+
+    const profileHandler = () =>{
+        const refreshtoken = localStorage.getItem('refreshToken');
+        console.log(refreshtoken)
+        if(refreshtoken){
+            dispatch(getUser());
+            history.push('/profile');
+            console.log(true)
+        }
     }
+
+    useEffect(() =>{
+        dispatch(getCategories());
+    },[]);
+
+    useEffect(() =>{
+        let count = 0;
+        cart.forEach(item =>{ count += item.qty});
+        setCartLength(count);
+    }, [cart, cartLength]);
 
     return (
         <div className="navbar">
@@ -64,12 +91,41 @@ function Navbar () {
 
                         <div className="navbar__main">
                             <div className="navbar__input">
-                                <input type="text" placeholder="Qidirish...."/>
+                                <input
+                                    type="text"
+                                    placeholder="Qidirish...."
+                                    value={search}
+                                    onChange={(e) => {setSearch(e.target.value); setSearchTab(true); filterSearchedProducts()}}
+                                    onBlur={() => setSearchTab(false)}
+                                />
                             </div>
 
                             <button className="navbar__search-btn">
                                 <SearchIcon/>
                             </button>
+
+                            <div className={searchTab ? "search__products active" : "search__products"}>
+                                {
+                                    serchedProducts !== null ?  <ul className="search__products-list">
+                                        {
+                                            serchedProducts.map(item => {
+                                                return(
+                                                    <li key={item.id}>
+                                                        <Link to={`/products/${item.slug}`}  className="search__products-item">
+                                                            <div className="search__products-img">
+                                                                <img src={item.images[0]} alt="search__products-img"/>
+                                                            </div>
+                                                            <div className="search__products-name">
+                                                                <p>{item.name_uz}</p>
+                                                            </div>
+                                                        </Link>
+                                                    </li>
+                                                )
+                                            })
+                                        }
+                                    </ul> : <div>Mahsulot topilmadi</div>
+                                }
+                            </div>
                         </div>
 
                         <div className="navbar__right">
@@ -81,14 +137,17 @@ function Navbar () {
                                 <span className="navbar__button-icon">
                                     <CartIcon width="26px" height="26px" fill={"#050448"}/>
                                 </span>
-                                {/*<span className="navbar__button-cart-length">{cartLength}</span>*/}
+                                <span className="navbar__button-cart-length">{cartLength ? cartLength : 0}</span>
                             </Link>
 
-                            <Link to="/profile" className="navbar__button navbar__button-prof">
+                            <button
+                                className="navbar__button navbar__button-prof"
+                                onClick={profileHandler}
+                            >
                                 <span className="navbar__button-icon">
                                     <UserIcon width="26px" height="26px" fill={"#050448"}/>
                                 </span>
-                            </Link>
+                            </button>
 
                         </div>
                     </div>
@@ -252,7 +311,7 @@ function Navbar () {
                             </Link>
                         </li>
 
-                        <li className="navbar__mobile-item">
+                        <li className="navbar__mobile-item"  onClick={() => {dispatch(changeNavbarActiveAC())}}>
                             <Link to='/'>
                                 <span className="navbar__mobile-icon">
                                     <MenuIcon fill={'#767676'} width={26} height={26}/>
@@ -268,7 +327,7 @@ function Navbar () {
                             <Link to='/cart'>
                                 <span className="navbar__mobile-icon navbar__mobile-cart-icon">
                                     <CartIcon  fill={'#767676'} width={26} height={26}/>
-                                    {/*<span className="navbar__mobile-cart-length">{cartLength}</span>*/}
+                                    <span className="navbar__mobile-cart-length">{cartLength ? cartLength : 0}</span>
                                 </span>
 
                                 <span className="navbar__mobile-text">
@@ -278,7 +337,7 @@ function Navbar () {
                         </li>
 
                         <li className="navbar__mobile-item">
-                            <Link to='/profile'>
+                            <button>
                                 <span className="navbar__mobile-icon">
                                     <UserIcon  fill={'#767676'} width={26} height={26}/>
                                 </span>
@@ -286,7 +345,7 @@ function Navbar () {
                                 <span className="navbar__mobile-text">
                                     Profil
                                 </span>
-                            </Link>
+                            </button>
                         </li>
                     </ul>
                 </div>

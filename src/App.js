@@ -4,6 +4,7 @@ import AppRouter from "./components/appRouter/AppRouter";
 import Footer from "./components/footer/Footer";
 import {useStore} from "react-redux";
 import Navbar from "./components/navbar/Navbar";
+import LoginModal from "./components/login/LoginModal";
 function App() {
     const  store  = useStore();
     let state = store.getState();
@@ -14,10 +15,11 @@ function App() {
         <Navbar/>
         <AppRouter/>
         <Footer/>
+        {
+            state.mainPageReducer.isActiveModal ? <LoginModal/> : null
+        }
     </div>
   );
 }
 
 export default App;
-
-// https://api.sdb.uz/api/v1/
