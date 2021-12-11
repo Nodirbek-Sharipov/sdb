@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {getProduct} from "../../store/reducers/ProductReducer";
 import FullPageLoader from "../../components/loading/Loading";
-import {addToCart, adjustQty} from "../../store/reducers/CartReducer";
+import {addToCart} from "../../store/reducers/CartReducer";
 import {setIsActiveModal} from "../../store/reducers/MainPageReducer";
 
 
@@ -33,6 +33,8 @@ const Product = ({product}) =>{
     const [image, setImage] = useState(product.images[0]);
     const [counter, setCounter] = useState(1);
     const dispatch = useDispatch();
+    const card = useSelector(state => state.cart.cart);
+
 
     const increase = () =>{
         setCounter(counter + 1);
@@ -49,6 +51,8 @@ const Product = ({product}) =>{
     const addToCartHandler = () =>{
         const user = localStorage.getItem('user');
         if(user){
+            const inCart = card.find((item) => item.id === product.id ? true : false);
+            localStorage.setItem('card', JSON.stringify(inCart ? card.map(item => item.id === product.id ? {...item, qty: item.qty + 1} : {...product}) : [...card, {...product, qty: product.qty ?  product.qty : 1}]));
             dispatch(addToCart({...product}, counter))
         } else{
             dispatch(setIsActiveModal(true))

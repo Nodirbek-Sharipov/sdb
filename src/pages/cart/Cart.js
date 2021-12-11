@@ -77,10 +77,7 @@ export default Cart;
 const CartItem = ({product, quantity}) =>{
     const [counter, setCounter] = useState(quantity ? quantity : 1);
     const dispatch = useDispatch();
-
-    useEffect(() =>{
-        dispatch(adjustQty(product.id, counter));
-    }, [counter]);
+    const cart = useSelector(state => state.cart.cart);
 
     const increase = () =>{
         setCounter(counter + 1);
@@ -93,6 +90,16 @@ const CartItem = ({product, quantity}) =>{
             setCounter(counter - 1);
         }
     };
+
+    const removeHandler = () =>{
+        localStorage.setItem('card', JSON.stringify(cart.filter(item => item.id !== product.id)));
+        dispatch(removeFromCart(product.id));
+    }
+
+    useEffect(() =>{
+        localStorage.setItem('card', JSON.stringify(cart.map(item => item.id === product.id ? {...item, qty: counter} : {...item, qty: counter})));
+        dispatch(adjustQty(product.id, counter));
+    }, [counter]);
 
     return(
         <div className="cart__item">
@@ -108,7 +115,7 @@ const CartItem = ({product, quantity}) =>{
                         className="cart__item-link"
                         onClick={() => {dispatch(getProduct(product.slug))}}
                     >Перейти к товару</Link>
-                    <button className="cart__item-link" onClick={() => dispatch(removeFromCart(product.id))}>Удалить</button>
+                    <button className="cart__item-link" onClick={removeHandler}>Удалить</button>
                 </div>
             </div>
             <div className="cart__item-block">

@@ -35,13 +35,23 @@ function CategoryPage(props) {
         }
     };
 
+    function makeTitle(slug) {
+        let words = slug.split('-');
+
+        for (let i = 0; i < words.length; i++) {
+            let word = words[i];
+            words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+        }
+        return words.join(' ');
+    }
+
     useEffect(() => {
         dispatch(getCategoryProducts(slug,search));
         dispatch(getBrands());
     },[slug, search]);
 
     useEffect(() => {
-        history.push({ pathname: location.pathname, search: `?brand_ids=${isCheck.join(',')}`});
+        history.push({ pathname: location.pathname, search: `?brand_ids=${isCheck.length === 0 ? 0 : isCheck.join(',')}`});
 
     },[isCheck]);
 
@@ -49,7 +59,7 @@ function CategoryPage(props) {
         <div className="categoryPage">
             <div className="container">
                <div className="categoryPage__title">
-                   <h1>{}</h1>
+                   <h1>{makeTitle(props.match.params.slug)}</h1>
                    <button
                        className="categoryPage__btn"
                        onClick={() => {setSidebarIsActive(!sidebarIsActive)}}

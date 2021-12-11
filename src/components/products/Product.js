@@ -7,10 +7,13 @@ import {setIsActiveModal} from "../../store/reducers/MainPageReducer";
 
 function Product({...props}) {
     const dispatch = useDispatch();
+    const card = useSelector(state => state.cart.cart);
 
     const addToCartHandler = () =>{
         const user = localStorage.getItem('user');
         if(user){
+            const inCart = card.find((item) => item.id === props.id ? true : false);
+            localStorage.setItem('card', JSON.stringify(inCart ? card.map(item => item.id === props.id ? {...item, qty: item.qty + 1} : {...props}) : [...card, {...props, qty: props.qty ?  props.qty : 1}]));
             dispatch(addToCart({...props}))
         } else{
             dispatch(setIsActiveModal(true))

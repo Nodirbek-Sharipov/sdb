@@ -3,7 +3,7 @@ const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const ADJUST_QTY = 'ADJUST_QTY';
 
 let defaultState = {
-    cart:[],
+    cart: JSON.parse(localStorage.getItem('card') || []),
 };
 
 function CartReducer(state = defaultState, action) {
@@ -11,7 +11,6 @@ function CartReducer(state = defaultState, action) {
         case ADD_TO_CART:
             const item = action.payload;
             const inCart = state.cart.find((item) => item.id === action.payload.id ? true : false);
-
             return {
                 ...state,
                 cart: inCart ? state.cart.map(item => item.id === action.payload.id ? {...item, qty: item.qty + 1} : item) : [...state.cart, {...item, qty: action.qty ?  action.qty : 1}]
