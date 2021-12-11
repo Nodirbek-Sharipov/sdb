@@ -8,6 +8,7 @@ import {setIsActiveModal} from "../../store/reducers/MainPageReducer";
 function Product({...props}) {
     const dispatch = useDispatch();
     const card = useSelector(state => state.cart.cart);
+	const lang = useSelector(state => state.lang.lang);
 
     const addToCartHandler = () =>{
         const user = localStorage.getItem('user');
@@ -30,14 +31,14 @@ function Product({...props}) {
 
             <div className="product__title"  onClick={() => {dispatch(getProduct(props.slug))}}>
                 <Link to={'/products/' + props.slug}>
-                    <h3>{props.name_uz}</h3>
+                    <h3>{props[`name_${lang}`]}</h3>
                 </Link>
             </div>
 
             <div className="product__price">
                 <span className="product__price-num">
                         {
-                            Intl.NumberFormat().format(props.price)  + '  ' + 'So`m'
+                            Intl.NumberFormat().format(props.price)  + `  ${lang === 'uz' ? 'So`m' : 'Сум'}`
                         }
                 </span>
             </div>
@@ -49,7 +50,7 @@ function Product({...props}) {
                 >
 
                     <span className="product__btn-text">
-                        Savatga qo’shish
+                        {lang === 'uz' ? 'Savatga qo’shish' : 'Добавить в корзину'}
                     </span>
                 </button>
 
@@ -58,7 +59,7 @@ function Product({...props}) {
                 >
 
                     <span className="product__btn-text">
-                        Buyurtma berish
+                        {lang === 'uz' ? 'Buyurtma berish' : 'Заказать'}
                     </span>
                 </button>
             </div>

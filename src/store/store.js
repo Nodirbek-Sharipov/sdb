@@ -8,6 +8,7 @@ import BrandsReducer from "./reducers/BrandsReducer";
 import CartReducer from "./reducers/CartReducer";
 import ProductReducer from "./reducers/ProductReducer";
 import UserReducer from "./reducers/UserReducer";
+import LangReducer from "./reducers/LangReducer";
 
 const reducers = combineReducers({
     mainPageReducer: MainPageReducer,
@@ -17,6 +18,7 @@ const reducers = combineReducers({
     cart:CartReducer,
     product: ProductReducer,
     user: UserReducer,
+	lang: LangReducer,
 });
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));

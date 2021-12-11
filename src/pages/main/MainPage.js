@@ -10,6 +10,7 @@ import FullPageLoader from "../../components/loading/Loading";
 
 function MainPage() {
     const state = useSelector(state => state);
+	const lang = useSelector(state => state.lang.lang);
     const dispatch = useDispatch();
 
     useEffect(() =>{
@@ -21,8 +22,8 @@ function MainPage() {
     return (
         <div className="mainPage">
             <Banner/>
-            <SwiperProducts title="Ommabop mahsulotlar" products={state.mainPageReducer.recommended_products}/>
-            <SwiperProducts title="Yangi mahsulotlar" products={state.mainPageReducer.products}/>
+            <SwiperProducts title={lang === 'uz' ? "Ommabop mahsulotlar" : "Популярные продукты"} products={state.mainPageReducer.recommended_products}/>
+            <SwiperProducts title={lang === 'uz' ? "Yangi mahsulotlar" : "Новые продукты"} products={state.mainPageReducer.products}/>
             {/*<SwiperProducts title="Telefonlar" products={state.mainPageReducer.products.filter(item => item.category.name_uz === 'Smartfonlar')}/>*/}
             <Brands brands={state.brands.brands}/>
             <Service/>
