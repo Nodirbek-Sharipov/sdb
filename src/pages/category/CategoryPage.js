@@ -19,6 +19,9 @@ function CategoryPage(props) {
     const pagination = state.filterReducer.pagination;
     const history = useHistory();
     const location = useLocation();
+	const lang = useSelector(state => state.lang.lang);
+
+
     const slug = props.match.params.slug;
     const search = props.location.search;
 
@@ -55,7 +58,7 @@ function CategoryPage(props) {
                        onClick={() => {setSidebarIsActive(!sidebarIsActive)}}
                    >
                        <span className="categoryPage__btn-text">
-                            Saralash
+                            {lang === 'uz' ? 'Saralash' : 'Сортировать'}
                         </span>
 
                         <span className="categoryPage__btn-icon">
@@ -67,7 +70,7 @@ function CategoryPage(props) {
                <div className="categoryPage__row">
                     <div   className={sidebarIsActive ? "categoryPage__sidebar active" : "categoryPage__sidebar"}>
                         <div className="categoryPage__sidebar-title">
-                            <h3>Brendlar</h3>
+                            <h3>{lang === 'uz' ? 'Brendlar' : 'Бренды'}</h3>
                         </div>
 
                         <ul className="categoryPage__sidebar-list">
@@ -77,7 +80,7 @@ function CategoryPage(props) {
                                 </span>
 
                                 <span className="categoryPage__sidebar-list__text">
-                                    Barchasini ko’rsatish
+                                    {lang === 'uz' ? 'Barchasini ko’rsatish' : 'Показать все'}
                                 </span>
                             </li>
                             {
@@ -93,7 +96,7 @@ function CategoryPage(props) {
                                             </span>
 
                                             <span className="categoryPage__sidebar-list__text">
-                                                {item.name_uz}
+                                                {item[`name_${lang}`]}
                                             </span>
                                         </li>
                                     )
@@ -138,9 +141,10 @@ function CategoryPage(props) {
 export default CategoryPage;
 
 const NoProduct = () =>{
+	const lang = useSelector(state => state.lang.lang);
     return(
         <div className="noProduct">
-            <h1>Mavjud so`rov bo`yicha mahsulot topilmadi</h1>
+            <h1>{lang === 'uz' ? 'Mavjud so`rov bo`yicha mahsulot topilmadi' : 'По запросу ничего не найдено'}</h1>
         </div>
     )
 }

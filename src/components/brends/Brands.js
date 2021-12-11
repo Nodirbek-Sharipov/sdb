@@ -1,13 +1,14 @@
 import React, {useRef} from 'react';
-import brand_img from '../../assets/images/brend_img.png'
 import {Link} from "react-router-dom";
 import {Swiper, SwiperSlide} from "swiper/react/swiper-react";
 import {Navigation, Pagination, Autoplay } from "swiper";
-import Product from "../products/Product";
+import { useSelector } from 'react-redux';
 
 function Brands({brands}) {
     const navigationPrevRef = useRef(null);
     const navigationNextRef = useRef(null);
+	const lang = useSelector(state => state.lang.lang);
+
     return (
         <div className="brands">
             <div className="container">
@@ -41,7 +42,7 @@ function Brands({brands}) {
                                             </div>
 
                                             <div className="brand__title">
-                                                <h3>{el.name_uz}</h3>
+                                                <h3>{el[`name_${lang}`]}</h3>
                                             </div>
                                         </Link>
                                     </SwiperSlide>

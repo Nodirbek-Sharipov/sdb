@@ -20,6 +20,7 @@ import {
 import {getCategoryProducts} from "../../store/reducers/FilterReducer";
 import {getUser} from "../../store/reducers/UserReducer";
 import {setIsActiveModal} from "../../store/reducers/MainPageReducer";
+import { setLang } from '../../store/reducers/LangReducer';
 
 function Navbar() {
     const [activeLinkId, setActiveLinkId] = useState(1);
@@ -33,6 +34,13 @@ function Navbar() {
     const dispatch = useDispatch();
     const history = useHistory();
 
+	const lang = useSelector(state => state.lang.lang);
+	const toggleLanguage = ()=> {
+		const new_lang = (lang === 'uz') ? 'ru' : 'uz'
+		localStorage.setItem('lang', new_lang)
+		dispatch(setLang(new_lang))
+	}
+
     const changeActiveLinkId = (id) =>{
         setActiveLinkId(id);
     };
@@ -43,7 +51,7 @@ function Navbar() {
     };
 
     const filterSearchedProducts = () =>{
-    const productss = products.filter(item => {if(search !== ''){return item.name_uz.toLowerCase().includes(search.toLowerCase())} else{return null}});
+    const productss = products.filter(item => search !== '' && (item.name_uz.toLowerCase().includes(search.toLowerCase()) || item.name_ru.toLowerCase().includes(search.toLowerCase())));
       setSerchedProducts(productss);
     };
 
@@ -61,7 +69,7 @@ function Navbar() {
 
     useEffect(() =>{
         dispatch(getCategories());
-    },[]);
+    },[dispatch]);
 
     useEffect(() =>{
         let count = 0;
@@ -87,7 +95,7 @@ function Navbar() {
                                 </span>
 
                                 <span className="navbar__catalog-text">
-                                    Katalog
+                                    {lang === 'uz' ? 'Katalog' : 'Каталог' }
                                 </span>
                             </button>
                         </div>
@@ -96,7 +104,7 @@ function Navbar() {
                             <div className="navbar__input">
                                 <input
                                     type="text"
-                                    placeholder="Qidirish...."
+                                    placeholder={`${lang === 'uz' ? 'Qidirish' : 'Поиск'}....`}
                                     value={search}
                                     onChange={(e) => {setSearch(e.target.value); setSearchTab(true); filterSearchedProducts()}}
                                     onBlur={() => setSearchTab(false)}
@@ -119,21 +127,21 @@ function Navbar() {
                                                                 <img src={item.images[0]} alt="search__products-img"/>
                                                             </div>
                                                             <div className="search__products-name">
-                                                                <p>{item.name_uz}</p>
+                                                                <p>{item[`name_${lang}`]}</p>
                                                             </div>
                                                         </Link>
                                                     </li>
                                                 )
                                             })
                                         }
-                                    </ul> : <div>Mahsulot topilmadi</div>
+                                    </ul> : <div>{lang === 'uz' ? 'Mahsulot topilmadi' : 'Товар не найден'}</div>
                                 }
                             </div>
                         </div>
 
                         <div className="navbar__right">
-                            <button className="navbar__button navbar__button-lang">
-                                <span className="navbar__button-text">UZ</span>
+                            <button className="navbar__button navbar__button-lang" onClick={toggleLanguage}>
+                                <span className="navbar__button-text">{lang.toUpperCase()}</span>
                             </button>
 
                             <Link to="/cart" className="navbar__button navbar__button-cart">
@@ -175,7 +183,7 @@ function Navbar() {
                                                         <img src={el.image} alt=""/>
                                                     </span>
                                                     <span className="navbarModal__nav-link_text">
-                                                        {el.name_uz}
+                                                        {el[`name_${lang}`]}
                                                     </span>
                                                     <span className="navbarModal__nav-link_icon">
                                                         <ArrowRightIcon/>
@@ -189,58 +197,52 @@ function Navbar() {
                         </div>
 
                         <div className="navbarModal__main">
-                            {
-                                state.navbarLinks.map(link =>{
-                                    if(link.id === activeLinkId){
-                                        return(
-                                            <div key={link.id}>
-                                                <div className="navbarModal__main-title">
-                                                    <h1>{link.name_uz}</h1>
-                                                </div>
+                            {state.navbarLinks.map(link => (link.id === activeLinkId) && (
+								<div key={link.id}>
+									<div className="navbarModal__main-title">
+										<h1>{link[`name_${lang}`]}</h1>
+									</div>
 
-                                                <ul className="navbarModal__main-list">
-                                                    {
-                                                        link.children.map(item => {
-                                                            return (
-                                                                <li
-                                                                    className="navbarModal__main-list__item"
-                                                                    key={item.id}
-                                                                >
-                                                                    <Link
-                                                                        to={`/category/${item.slug}?page=3`}
-                                                                        onClick={() => linkHandler(item.slug)}
-                                                                        className="navbarModal__main-list__link">
-                                                                        {item.name_uz}
-                                                                    </Link>
-                                                                    <ul className="navbarModal__main-list">
-                                                                        {
-                                                                            item.children.map(el => {
-                                                                                return (
-                                                                                    <li
-                                                                                        className="navbarModal__main-list__item"
-                                                                                        key={el.id}
-                                                                                    >
-                                                                                        <Link
-                                                                                            to={`/category/${el.slug}`}
-                                                                                            onClick={() => linkHandler(item.slug)}
-                                                                                            className="navbarModal__main-list__link">
-                                                                                            {el.name_uz}
-                                                                                        </Link>
-                                                                                    </li>
-                                                                                )
-                                                                            })
-                                                                        }
-                                                                    </ul>
-                                                                </li>
-                                                            )
-                                                        })
-                                                    }
-                                                </ul>
-                                            </div>
-                                        )
-                                    }
-                                })
-                            }
+									<ul className="navbarModal__main-list">
+										{
+											link.children.map(item => {
+												return (
+													<li
+														className="navbarModal__main-list__item"
+														key={item.id}
+													>
+														<Link
+															to={`/category/${item.slug}?page=3`}
+															onClick={() => linkHandler(item.slug)}
+															className="navbarModal__main-list__link">
+															{item[`name_${lang}`]}
+														</Link>
+														<ul className="navbarModal__main-list">
+															{
+																item.children.map(el => {
+																	return (
+																		<li
+																			className="navbarModal__main-list__item"
+																			key={el.id}
+																		>
+																			<Link
+																				to={`/category/${el.slug}`}
+																				onClick={() => linkHandler(item.slug)}
+																				className="navbarModal__main-list__link">
+																				{el[`name_${lang}`]}
+																			</Link>
+																		</li>
+																	)
+																})
+															}
+														</ul>
+													</li>
+												)
+											})
+										}
+									</ul>
+								</div>
+							))}
                         </div>
                     </div>
 
@@ -251,7 +253,7 @@ function Navbar() {
                                     <AccordionItemHeading>
                                         <AccordionItemButton>
                                             <span className="accordion__button_text">
-                                                {item.name_uz}
+                                                {item[`name_${lang}`]}
                                             </span>
                                             <span className="accordion__button_icon">
                                                 <ArrowRightIcon/>
@@ -260,36 +262,32 @@ function Navbar() {
                                     </AccordionItemHeading>
                                     <AccordionItemPanel>
                                         <ul className="panel__list">
-                                            {
-                                                item.children.map(link =>{
-                                                    return(
-                                                        <li className="panel__list-item" key={link.id}>
-                                                            <Link
-                                                                to={`/category/${link.slug}`}
-                                                                onClick={() => linkHandler(link.slug)}
-                                                                className="navbarModal__main-list__link">
-                                                                {link.name_uz}
-                                                            </Link>
-                                                            <ul className="panel__list-item-list">
-                                                                {
-                                                                    link.children.map(el =>{
-                                                                        return(
-                                                                            <li className="panel__list-item-link" key={el.id}>
-                                                                                <Link
-                                                                                    to={`/category/${el.slug}`}
-                                                                                    onClick={() => linkHandler(el.slug)}
-                                                                                    className="navbarModal__main-list__link">
-                                                                                    {el.name_uz}
-                                                                                </Link>
-                                                                            </li>
-                                                                        )
-                                                                    })
-                                                                }
-                                                            </ul>
-                                                        </li>
-                                                    )
-                                                })
-                                            }
+                                            {item.children.map(link => (
+												<li className="panel__list-item" key={link.id}>
+													<Link
+														to={`/category/${link.slug}`}
+														onClick={() => linkHandler(link.slug)}
+														className="navbarModal__main-list__link">
+														{link[`name_${lang}`]}
+													</Link>
+													<ul className="panel__list-item-list">
+														{
+															link.children.map(el =>{
+																return(
+																	<li className="panel__list-item-link" key={el.id}>
+																		<Link
+																			to={`/category/${el.slug}`}
+																			onClick={() => linkHandler(el.slug)}
+																			className="navbarModal__main-list__link">
+																			{el[`name_${lang}`]}
+																		</Link>
+																	</li>
+																)
+															})
+														}
+													</ul>
+												</li>
+											))}
                                         </ul>
                                     </AccordionItemPanel>
                                 </AccordionItem>
@@ -308,7 +306,7 @@ function Navbar() {
                                 </span>
 
                                 <span className="navbar__mobile-text">
-                                    Bosh sahifa
+                                    {lang === 'uz' ? 'Bosh sahifa' : 'Главная страница'}
                                 </span>
                             </Link>
                         </li>
@@ -320,7 +318,7 @@ function Navbar() {
                                 </span>
 
                                 <span className="navbar__mobile-text">
-                                    Kategoriyalar
+                                    {lang === 'uz' ? 'Kategoriyalar' : 'Категории'}
                                 </span>
                             </Link>
                         </li>
@@ -333,7 +331,7 @@ function Navbar() {
                                 </span>
 
                                 <span className="navbar__mobile-text">
-                                    Savatcha
+                                    {lang === 'uz' ? 'Savatcha' : 'Корзина'}
                                 </span>
                             </Link>
                         </li>
@@ -345,7 +343,7 @@ function Navbar() {
                                 </span>
 
                                 <span className="navbar__mobile-text">
-                                    Profil
+                                    {lang === 'uz' ? 'Profil' : 'Профиль'}
                                 </span>
                             </button>
                         </li>
