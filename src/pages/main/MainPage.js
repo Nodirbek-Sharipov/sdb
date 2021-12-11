@@ -21,10 +21,9 @@ function MainPage() {
     return (
         <div className="mainPage">
             <Banner/>
-            {/*<SwiperProducts title="Ommabop mahsulotlar" products={state.mainPageReducer.products.filter(item => item.is_recommended === 1)}/>*/}
-            <SwiperProducts title="Ommabop mahsulotlar" products={state.mainPageReducer.products}/>
+            <SwiperProducts title="Ommabop mahsulotlar" products={state.mainPageReducer.recommended_products}/>
             <SwiperProducts title="Yangi mahsulotlar" products={state.mainPageReducer.products}/>
-            <SwiperProducts title="Telefonlar" products={state.mainPageReducer.products.filter(item => item.category.name_uz === 'Smartfonlar')}/>
+            {/*<SwiperProducts title="Telefonlar" products={state.mainPageReducer.products.filter(item => item.category.name_uz === 'Smartfonlar')}/>*/}
             <Brands brands={state.brands.brands}/>
             <Service/>
             {

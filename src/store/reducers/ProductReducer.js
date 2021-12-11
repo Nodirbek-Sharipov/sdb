@@ -15,18 +15,16 @@ function ProductReducer(state = defaultState, action) {
             return state;
 
         case SHOW_LOADER:
-            state.loading = true
-            return state
+            state.loading = true;
+            return state;
 
         case HIDE_LOADER:
-            state.loading = false
-            return state
-
+            state.loading = false;
+            return state;
         default:
             return state;
     }
 }
-
 
 export const setProduct = (payload) =>({type:GET_PRODUCT, payload: payload})
 

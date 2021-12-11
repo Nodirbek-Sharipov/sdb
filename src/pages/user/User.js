@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import profile_img from '../../assets/images/profile_img.png'
 import profile__order_img from '../../assets/images/product__order-img.png';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {setUser} from "../../store/reducers/UserReducer";
 
 function User(props) {
     const [isOrders, setIsOrders] = useState(false);
     const state = useSelector(state => state);
-
+    const dispatch = useDispatch();
 
     const changeIsOrders = (event) =>{
         if(event.target.name === 'order'){
@@ -15,6 +16,10 @@ function User(props) {
             setIsOrders(false);
         }
     };
+
+    useEffect(() => {
+        dispatch(setUser(JSON.parse(localStorage.getItem('user'))));
+    }, []);
 
     return (
         <div className="profile">
@@ -26,7 +31,7 @@ function User(props) {
                                 <img src={profile_img} alt="profile_img"/>
                             </div>
                             <div className="profile__info">
-                                <h1 className="profile__info-name">Kamron Fozilov</h1>
+                                <h1 className="profile__info-name">{state.user.user.full_name}</h1>
                                 <p className="profile__info-num">{state.user.user.phone}</p>
                             </div>
                         </div>
@@ -117,17 +122,24 @@ const ProfileOrders = (props) =>{
     return(
         <div className="profile__orders">
             <div className="profile__orders-row">
-                <div className="profile__order">
-                    <div className="profile__order-img">
-                        <img src={profile__order_img} alt="profile__order-img"/>
-                    </div>
-                    <div className="profile__order-content">
-                        <h3 className="profile__order-title">Смарт браслет Xiaomi Mi Band 5</h3>
-                        <p className="profile__order-text">Buyurtma qilingan vaqti:  29-11-2021 18:33</p>
-                        <p className="profile__order-text">Narx:  289 000 so’m</p>
-                        <button className="profile__order-btn">Bekor qilingan</button>
-                    </div>
-                </div>
+                {/*{*/}
+                {/*    state.user.orders.length > 0*/}
+                {/*        state.user.orders.map(item =>{*/}
+                {/*            return(*/}
+                {/*    <div className="profile__order">*/}
+                {/*        <div className="profile__order-img">*/}
+                {/*            <img src={profile__order_img} alt="profile__order-img"/>*/}
+                {/*        </div>*/}
+                {/*        <div className="profile__order-content">*/}
+                {/*            <h3 className="profile__order-title">Смарт браслет Xiaomi Mi Band 5</h3>*/}
+                {/*            <p className="profile__order-text">Buyurtma qilingan vaqti:  29-11-2021 18:33</p>*/}
+                {/*            <p className="profile__order-text">Narx:  289 000 so’m</p>*/}
+                {/*            <button className="profile__order-btn">Bekor qilingan</button>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*    )*/}
+                {/*})*/}
+                {/*}*/}
             </div>
         </div>
     )

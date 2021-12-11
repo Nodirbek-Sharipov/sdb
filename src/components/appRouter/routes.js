@@ -10,7 +10,7 @@ export const publicRoutes =[
         component: MainPage
     },
     {
-        path: '/category/:id',
+        path: '/category/:slug',
         component: CategoryPage
     },
     {

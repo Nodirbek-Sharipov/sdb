@@ -7,7 +7,7 @@ const defaultState = {
     user:{},
     orders:[],
     loading: false
-}
+};
 
 function UserReducer(state = defaultState, action) {
     switch (action.type) {
@@ -30,14 +30,18 @@ function UserReducer(state = defaultState, action) {
 }
 
 
-export const setUser = (user, orders) =>({type:GET_USER, payload: {user: user, orders:orders}})
+export const setUser = (payload) =>({type:GET_USER, payload: {user: payload.user, orders: payload.orders}});
 
 export const getUser = () =>{
     return async (dispatch) =>{
         dispatch({ type: SHOW_LOADER });
         $authHost.get(`/v1/user/profile`).then(function (response){
-            console.log(response.data);
-            dispatch(setUser(response.data.user, response.data.orders));
+            let user = {
+                user: response.data.user,
+                orders: response.data.orders
+            };
+            localStorage.setItem('user', JSON.stringify(user));
+            dispatch(setUser(JSON.parse(localStorage.getItem('user'))));
             dispatch({ type: HIDE_LOADER })
         }).catch(error => {console.log(error);});
     }

@@ -66,6 +66,10 @@ html{
 	flex: 1 1 100%	;
 }
 
+.wrap_eb88{
+	bottom: 80px !important;
+}
+
 /* N A V B A R - S T A R T */
 
 .navbar{
@@ -360,12 +364,12 @@ html{
 	}
 
 	&.active{
-		height: 400px;
+		height: auto;
 		opacity: 1;
 		visibility: visible;
 
 		@media all and (max-width: 768px){
-			height: 400px;
+			min-height: 400px;
 		}
 	}
 
@@ -543,17 +547,15 @@ html{
 		display: block;
 	}
 
-
-
-
 	&-list{
 		@include d-flex(flex-start, space-between, row, unset);
 	}
 
-	a{
+	a, button{
 		@include d-flex(center, unset, column, unset);
 		padding: 16px 0;
 		user-select: none;
+		background-color: transparent;
 	}
 
 	&-icon{
@@ -912,7 +914,7 @@ html{
 	}
 
 	.brand{
-		width: 21%;
+		//width: 21%;
 		height: 185px;
 		border: 2px solid $border-color;
 		border-radius: 5px;
@@ -921,8 +923,8 @@ html{
 		transition: all 0.3s;
 
 		@media all and (max-width: 768px){
-			width: 30%;
-			height: 85px;
+			//width: 30%;
+			//height: 85px;
 		}
 
 		&:hover{
@@ -941,6 +943,9 @@ html{
 			margin-bottom: 20px;
 			@media all and (max-width: 768px){
 				margin-bottom: 0px;
+
+				width: 60%;
+				height: 60%;
 			}
 
 			img{
@@ -1183,6 +1188,11 @@ html{
 		}
 	}
 
+	&__pagination{
+		width: 100%;
+		@include d-flex(center, flex-end, row,unset);
+	}
+
 	&__title{
 		@include adaptive-value('margin-top', 50, 25, 1);
 		@include adaptive-value('margin-bottom', 50, 25, 1);
@@ -1302,6 +1312,39 @@ html{
 }
 
 /* C A T E G O R Y P A G E - E N D*/
+
+/* P A G I N A T I O N - S T A R T */
+
+.pagination{
+	@include d-flex(center, unset, row, unset);
+
+	@media all and (max-width: 768px){
+		margin-top: 20px;
+	}
+
+	&__item{
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		background-color: #e8e8e8;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 20px;
+		cursor: pointer;
+	}
+
+	&__link{
+		font-family: $main-font;
+		font-style: normal;
+		font-weight: 600;
+		font-size: 18px;
+		line-height: 130%;
+		color: $main-color;
+	}
+}
+
+/* P A G I N A T I O N - E N D*/
 
 /* P R O D U C T S P A G E - S T A R T*/
 

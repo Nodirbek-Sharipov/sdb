@@ -3,7 +3,6 @@ import Product from "./Product";
 
 function Products(props) {
 
-
     return (
         <div className="products">
             <div className="container">
@@ -16,7 +15,7 @@ function Products(props) {
                         props.state ?
                             props.state.map((el) => {
                             return (
-                                <Product key={el.id} {...el}/>
+                                <Product key={el.id} {...el} match={props.match}/>
                             )
                         }) : null
                     }

@@ -46,7 +46,7 @@ export const setIsActiveModal = (bool) =>({type:SET_IS_ACTIVE_MODAL, bool: bool}
 export const getProducts = () =>{
     return async (dispatch) =>{
         dispatch({ type: SHOW_LOADER });
-        $host.get('/v1/product/list').then(function (response){
+        $host.get('/v1/product/list?per_page=15').then(function (response){
             dispatch({ type: HIDE_LOADER });
             dispatch(setProducts(response.data.products));
         }).catch(error => {console.log(error);});

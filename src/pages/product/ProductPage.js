@@ -34,9 +34,6 @@ const Product = ({product}) =>{
     const [counter, setCounter] = useState(1);
     const dispatch = useDispatch();
 
-    useEffect(() =>{
-    }, [counter]);
-
     const increase = () =>{
         setCounter(counter + 1);
     }
@@ -47,7 +44,20 @@ const Product = ({product}) =>{
         } else{
             setCounter(counter - 1);
         }
-    }
+    };
+
+    const addToCartHandler = () =>{
+        const user = localStorage.getItem('user');
+        if(user){
+            dispatch(addToCart({...product}, counter))
+        } else{
+            dispatch(setIsActiveModal(true))
+        }
+    };
+
+    useEffect(() =>{
+    }, [counter]);
+
     return(
         <div className="productPage__product">
             <div className="productPage__product-name">
@@ -63,10 +73,6 @@ const Product = ({product}) =>{
                     <div className="productPage__product-price">
                         <h3>{ Intl.NumberFormat().format(product.price)} UZS</h3>
                     </div>
-
-                    {/*<div className="productPage__product-block">*/}
-                    {/*    <p className="productPage__product-text">Rang: Gold</p>*/}
-                    {/*</div>*/}
 
                     <div className="productPage__product-images">
                         {
@@ -84,16 +90,6 @@ const Product = ({product}) =>{
                         }
                     </div>
 
-
-                    {/*<div className="productPage__product-block">*/}
-                    {/*    <p className="productPage__product-text">Xotira: </p>*/}
-                    {/*    <div className="productPage__product-block-store">*/}
-                    {/*        <button className="store__btn">128 GB</button>*/}
-                    {/*        <button className="store__btn">256 GB</button>*/}
-                    {/*        <button className="store__btn">512 GB</button>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-
                     <div className="productPage__product-block">
                         <p className="productPage__product-text">Soni: </p>
                         <div className="productPage__product-block-counter">
@@ -104,19 +100,13 @@ const Product = ({product}) =>{
                     </div>
 
                     <div className="product__btns">
-                        <button className="product__btn product__btn-add" onClick={() => dispatch(addToCart({...product}, counter))}>
-                            {/*<span className="product__btn-icon">*/}
-                            {/*    <CartIconSmall/>*/}
-                            {/*</span>*/}
+                        <button className="product__btn product__btn-add" onClick={addToCartHandler}>
                             <span className="product__btn-text">
                                 Savatga qo’shish
                             </span>
                         </button>
 
                         <button className="product__btn product__btn-order">
-                            {/*<span className="product__btn-icon">*/}
-                            {/*     <BoxIcon/>*/}
-                            {/*</span>*/}
                             <span className="product__btn-text"
                                   onClick={() => dispatch(setIsActiveModal(true))}
                             >

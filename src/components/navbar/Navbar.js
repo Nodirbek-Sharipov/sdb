@@ -19,6 +19,7 @@ import {
 } from "react-accessible-accordion";
 import {getCategoryProducts} from "../../store/reducers/FilterReducer";
 import {getUser} from "../../store/reducers/UserReducer";
+import {setIsActiveModal} from "../../store/reducers/MainPageReducer";
 
 function Navbar() {
     const [activeLinkId, setActiveLinkId] = useState(1);
@@ -53,6 +54,8 @@ function Navbar() {
             dispatch(getUser());
             history.push('/profile');
             console.log(true)
+        } else{
+            dispatch(setIsActiveModal(true));
         }
     }
 
@@ -148,7 +151,6 @@ function Navbar() {
                                     <UserIcon width="26px" height="26px" fill={"#050448"}/>
                                 </span>
                             </button>
-
                         </div>
                     </div>
                 </div>
@@ -205,7 +207,7 @@ function Navbar() {
                                                                     key={item.id}
                                                                 >
                                                                     <Link
-                                                                        to={`/category/${item.slug}`}
+                                                                        to={`/category/${item.slug}?page=3`}
                                                                         onClick={() => linkHandler(item.slug)}
                                                                         className="navbarModal__main-list__link">
                                                                         {item.name_uz}
@@ -337,7 +339,7 @@ function Navbar() {
                         </li>
 
                         <li className="navbar__mobile-item">
-                            <button>
+                            <button onClick={profileHandler}>
                                 <span className="navbar__mobile-icon">
                                     <UserIcon  fill={'#767676'} width={26} height={26}/>
                                 </span>

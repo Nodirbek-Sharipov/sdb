@@ -10,6 +10,8 @@ function App() {
     let state = store.getState();
     let navbarActive = state.navbarLinks.navbarActive;
 
+
+
   return (
     <div className={navbarActive ? 'wrapper modal_active' : 'wrapper'}>
         <Navbar/>
