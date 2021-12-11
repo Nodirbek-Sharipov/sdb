@@ -11,6 +11,7 @@ function LoginModal() {
     const [isVerify, setIsVerify] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
     const dispatch = useDispatch();
+	const lang = useSelector(state => state.lang.lang);
 
     const loginBtn = async (e) =>{
         e.preventDefault();
@@ -76,27 +77,27 @@ function LoginModal() {
               isLogin ?
                   <div className="loginModal__panel">
                       <div className="loginModal__title">
-                          <h1>Kirish</h1>
+                          <h1>{lang === 'uz' ? 'Kirish' : 'Авторизоваться'}</h1>
                       </div>
                       <div className="loginModal__form">
                           {
                               isVerify ?
                                   <form>
                                       <label className="form__group">
-                                          <p className="form__group-text">Maxfiy kodni kiriting</p>
+                                          <p className="form__group-text">{lang === 'uz' ? 'Maxfiy kodni kiriting' : 'Введите секретный код'}</p>
                                           <input type="number" placeholder="" value={code} onChange={(e) => {setPassword(e.target.value)}}/>
                                       </label>
                                       <button
                                           className="form__group-btn"
                                           onClick={(e) => verifyBtn(e)}
                                       >
-                                          Kirish
+                                          {lang === 'uz' ? 'Kirish' : 'Авторизоваться'}
                                       </button>
                                   </form>
                                   :
                                   <form>
                                       <label className="form__group">
-                                          <p className="form__group-text">Telefon</p>
+                                          <p className="form__group-text">{lang === 'uz' ? 'Telefon' : 'Телефон'}</p>
                                           {/*<input type="number" placeholder="+998 -- --- -- --"/>*/}
                                           <IMaskInput
                                               mask={`{+998} 00 000 00 00`}
@@ -110,7 +111,7 @@ function LoginModal() {
                                           className="form__group-btn"
                                           onClick={(e) => loginBtn(e)}
                                       >
-                                          Kirish
+                                          {lang === 'uz' ? 'Kirish' : 'Авторизоваться'}
                                       </button>
                                   </form>
                           }
@@ -119,20 +120,20 @@ function LoginModal() {
                   :
                   <div className="loginModal__panel">
                     <div className="loginModal__title small">
-                        <h1>Iltimos, foydalanuvchi sifatida kiring</h1>
+                        <h1>{lang === 'uz' ? 'Iltimos, foydalanuvchi sifatida kiring' : 'Пожалуйста, войдите как пользователь'}</h1>
                     </div>
                     <div className="loginModal__btns">
                         <button
                             className="form__group-btn"
                             onClick={() => setIsLogin(true)}
                         >
-                            Kirish
+                            {lang === 'uz' ? 'Kirish' : 'Авторизоваться'}
                         </button>
                         <button
                             className="form__group-btn"
                             onClick={() => {dispatch(setIsActiveModal(false))}}
                         >
-                            Bekor qilish
+                            {lang === 'uz' ? 'Bekor qilish' : 'Отмена'}
                         </button>
                     </div>
                 </div>

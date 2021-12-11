@@ -33,6 +33,7 @@ const Product = ({product}) =>{
     const [image, setImage] = useState(product.images[0]);
     const [counter, setCounter] = useState(1);
     const dispatch = useDispatch();
+	const lang = useSelector(state => state.lang.lang);
 
     const increase = () =>{
         setCounter(counter + 1);
@@ -61,7 +62,7 @@ const Product = ({product}) =>{
     return(
         <div className="productPage__product">
             <div className="productPage__product-name">
-                <h1>{product.name_uz}</h1>
+                <h1>{product[`name_${lang}`]}</h1>
             </div>
 
             <div className="productPage__product-row">
@@ -71,7 +72,7 @@ const Product = ({product}) =>{
 
                 <div className="productPage__product-content">
                     <div className="productPage__product-price">
-                        <h3>{ Intl.NumberFormat().format(product.price)} UZS</h3>
+                        <h3>{ Intl.NumberFormat().format(product.price)} {lang === 'uz' ? 'UZS' : 'УЗС'}</h3>
                     </div>
 
                     <div className="productPage__product-images">
@@ -91,7 +92,7 @@ const Product = ({product}) =>{
                     </div>
 
                     <div className="productPage__product-block">
-                        <p className="productPage__product-text">Soni: </p>
+                        <p className="productPage__product-text">{lang === 'uz' ? 'Soni:' : 'Количество'} </p>
                         <div className="productPage__product-block-counter">
                             <button className="counter__btn" onClick={decrease}>-</button>
                             <span className="counter__text">{counter}</span>
@@ -102,7 +103,7 @@ const Product = ({product}) =>{
                     <div className="product__btns">
                         <button className="product__btn product__btn-add" onClick={addToCartHandler}>
                             <span className="product__btn-text">
-                                Savatga qo’shish
+                                {lang === 'uz' ? 'Savatga qo’shish' : 'Добавить в корзину'}
                             </span>
                         </button>
 
@@ -110,7 +111,7 @@ const Product = ({product}) =>{
                             <span className="product__btn-text"
                                   onClick={() => dispatch(setIsActiveModal(true))}
                             >
-                                Buyurtma berish
+                                {lang === 'uz' ? 'Buyurtma berish' : 'Заказать'}
                             </span>
                         </button>
                     </div>
@@ -120,7 +121,7 @@ const Product = ({product}) =>{
 
             <div className="productPage__product-info">
                 <div className="productPage__product-info-title">
-                    <h3>Mahsulot haqida</h3>
+                    <h3>{lang === 'uz' ? 'Mahsulot haqida' : 'О продукте'}</h3>
                 </div>
                 <div className="productPage__product-info-texts">
                     <p className="productPage__product-info-text">
@@ -136,9 +137,10 @@ const Product = ({product}) =>{
 }
 
 const NoProduct = () =>{
+	const lang = useSelector(state => state.lang.lang);
     return(
         <div className="noProduct">
-            <h1>Mavjud so`rov bo`yicha mahsulot topilmadi</h1>
+            <h1>{lang === 'uz' ? 'Mavjud so`rov bo`yicha mahsulot topilmadi' : 'По запросу ничего не найдено'}</h1>
         </div>
     )
 }

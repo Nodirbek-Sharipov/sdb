@@ -10,6 +10,7 @@ import {Swiper, SwiperSlide} from "swiper/react/swiper-react";
 function SwiperProducts({title,products}) {
     const navigationPrevRef = useRef(null)
     const navigationNextRef = useRef(null)
+
     return (
             <div className="products swiper__products">
                 <div className="container">
@@ -50,13 +51,11 @@ function SwiperProducts({title,products}) {
                             }}
                         >
                             {
-                                products.map(el =>{
-                                    return(
-                                        <SwiperSlide key={el.id} >
-                                            <Product {...el}/>
-                                        </SwiperSlide>
-                                    )
-                                })
+                                products.map(el => (
+									<SwiperSlide key={el.id} >
+										<Product {...el}/>
+									</SwiperSlide>
+								))
                             }
                         </Swiper>
                     </div>

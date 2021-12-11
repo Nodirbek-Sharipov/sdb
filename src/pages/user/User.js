@@ -8,6 +8,7 @@ function User(props) {
     const [isOrders, setIsOrders] = useState(false);
     const state = useSelector(state => state);
     const dispatch = useDispatch();
+	const lang = useSelector(state => state.lang.lang);
 
     const changeIsOrders = (event) =>{
         if(event.target.name === 'order'){
@@ -42,14 +43,14 @@ function User(props) {
                                 name="info"
                                 onClick={(e) =>{changeIsOrders(e)}}
                             >
-                                Shaxsiy ma`lumotlar
+                                {lang === 'uz' ? 'Shaxsiy ma`lumotlar' : 'Личные данные'}
                             </button>
                             <button
                                 className={isOrders ? "profile__nav-btn active" : "profile__nav-btn"}
                                 name="order"
                                 onClick={(e) =>{changeIsOrders(e)}}
                             >
-                                Buyurtmalar
+                                {lang === 'uz' ? 'Buyurtmalar' : 'Заказы'}
                             </button>
                         </div>
                     </div>
@@ -69,24 +70,25 @@ export default User;
 
 
 const ProfileInfo = (props) =>{
+	const lang = useSelector(state => state.lang.lang);
     return(
         <div className="profile__form">
             <div className="profile__form-title">
-                <h1>Shaxsiy ma’lumotlar</h1>
+                <h1>{lang === 'uz' ? 'Shaxsiy ma`lumotlar' : 'Личные данные'}</h1>
             </div>
             <form>
                 <label className="form__group">
-                    <p className="form__group-text">Ism</p>
+                    <p className="form__group-text">{lang === 'uz' ? 'Ism': 'Имя'}</p>
                     <input type="text" placeholder="Kamron"/>
                 </label>
 
                 <label className="form__group">
-                    <p className="form__group-text">Familiya</p>
+                    <p className="form__group-text">{lang === 'uz' ? 'Familiya' : 'Фамилия'}</p>
                     <input type="text" placeholder="Fozilov"/>
                 </label>
 
                 <label className="form__group">
-                    <p className="form__group-text">Telefon raqami</p>
+                    <p className="form__group-text">{lang === 'uz' ? 'Telefon' : 'Телефон'}</p>
                     <input type="text" placeholder="+998914342828"/>
                 </label>
 
@@ -96,22 +98,22 @@ const ProfileInfo = (props) =>{
                 </label>
 
                 <label className="form__group">
-                    <p className="form__group-text">Viloyat</p>
+                    <p className="form__group-text">{lang === 'uz' ? 'Viloyat' : 'Провинция'}</p>
                     <input type="text" placeholder="Xorazm"/>
                 </label>
 
                 <label className="form__group">
-                    <p className="form__group-text">Shahar/Tuman</p>
+                    <p className="form__group-text">{lang === 'uz' ? 'Shahar/Tuman' : 'Город/Район'}</p>
                     <input type="text" placeholder="Xiva"/>
                 </label>
 
                 <label className="form__group w-100">
-                    <p className="form__group-text">Manzil</p>
+                    <p className="form__group-text">{lang === 'uz' ? 'Manzil' : 'Адрес'}</p>
                     <input type="text" placeholder="Yangi turmush mahallasi X.Devanov 34A"/>
                 </label>
 
                 <div className="form__btn-wrap">
-                    <button className="form__btn">SAQLASH</button>
+                    <button className="form__btn">{lang === 'uz' ? 'SAQLASH' : 'сохранить'}</button>
                 </div>
             </form>
         </div>
