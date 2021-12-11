@@ -46,9 +46,7 @@ export const getCategoryProducts = (slug, search) =>{
     return async (dispatch) =>{
         dispatch({ type: SHOW_LOADER });
         $host.get(`/v1/category/${slug}${search ? search : '?page=1'}&per_page=16`).then(function (response){
-            console.log(slug,search);
             dispatch(setCategoryProducts(response.data));
-            console.log(response.data);
             dispatch({ type: HIDE_LOADER });
         }).catch(error => {console.log(error);});
     }

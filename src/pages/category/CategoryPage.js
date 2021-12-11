@@ -8,30 +8,42 @@ import {getCategoryProducts} from "../../store/reducers/FilterReducer";
 import FullPageLoader from "../../components/loading/Loading";
 import {getBrands} from "../../store/reducers/BrandsReducer";
 import ReactPaginate from "react-paginate";
+import CheckIcon from "../../components/icons/CheckIcon";
 
 function CategoryPage(props) {
     const [sidebarIsActive, setSidebarIsActive] = useState(false);
+    const [isCheck, setIsCheck] = useState([0]);
     const dispatch = useDispatch();
     const state = useSelector(state => state);
     const products = state.filterReducer.products;
     const pagination = state.filterReducer.pagination;
     const history = useHistory();
-    const location = useLocation()
-
-
+    const location = useLocation();
     const slug = props.match.params.slug;
     const search = props.location.search;
+
 
     const handlePageClick = (page) => {
         history.push({ pathname: location.pathname, search: `?page=${page.selected + 1}`});
     };
 
-
+    const handleBrandClick = (id) =>{
+        if(isCheck.includes(id)){
+            setIsCheck(isCheck.filter(el => el !== id));
+        } else{
+            setIsCheck([...isCheck, id]);
+        }
+    };
 
     useEffect(() => {
         dispatch(getCategoryProducts(slug,search));
         dispatch(getBrands());
     },[slug, search]);
+
+    useEffect(() => {
+        history.push({ pathname: location.pathname, search: `?brand_ids=${isCheck.join(',')}`});
+
+    },[isCheck]);
 
     return (
         <div className="categoryPage">
@@ -59,9 +71,9 @@ function CategoryPage(props) {
                         </div>
 
                         <ul className="categoryPage__sidebar-list">
-                            <li className="categoryPage__sidebar-list__item">
+                            <li className="categoryPage__sidebar-list__item" onClick={() => handleBrandClick(0)}>
                                 <span className="categoryPage__sidebar-list__icon">
-                                    <UncheckIcon/>
+                                    {isCheck.includes(0) ? <CheckIcon/> : <UncheckIcon/>}
                                 </span>
 
                                 <span className="categoryPage__sidebar-list__text">
@@ -71,9 +83,13 @@ function CategoryPage(props) {
                             {
                                 state.brands.brands.map(item => {
                                     return(
-                                        <li className="categoryPage__sidebar-list__item" key={item.id}>
+                                        <li
+                                            className="categoryPage__sidebar-list__item"
+                                            key={item.id}
+                                            onClick={() => handleBrandClick(item.id)}
+                                        >
                                             <span className="categoryPage__sidebar-list__icon">
-                                                <UncheckIcon/>
+                                                {isCheck.includes(item.id) ? <CheckIcon/> : <UncheckIcon/>}
                                             </span>
 
                                             <span className="categoryPage__sidebar-list__text">
@@ -91,8 +107,6 @@ function CategoryPage(props) {
                            products ? products.length > 0 ? <Products state={products} match={props.match.params.slug}/> : <NoProduct/> :  <FullPageLoader />
                        }
                    </div>
-
-
                </div>
             <div className="categoryPage__pagination">
                 <ReactPaginate
@@ -118,8 +132,6 @@ function CategoryPage(props) {
             </div>
             {state.filterReducer.loading && <FullPageLoader />}
         </div>
-
-
     );
 }
 
