@@ -16,7 +16,7 @@ $white-color: #fff;
 
 .container {
 	width: 100%;
-	max-width: 1400px;
+	max-width: 1200px;
 	margin: 0 auto;
 	padding: 0 20px;
 }
@@ -729,9 +729,8 @@ html{
 	transition: all .3s;
 
 	&:not(:last-child){
-		@include adaptive-value('margin-right', 20, 10, 1);
-		@include adaptive-value('margin-bottom', 20, 10, 1);
-
+		@include adaptive-value('margin-right', 15, 10, 1);
+		@include adaptive-value('margin-bottom', 15, 10, 1);
 	}
 
 	@media all and (min-width: 1024px) {
@@ -1273,6 +1272,7 @@ html{
 
 		&-list__item{
 			margin-bottom: 10px;
+			cursor: pointer;
 		}
 
 		&-title{
