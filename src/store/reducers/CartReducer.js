@@ -3,7 +3,7 @@ const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const ADJUST_QTY = 'ADJUST_QTY';
 
 let defaultState = {
-    cart: JSON.parse(localStorage.getItem('card') || []),
+    cart: JSON.parse(localStorage.getItem('card'))  || [],
 };
 
 function CartReducer(state = defaultState, action) {

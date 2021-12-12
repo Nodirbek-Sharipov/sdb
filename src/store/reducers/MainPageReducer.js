@@ -4,10 +4,12 @@ const GET_RECOMMENDED_PRODUCTS = 'GET_RECOMMENDED_PRODUCTS';
 const SET_IS_ACTIVE_MODAL = 'SET_IS_ACTIVE_MODAL';
 const SHOW_LOADER = "SHOW_LOADER";
 const HIDE_LOADER = "HIDE_LOADER";
+const GET_BANNER = "GET_BANNER";
 
 let defaultState = {
     products:[],
     recommended_products: [],
+    banner:[],
     loading:false,
     isActiveModal: false,
 }
@@ -26,6 +28,10 @@ function MainPageReducer(state = defaultState, action) {
             state.isActiveModal = action.bool;
             return state;
 
+        case GET_BANNER:
+            state.banner = action.banner;
+            return state;
+
         case SHOW_LOADER:
             state.loading = true;
             return state;
@@ -42,6 +48,8 @@ function MainPageReducer(state = defaultState, action) {
 export const setProducts = (payload) =>({type:GET_PRODUCTS, products: payload});
 export const setRecommendedProducts = (payload) =>({type:GET_RECOMMENDED_PRODUCTS, products: payload});
 export const setIsActiveModal = (bool) =>({type:SET_IS_ACTIVE_MODAL, bool: bool});
+export const setBanner = (payload) =>({type:GET_BANNER, banner: payload});
+
 
 export const getProducts = () =>{
     return async (dispatch) =>{
@@ -59,6 +67,16 @@ export const getRecommendedProducts = () =>{
         $host.get('/v1/product/recommended').then(function (response){
             // dispatch({ type: HIDE_LOADER });
             dispatch(setRecommendedProducts(response.data.products));
+        }).catch(error => {console.log(error);});
+    }
+};
+
+export const getBanner = () =>{
+    return async (dispatch) =>{
+        dispatch({ type: SHOW_LOADER });
+        $host.get('/v1/events/list').then(function (response){
+            dispatch({ type: HIDE_LOADER });
+            dispatch(setBanner(response.data.events));
         }).catch(error => {console.log(error);});
     }
 };

@@ -5,7 +5,6 @@ const defaultState = {
 }
 
 function LangReducer(state = defaultState, action) {
-	console.log(action)
 	switch (action.type) {
 		case SET_LANG:
 			return {
