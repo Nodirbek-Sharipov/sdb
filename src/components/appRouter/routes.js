@@ -3,6 +3,8 @@ import ProductPage from "../../pages/product/ProductPage";
 import CategoryPage from "../../pages/category/CategoryPage";
 import Cart from "../../pages/cart/Cart";
 import User from "../../pages/user/User";
+import AllProductsPage from "../../pages/allProductsPage/AllProductsPage";
+import Page from "../../pages/page/Page";
 
 export const publicRoutes =[
     {
@@ -14,8 +16,12 @@ export const publicRoutes =[
         component: CategoryPage
     },
     {
-        path: '/products/:id',
+        path: '/products/product/:id',
         component: ProductPage
+    },
+    {
+        path: '/products/:id',
+        component: AllProductsPage
     },
     {
         path: '/cart',
@@ -24,6 +30,10 @@ export const publicRoutes =[
     {
         path: '/profile',
         component: User
+    },
+    {
+        path: '/page/:slug',
+        component: Page
     }
 ];
 

@@ -2,12 +2,14 @@ import React, {useRef} from 'react';
 import {Link} from "react-router-dom";
 import {Swiper, SwiperSlide} from "swiper/react/swiper-react";
 import {Navigation, Pagination, Autoplay } from "swiper";
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {getAllProducts} from "../../store/reducers/AllProductsReducer";
 
 function Brands({brands}) {
     const navigationPrevRef = useRef(null);
     const navigationNextRef = useRef(null);
 	const lang = useSelector(state => state.lang.lang);
+	const dispatch =useDispatch();
 
     return (
         <div className="brands">
@@ -36,14 +38,19 @@ function Brands({brands}) {
                             brands.map(el =>{
                                 return(
                                     <SwiperSlide key={el.id} >
-                                        <Link to="/" className="brand" key={el.id}>
+                                        <Link
+                                            to={`/products/default`}
+                                            className="brand"
+                                            key={el.id}
+                                            onClick={() => dispatch(getAllProducts('default','&page=1', `&brand_ids=${el.id}`))}
+                                        >
                                             <div className="brand__img">
                                                 <img src={el.image} alt="brand_img"/>
                                             </div>
 
-                                            <div className="brand__title">
-                                                <h3>{el[`name_${lang}`]}</h3>
-                                            </div>
+                                            {/*<div className="brand__title">*/}
+                                            {/*    <h3>{el[`name_${lang}`]}</h3>*/}
+                                            {/*</div>*/}
                                         </Link>
                                     </SwiperSlide>
 

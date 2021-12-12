@@ -8,6 +8,32 @@ import InstagramIcon from "../icons/InstagramIcon";
 import { useSelector } from 'react-redux';
 
 function Footer(props) {
+    const footerList = [
+        {
+            id: 1,
+            slug: 'tolov-shartlari',
+            title_uz:'To’lov shartlari',
+            title_ru:'Условия оплаты',
+        },
+        {
+            id: 2,
+            slug: 'oferta',
+            title_uz:'Yetkazib berish xizmati haqida',
+            title_ru:'О службе доставки',
+        },
+        {
+            id: 3,
+            slug: 'biz-haqimizda',
+            title_uz:'Biz haqimizda',
+            title_ru:'О нас',
+        },
+        {
+            id: 4,
+            slug: 'aksiyalar',
+            title_uz:'Aksiyalar va qaynoq chegirmalar',
+            title_ru:'Акции и горячие скидки',
+        },
+    ]
 	const lang = useSelector(state => state.lang.lang);
     return (
         <div className="footer">
@@ -19,10 +45,19 @@ function Footer(props) {
                         </div>
 
                         <div className="footer__links">
-                            <Link to='#' className="footer__link">{lang === 'uz' ? 'To’lov shartlari' : 'Условия оплаты'}</Link>
-                            <Link to='#' className="footer__link">{lang === 'uz' ? 'Yetkazib berish xizmati haqida' : 'О службе доставки'}</Link>
-                            <Link to='#' className="footer__link">{lang === 'uz' ? 'Biz haqimizda' : 'О нас'}</Link>
-                            <Link to='#' className="footer__link">{lang === 'uz' ? 'Aksiyalar va qaynoq chegirmalar' : 'Акции и горячие скидки'}</Link>
+                            {
+                                footerList.map(item => {
+                                    return(
+                                        <Link
+                                            key={item.id}
+                                            to={`/page/${item.slug}`}
+                                            className="footer__link"
+                                        >
+                                            {lang === 'uz' ? item.title_uz : item.title_ru}
+                                        </Link>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
 
@@ -58,32 +93,31 @@ function Footer(props) {
                         </div>
 
                         <div className="social__links">
-                            <Link to='#' className="social__link">
+                            <a href='https://t.me/samsung_dehkonbozor' target="_blank" className="social__link">
                                <span className="social__link-icon">
                                    <TelegramIcon/>
                                </span>
 
-                                    <span className="social__link-text">
+                                <span className="social__link-text">
                                    Telegram
                                </span>
-                            </Link>
+                            </a>
 
-                            <Link to='#' className="social__link">
+                            <a href='https://www.instagram.com/samsung_dehkonbozor/' target="_blank" className="social__link">
                                <span className="social__link-icon">
                                    <InstagramIcon/>
                                </span>
 
-                                    <span className="social__link-text">
+                                <span className="social__link-text">
                                    Instagram
                                </span>
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="footer__bottom">
                 <div className="container">
-                    {/*<p>Powered by <a href="https://crypton.uz/">CRYPTON</a></p>*/}
                     <div className="footer__bottom-row">
                         <p className="footer__bottom-text">
                             {lang === 'uz' ? 'Barcha huquqlar himoyalangan.' : 'Все права защищены'}

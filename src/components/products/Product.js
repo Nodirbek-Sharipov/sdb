@@ -24,13 +24,13 @@ function Product({...props}) {
     return (
         <div className="product">
             <div className="product__img" onClick={() => {dispatch(getProduct(props.slug))}}>
-                <Link to={'/products/' + props.slug}>
+                <Link to={'/products/product/' + props.slug}>
                     <img src={props.images[0]} alt="product__img"/>
                 </Link>
             </div>
 
             <div className="product__title"  onClick={() => {dispatch(getProduct(props.slug))}}>
-                <Link to={'/products/' + props.slug}>
+                <Link to={'/products/product/' + props.slug}>
                     <h3>{props[`name_${lang}`]}</h3>
                 </Link>
             </div>

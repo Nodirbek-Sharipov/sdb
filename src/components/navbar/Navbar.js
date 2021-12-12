@@ -87,7 +87,7 @@ function Navbar() {
                                 <img src={logo} alt="logo-img"/>
                             </Link>
 
-                            <button className="navbar__catalog" onClick={() => {dispatch(changeNavbarActiveAC())}}>
+                            <button className="navbar__catalog" onClick={() => {dispatch(changeNavbarActiveAC(!state.navbarActive))}}>
                                 <span className="navbar__catalog-icon">
                                     {
                                         state.navbarActive ? <CloseIcon fill={'#fff'}/> : <MenuIcon fill={'#fff'}/>
@@ -212,7 +212,7 @@ function Navbar() {
 														key={item.id}
 													>
 														<Link
-															to={`/category/${item.slug}?page=3`}
+															to={`/category/${item.slug}`}
 															onClick={() => linkHandler(item.slug)}
 															className="navbarModal__main-list__link">
 															{item[`name_${lang}`]}

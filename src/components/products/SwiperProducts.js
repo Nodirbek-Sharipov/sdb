@@ -6,16 +6,22 @@ import 'swiper/modules/pagination/pagination.scss';
 import { Navigation, Pagination} from 'swiper';
 import ArrowLeftIcon from "../icons/ArrowLeftIcon";
 import {Swiper, SwiperSlide} from "swiper/react/swiper-react";
+import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {getAllProducts} from "../../store/reducers/AllProductsReducer";
 
-function SwiperProducts({title,products}) {
-    const navigationPrevRef = useRef(null)
-    const navigationNextRef = useRef(null)
+function SwiperProducts({title,products, type}) {
+    const dispatch = useDispatch();
+    const navigationPrevRef = useRef(null);
+    const navigationNextRef = useRef(null);
 
     return (
             <div className="products swiper__products">
                 <div className="container">
                     <div className="products__title">
-                        <h1>{title}</h1>
+                        <Link to={`/products/${type}`} onClick={() => dispatch(getAllProducts(type))}>
+                            <h1>{title}</h1>
+                        </Link>
                         <div className="swiper__arrows">
                             <div className="swiper__arrows-prev" ref={navigationPrevRef}>
                                 <ArrowLeftIcon/>
@@ -27,7 +33,6 @@ function SwiperProducts({title,products}) {
                     </div>
 
                     <div className="products__row">
-
                         <Swiper
                             modules={[Navigation, Pagination]}
                             spaceBetween={20}
@@ -36,18 +41,17 @@ function SwiperProducts({title,products}) {
                                 nextEl: navigationNextRef.current,
                             }}
 
-                            // slidesPerView={products.length > 5 ? 5 : products.length}
-                            slidesPerView={'auto'}
+                            slidesPerView={products.length < 5 ? products.length : 5}
                             breakpoints={{
-                                768: {
-                                    width: 768,
-                                    slidesPerView: 2,
+                                1360: {
+                                    slidesPerView: 5,
                                 },
-
-                                568:{
-                                    width: 568,
+                                768: {
+                                    slidesPerView: 3,
+                                },
+                                0: {
                                     slidesPerView: 1,
-                                }
+                                },
                             }}
                         >
                             {

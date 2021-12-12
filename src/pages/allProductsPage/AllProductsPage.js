@@ -9,25 +9,25 @@ import FullPageLoader from "../../components/loading/Loading";
 import {getBrands} from "../../store/reducers/BrandsReducer";
 import ReactPaginate from "react-paginate";
 import CheckIcon from "../../components/icons/CheckIcon";
+import {getAllProducts} from "../../store/reducers/AllProductsReducer";
 
-function CategoryPage(props) {
+function AllProductsPage(props) {
     const [sidebarIsActive, setSidebarIsActive] = useState(false);
-    const [isCheck, setIsCheck] = useState([0]);
+    const [isCheck, setIsCheck] = useState([]);
     const dispatch = useDispatch();
     const state = useSelector(state => state);
-    const products = state.filterReducer.products;
-    const pagination = state.filterReducer.pagination;
+    const products = state.allProducts.products;
+    const pagination = state.allProducts.pagination;
     const history = useHistory();
     const location = useLocation();
-	const lang = useSelector(state => state.lang.lang);
+    const lang = useSelector(state => state.lang.lang);
 
-
-    const slug = props.match.params.slug;
+    const slug = props.match.params.id;
     const search = props.location.search;
 
 
     const handlePageClick = (page) => {
-        history.push({ pathname: location.pathname, search: `?page=${page.selected + 1}`});
+        history.push({ pathname: location.pathname, search: `&page=${page.selected + 1}`});
     };
 
     const handleBrandClick = (id) =>{
@@ -49,24 +49,24 @@ function CategoryPage(props) {
     }
 
     useEffect(() => {
-        dispatch(getCategoryProducts(slug,search));
+        dispatch(getAllProducts(slug,search));
         dispatch(getBrands());
     },[slug, search]);
 
     useEffect(() => {
-        history.push({ pathname: location.pathname, search: `?brand_ids=${isCheck.length === 0 ? 0 : isCheck.join(',')}`});
+        history.push({ pathname: location.pathname, search: isCheck.length !== 0 ? `&brand_ids=${isCheck.join(',')}` : null});
 
     },[isCheck]);
 
     return (
         <div className="categoryPage">
             <div className="container">
-               <div className="categoryPage__title">
-                   <h1>{makeTitle(props.match.params.slug)}</h1>
-                   <button
-                       className="categoryPage__btn"
-                       onClick={() => {setSidebarIsActive(!sidebarIsActive)}}
-                   >
+                <div className="categoryPage__title">
+                    <h1>{makeTitle(props.match.params.id)}</h1>
+                    <button
+                        className="categoryPage__btn"
+                        onClick={() => {setSidebarIsActive(!sidebarIsActive)}}
+                    >
                        <span className="categoryPage__btn-text">
                             {lang === 'uz' ? 'Saralash' : 'Сортировать'}
                         </span>
@@ -74,10 +74,10 @@ function CategoryPage(props) {
                         <span className="categoryPage__btn-icon">
                             <SortIcon/>
                         </span>
-                   </button>
+                    </button>
 
-               </div>
-               <div className="categoryPage__row">
+                </div>
+                <div className="categoryPage__row">
                     <div   className={sidebarIsActive ? "categoryPage__sidebar active" : "categoryPage__sidebar"}>
                         <div className="categoryPage__sidebar-title">
                             <h3>{lang === 'uz' ? 'Brendlar' : 'Бренды'}</h3>
@@ -115,45 +115,45 @@ function CategoryPage(props) {
                         </ul>
                     </div>
 
-                   <div className="categoryPage__products">
-                       {
-                           products ? products.length > 0 ? <Products state={products} match={props.match.params.slug}/> : <NoProduct/> :  <FullPageLoader />
-                       }
-                   </div>
-               </div>
-            <div className="categoryPage__pagination">
-                {
-                    pagination?.total_pages === 0 ? null :  <ReactPaginate
-                        previousLabel={"<"}
-                        nextLabel={">"}
-                        breakLabel={"..."}
-                        pageCount={pagination?.total_pages}
-                        marginPagesDisplayed={2}
-                        // pageRangeDisplayed={2}
-                        onPageChange={handlePageClick}
-                        containerClassName={"pagination"}
-                        pageClassName={"pagination__item"}
-                        pageLinkClassName={"pagination__link"}
-                        previousClassName={"pagination__item"}
-                        previousLinkClassName={"pagination__link"}
-                        nextClassName={"pagination__item"}
-                        nextLinkClassName={"pagination__link"}
-                        breakClassName={"pagination__item"}
-                        breakLinkClassName={"pagination__link"}
-                        activeClassName={"active"}
-                    />
-                }
+                    <div className="categoryPage__products">
+                        {
+                            products ? products.length > 0 ? <Products state={products} match={props.match.params.slug}/> : <NoProduct/> :  <FullPageLoader />
+                        }
+                    </div>
+                </div>
+                <div className="categoryPage__pagination">
+                    {
+                        pagination?.total_pages === 0 ? null :  <ReactPaginate
+                            previousLabel={"<"}
+                            nextLabel={">"}
+                            breakLabel={"..."}
+                            pageCount={pagination?.total_pages}
+                            marginPagesDisplayed={2}
+                            // pageRangeDisplayed={2}
+                            onPageChange={handlePageClick}
+                            containerClassName={"pagination"}
+                            pageClassName={"pagination__item"}
+                            pageLinkClassName={"pagination__link"}
+                            previousClassName={"pagination__item"}
+                            previousLinkClassName={"pagination__link"}
+                            nextClassName={"pagination__item"}
+                            nextLinkClassName={"pagination__link"}
+                            breakClassName={"pagination__item"}
+                            breakLinkClassName={"pagination__link"}
+                            activeClassName={"active"}
+                        />
+                    }
+                </div>
             </div>
-            </div>
-            {state.filterReducer.loading && <FullPageLoader />}
+            {state.allProducts.loading && <FullPageLoader />}
         </div>
     );
 }
 
-export default CategoryPage;
+export default AllProductsPage;
 
 const NoProduct = () =>{
-	const lang = useSelector(state => state.lang.lang);
+    const lang = useSelector(state => state.lang.lang);
     return(
         <div className="noProduct">
             <h1>{lang === 'uz' ? 'Mavjud so`rov bo`yicha mahsulot topilmadi' : 'По запросу ничего не найдено'}</h1>

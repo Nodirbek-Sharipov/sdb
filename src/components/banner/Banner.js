@@ -39,7 +39,6 @@ function Banner({state}) {
                         ))
                     }
                 </Swiper>
-
             </div>
         </div>
     );

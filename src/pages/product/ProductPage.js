@@ -10,8 +10,6 @@ function ProductPage() {
     const dispatch = useDispatch();
     const state = useSelector(state => state.product);
 
-    console.log(state);
-
     useEffect(() => {
         let slug = window.location.pathname.split('/')[2];
         console.log(slug)
@@ -128,9 +126,11 @@ const Product = ({product}) =>{
                 </div>
                 <div className="productPage__product-info-texts">
                     <p className="productPage__product-info-text">
-                        <span className="text_one">Тип</span>
-                        -
-                        <span className="text_two">Смартфон</span>
+                        {lang === 'uz' ? product.description_uz : product.description_ru}
+
+                        {/*<span className="text_one">Тип</span>*/}
+                        {/*-*/}
+                        {/*<span className="text_two">Смартфон</span>*/}
                     </p>
                 </div>
             </div>

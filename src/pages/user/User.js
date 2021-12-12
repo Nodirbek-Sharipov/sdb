@@ -118,7 +118,7 @@ const ProfileInfo = (props) =>{
             </form>
         </div>
     )
-}
+};
 
 const ProfileOrders = (props) =>{
     return(
@@ -145,4 +145,4 @@ const ProfileOrders = (props) =>{
             </div>
         </div>
     )
-}
+};

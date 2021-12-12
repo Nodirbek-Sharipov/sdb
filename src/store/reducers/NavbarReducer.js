@@ -11,19 +11,21 @@ let initialState = {
 const NavbarReducer = (state = initialState, action) =>{
     switch (action.type) {
         case CHANGE_NAVBAR_ACTIVE:
-            state.navbarActive = !state.navbarActive;
+            state.navbarActive = action.bool;
             return state;
 
         case GET_CATEGORIES:
             state.navbarLinks = action.categories;
             return state;
 
+
+
         default:
             return state;
     }
 }
 
-export const changeNavbarActiveAC = () =>({type:CHANGE_NAVBAR_ACTIVE});
+export const changeNavbarActiveAC = (bool) =>({type:CHANGE_NAVBAR_ACTIVE, bool: bool});
 export const setCategories = (payload) =>({type: GET_CATEGORIES, categories: payload})
 
 export const getCategories = () =>{
