@@ -31,7 +31,7 @@ function Banner({state}) {
                 >
                     {
                         state.map(el => (
-                            <SwiperSlide key={el.title_uz} >
+                            <SwiperSlide key={el.id}>
                                 <div className="banner__img">
                                     <img src={el.image} alt="banner"/>
                                 </div>

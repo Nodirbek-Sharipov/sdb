@@ -388,10 +388,11 @@ html{
 		height: auto;
 		opacity: 1;
 		visibility: visible;
-		overflow: auto;
+		overflow-y: scroll;
+
 
 		@media all and (max-width: 768px){
-			min-height: 400px;
+			height: 400px;
 		}
 	}
 
@@ -2250,3 +2251,77 @@ html{
 }
 
 /* P A G E - E N D*/
+
+/* P A G E N O T F O U N D - S T A R T */
+
+.pageNotFound{
+	position: relative;
+	height: calc(100vh - 70px);
+	width: 100%;
+
+	.container{
+		height: 100%;
+	}
+
+	&__row{
+		height: 100%;
+		@include d-flex(center,center,row,unset);
+	}
+
+	&__content{
+		&-title{
+			margin-bottom: 20px;
+			text-align: center;
+
+			h1{
+				font-family: $main-font;
+				font-style: normal;
+				@include adaptive-value('font-size', 180, 90, 1);
+				font-weight: 600;
+				line-height: 90%;
+				color: $main-color;
+			}
+
+			h3{
+				font-family: $main-font;
+				font-style: normal;
+				@include adaptive-value('font-size', 32, 18, 1);
+				font-weight: 600;
+				line-height: 130%;
+				color: $main-color;
+			}
+		}
+
+		&-text{
+			margin-bottom: 20px;
+			p{
+				text-align: center;
+				font-family: $main-font;
+				font-style: normal;
+				@include adaptive-value('font-size', 22, 16, 1);
+				font-weight: 600;
+				line-height: 130%;
+				color: $black-color;
+			}
+		}
+
+		&-btn{
+			button{
+				margin-top: 20px;
+				width: 100%;
+				background: $main-color;
+				border-radius: 10px;
+				padding: 14px 0;
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: bold;
+				@include adaptive-value('font-size', 18, 14, 1);
+				line-height: 120%;
+				color: $white-color;
+				cursor: pointer;
+			}
+		}
+	}
+}
+
+/* P A G E N O T F O U N D - E N D*/

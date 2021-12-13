@@ -10,13 +10,7 @@ import CloseIcon from "../icons/CloseIcon";
 import { changeNavbarActiveAC, getCategories} from "../../store/reducers/NavbarReducer";
 import HomeIcon from "../icons/HomeIcon";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    Accordion,
-    AccordionItem,
-    AccordionItemButton,
-    AccordionItemHeading,
-    AccordionItemPanel
-} from "react-accessible-accordion";
+import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from "react-accessible-accordion";
 import {getCategoryProducts} from "../../store/reducers/FilterReducer";
 import {getUser} from "../../store/reducers/UserReducer";
 import {setIsActiveModal} from "../../store/reducers/MainPageReducer";
@@ -33,9 +27,10 @@ function Navbar() {
     const products =useSelector(state => state.mainPageReducer.products);
     const dispatch = useDispatch();
     const history = useHistory();
-
 	const lang = useSelector(state => state.lang.lang);
-	const toggleLanguage = ()=> {
+
+
+    const toggleLanguage = ()=> {
 		const new_lang = (lang === 'uz') ? 'ru' : 'uz'
 		localStorage.setItem('lang', new_lang)
 		dispatch(setLang(new_lang))
@@ -57,11 +52,9 @@ function Navbar() {
 
     const profileHandler = () =>{
         const refreshtoken = localStorage.getItem('refreshToken');
-        console.log(refreshtoken)
         if(refreshtoken){
             dispatch(getUser());
             history.push('/profile');
-            console.log(true)
         } else{
             dispatch(setIsActiveModal(true));
         }
@@ -247,7 +240,7 @@ function Navbar() {
                     </div>
 
                     <div className="navbarModal__mobile">
-                        <Accordion allowZeroExpanded onChange={() => console.log('Hello world')}>
+                        <Accordion allowZeroExpanded>
                             {state.navbarLinks.map((item) => (
                                 <AccordionItem key={item.id}>
                                     <AccordionItemHeading>
@@ -311,8 +304,8 @@ function Navbar() {
                             </Link>
                         </li>
 
-                        <li className="navbar__mobile-item"  onClick={() => {dispatch(changeNavbarActiveAC())}}>
-                            <Link to='/'>
+                        <li className="navbar__mobile-item"  onClick={() => {dispatch(changeNavbarActiveAC(!state.navbarActive))}}>
+                            <button>
                                 <span className="navbar__mobile-icon">
                                     <MenuIcon fill={'#767676'} width={26} height={26}/>
                                 </span>
@@ -320,7 +313,7 @@ function Navbar() {
                                 <span className="navbar__mobile-text">
                                     {lang === 'uz' ? 'Kategoriyalar' : 'Категории'}
                                 </span>
-                            </Link>
+                            </button>
                         </li>
 
                         <li className="navbar__mobile-item">

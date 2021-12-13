@@ -20,13 +20,13 @@ function MainPage() {
     const dispatch = useDispatch();
 
     const swiperList =[
-        // {
-        //     id: 1,
-        //     title_uz: "Ommabop mahsulotlar",
-        //     title_ru: "Популярные продукты",
-        //     products: state.mainPageReducer.popular_products,
-        //     type: 'popular',
-        // },
+        {
+            id: 1,
+            title_uz: "Ommabop mahsulotlar",
+            title_ru: "Популярные продукты",
+            products: state.mainPageReducer.popular_products,
+            type: 'popular',
+        },
         {
             id: 2,
             title_uz: "Yangi mahsulotlar",
@@ -52,7 +52,7 @@ function MainPage() {
     ];
 
     useEffect(() =>{
-        dispatch(getProducts());
+        // dispatch(getProducts());
         dispatch(getRecommendedProducts());
         dispatch(getPopularProducts());
         dispatch(getNewProducts());
@@ -76,17 +76,10 @@ function MainPage() {
                     )
                 })
             }
-            {/*<SwiperProducts*/}
-            {/*    title={lang === 'uz' ? "Yangi mahsulotlar" : "Новые продукты"}*/}
-            {/*    products={state.mainPageReducer.products}*/}
-            {/*    slug={'/categories/yangi-mahsulotlar'}*/}
-            {/*/>*/}
-            {/*<SwiperProducts title="Telefonlar" products={state.mainPageReducer.products.filter(item => item.category.name_uz === 'Smartfonlar')}/>*/}
+
             <Brands brands={state.brands.brands}/>
             <Service/>
-            {
-                state.mainPageReducer.loading && <FullPageLoader/>
-            }
+            { state.mainPageReducer.loading && <FullPageLoader/>}
         </div>
     );
 }

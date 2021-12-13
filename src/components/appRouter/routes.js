@@ -5,6 +5,7 @@ import Cart from "../../pages/cart/Cart";
 import User from "../../pages/user/User";
 import AllProductsPage from "../../pages/allProductsPage/AllProductsPage";
 import Page from "../../pages/page/Page";
+import PageNotFound from './../../pages/404page/PageNotFound';
 
 export const publicRoutes =[
     {
@@ -34,6 +35,10 @@ export const publicRoutes =[
     {
         path: '/page/:slug',
         component: Page
+    },
+    {
+        path: '/404',
+        component: PageNotFound
     }
 ];
 

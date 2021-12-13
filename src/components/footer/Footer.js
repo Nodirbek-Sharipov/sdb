@@ -6,8 +6,11 @@ import HomeIcon from "../icons/HomeIcon";
 import TelegramIcon from "../icons/TelegramIcon";
 import InstagramIcon from "../icons/InstagramIcon";
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getPage } from '../../store/reducers/PageReducer';
 
 function Footer(props) {
+    const dispatch = useDispatch(); 
     const footerList = [
         {
             id: 1,
@@ -52,6 +55,7 @@ function Footer(props) {
                                             key={item.id}
                                             to={`/page/${item.slug}`}
                                             className="footer__link"
+                                            onClick={() => dispatch(getPage(item.slug))}
                                         >
                                             {lang === 'uz' ? item.title_uz : item.title_ru}
                                         </Link>

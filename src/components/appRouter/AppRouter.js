@@ -15,7 +15,7 @@ function AppRouter(props) {
                         )
                     })
                 }
-                {/*<Redirect to="/"/>*/}
+                <Redirect to="/404"/>
             </Switch>
         </div>
     );
