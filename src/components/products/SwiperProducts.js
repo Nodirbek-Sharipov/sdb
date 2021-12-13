@@ -34,6 +34,7 @@ function SwiperProducts({title,products, type}) {
 
 				<div className="products__row">
 					<Swiper
+						style={{ width: '100%' }}
 						modules={[Navigation, Pagination]}
 						spaceBetween={20}
 						navigation={{

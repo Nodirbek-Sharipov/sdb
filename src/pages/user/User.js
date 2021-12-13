@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import profile_img from '../../assets/images/profile_img.png'
 import profile__order_img from '../../assets/images/product__order-img.png'
 import {useDispatch, useSelector} from "react-redux"
-import {setUser} from "../../store/reducers/UserReducer"
+import {setOrders, setUser} from "../../store/reducers/UserReducer"
 
 function User(props) {
 	const [isOrders, setIsOrders] = useState(false)
@@ -13,13 +13,14 @@ function User(props) {
 	const changeIsOrders = (event) =>{
 		if(event.target.name === 'order'){
 			setIsOrders(true)
-		} else{
+		} else {
 			setIsOrders(false)
 		}
 	}
 
 	useEffect(() => {
-		dispatch(setUser(JSON.parse(localStorage.getItem('user'))))
+		dispatch(setUser(JSON.parse(localStorage.getItem('user') || '{}')))
+		dispatch(setOrders(JSON.parse(localStorage.getItem('orders') || '[]')))
 	}, [])
 
 	return (

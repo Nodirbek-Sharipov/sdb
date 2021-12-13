@@ -37,9 +37,7 @@ function Product({...props}) {
 
 			<div className="product__price">
 				<span className="product__price-num">
-					{
-						Intl.NumberFormat().format(props.price)  + `  ${lang === 'uz' ? 'So`m' : 'Сум'}`
-					}
+					{Intl.NumberFormat().format(props.price)  + `  ${lang === 'uz' ? 'So`m' : 'Сум'}`}
 				</span>
 			</div>
 

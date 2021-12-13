@@ -1,4 +1,4 @@
-import {$authHost, $host} from "../../http"
+import { $authHost, $host } from "../../http"
 const GET_BRANDS = 'GET_BRANDS'
 
 let defaultState = {
@@ -16,7 +16,7 @@ function BrandsReducer(state = defaultState, action) {
 	}
 }
 
-export const setBrands = (payload) =>({type:GET_BRANDS, brands: payload})
+export const setBrands = (brands) => ({ type:GET_BRANDS, brands })
 
 export const getBrands = () =>{
 	return async (dispatch) =>{

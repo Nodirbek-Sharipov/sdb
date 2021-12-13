@@ -49,7 +49,7 @@ function AllProductsPage(props) {
 	}
 
 	useEffect(() => {
-		dispatch(getAllProducts(slug,search))
+		dispatch(getAllProducts(slug, search))
 		dispatch(getBrands())
 	},[slug, search])
 
