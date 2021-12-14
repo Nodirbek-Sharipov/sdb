@@ -12,7 +12,7 @@ function LangReducer(state = defaultState, action) {
 			}
 
 		default:
-			return state;
+			return state
 	}
 }
 
