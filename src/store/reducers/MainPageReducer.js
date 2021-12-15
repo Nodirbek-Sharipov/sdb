@@ -1,4 +1,4 @@
-import {$authHost, $host} from "../../http"
+import { $host} from "../../http"
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_RECOMMENDED_PRODUCTS = 'GET_RECOMMENDED_PRODUCTS'
 const GET_POPULAR_PRODUCTS = 'GET_POPULAR_PRODUCTS'

@@ -42,7 +42,7 @@ function Brands({brands}) {
 											to={`/products/default`}
 											className="brand"
 											key={el.id}
-											onClick={() => dispatch(getAllProducts('default','&page=1', `&brand_ids=${el.id}`))}
+											onClick={() => dispatch(getAllProducts('default',1, el.id))}
 										>
 											<div className="brand__img">
 												<img src={el.image} alt="brand_img"/>

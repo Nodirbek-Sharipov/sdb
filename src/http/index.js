@@ -39,7 +39,7 @@ $authHost.interceptors.response.use(
 		) {
 			originalRequest._retry = true
 			return $authHost
-				.post(`${baseUrl}/v1/auth/refresh`, { refreshToken: refreshToken })
+				.post(`/v1/auth/refresh`, { refreshToken: refreshToken })
 				.then((res) => {
 					if (res.status === 200) {
 						localStorage.setItem("accessToken", res.data.accessToken)

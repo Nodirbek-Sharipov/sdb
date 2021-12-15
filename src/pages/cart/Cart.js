@@ -1,34 +1,27 @@
 import React, {useEffect, useState} from 'react'
 import {Link} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
-import {adjustQty, removeFromCart} from "../../store/reducers/CartReducer"
+import {adjustQty, removeFromCart, setCart} from "../../store/reducers/CartReducer"
 import {getProduct} from "../../store/reducers/ProductReducer"
+import { setOrderModal } from './../../store/reducers/UserReducer';
 
 function Cart() {
 	const cart = useSelector(state => state.cart.cart)
 	const [totalItems, setTotalItems] = useState(0)
 	const [totalPrice, setTotalPrice] = useState(0)
 	const lang = useSelector(state => state.lang.lang)
+	const dispatch = useDispatch()
 
 	useEffect(() =>{
 		let items = 0
 		let price = 0
-
 		cart.forEach(item => {
 			items += item.qty
 			price += item.qty * item.price
 		})
-
 		setTotalItems(items)
 		setTotalPrice(price)
-
 	}, [totalItems, totalPrice, setTotalItems, setTotalPrice, cart])
-
-	// useEffect(() =>{
-	//     if(JSON.parse(localStorage.getItem('cartArr'))){
-	//         setCart(JSON.parse(localStorage.getItem('cartArr')).cart)
-	//     }
-	// },[]);
 
 	return (
 		<div className="cart">
@@ -58,7 +51,7 @@ function Cart() {
 								<span>{Intl.NumberFormat().format(totalPrice)} <strong>{lang === 'uz' ? 'so`m' : 'сум'}</strong></span>
 							</div>
 
-							<button className="cart__sidebar-btn">{lang === 'uz' ? 'Buyurtma berish' : 'Оформить заказ'}</button>
+							<button className="cart__sidebar-btn" onClick={() => {dispatch(setOrderModal(true))}}>{lang === 'uz' ? 'Buyurtma berish' : 'Оформить заказ'}</button>
 						</div>
 					</div>
 				)}
@@ -88,12 +81,12 @@ const CartItem = ({product, quantity}) =>{
 	}
 
 	const removeHandler = () =>{
-		localStorage.setItem('card', JSON.stringify(cart.filter(item => item.id !== product.id)))
+		//localStorage.setItem('card', JSON.stringify(cart.filter(item => item.id !== product.id)))
 		dispatch(removeFromCart(product.id))
 	}
 
 	useEffect(() =>{
-		localStorage.setItem('card', JSON.stringify(cart.map(item => item.id === product.id ? {...item, qty: counter} : {...item, qty: counter})))
+		//localStorage.setItem('card', JSON.stringify(cart.map(item => item.id === product.id ? {...item, qty: counter} : {...item, qty: counter})))
 		dispatch(adjustQty(product.id, counter))
 	}, [counter])
 
@@ -111,7 +104,7 @@ const CartItem = ({product, quantity}) =>{
 				<p className="cart__item-text">ID: {product.id}</p>
 				<div className="cart__item-links">
 					<Link
-						to={`/products/${product.slug}`}
+						to={`/products/product/${product.slug}`}
 						className="cart__item-link"
 						onClick={() => {dispatch(getProduct(product.slug))}}
 					>{lang === 'uz' ? 'Mahsulotga o`tish' : 'Перейти к товару'}</Link>

@@ -3,6 +3,7 @@ import {IMaskInput} from "react-imask"
 import {useDispatch, useSelector} from "react-redux"
 import {setIsActiveModal} from "../../store/reducers/MainPageReducer"
 import {api} from "../../http"
+import { getUser } from '../../store/reducers/UserReducer'
 
 function LoginModal() {
 	const state =  useSelector(state => state)
@@ -43,6 +44,7 @@ function LoginModal() {
 				localStorage.setItem("accessToken", accessToken)
 				localStorage.setItem("refreshToken", refreshToken)
 				dispatch(setIsActiveModal(false))
+				dispatch(getUser())
 			} else {
 				alert(res.data.error)
 				setPhone('')

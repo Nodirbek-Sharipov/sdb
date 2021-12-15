@@ -9,6 +9,7 @@ import { setLang } from "./store/reducers/LangReducer"
 import ArrowRightIcon from "./components/icons/ArrowRightIcon"
 import {setIsActiveModal} from "./store/reducers/MainPageReducer"
 import {changeNavbarActiveAC} from "./store/reducers/NavbarReducer"
+import OrderModal from "./components/login/OrderModal"
 
 function App() {
 	const store  = useStore()
@@ -66,7 +67,10 @@ function App() {
 			<AppRouter/>
 			<Footer/>
 			{
-            state.mainPageReducer.isActiveModal ? <LoginModal/> : null
+            	state.mainPageReducer.isActiveModal ? <LoginModal/> : null
+			}
+			{
+				state.user.orderModal ? <OrderModal/> : null
 			}
 			<div>
 				<a href="#" className={scrolling ? "scrollTop active" : "scrollTop"}>

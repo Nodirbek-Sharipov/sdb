@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import profile_img from '../../assets/images/profile_img.png'
-import profile__order_img from '../../assets/images/product__order-img.png'
 import {useDispatch, useSelector} from "react-redux"
 import {setOrders, setUser} from "../../store/reducers/UserReducer"
 
@@ -78,22 +77,22 @@ const ProfileInfo = (props) =>{
 			<form>
 				<label className="form__group">
 					<p className="form__group-text">{lang === 'uz' ? 'Ism': 'Имя'}</p>
-					<input type="text" placeholder="Kamron"/>
+					<input type="text" placeholder="Zohidjon"/>
 				</label>
 
 				<label className="form__group">
 					<p className="form__group-text">{lang === 'uz' ? 'Familiya' : 'Фамилия'}</p>
-					<input type="text" placeholder="Fozilov"/>
+					<input type="text" placeholder="Ozadov"/>
 				</label>
 
 				<label className="form__group">
 					<p className="form__group-text">{lang === 'uz' ? 'Telefon' : 'Телефон'}</p>
-					<input type="text" placeholder="+998914342828"/>
+					<input type="text" placeholder="+998999999999"/>
 				</label>
 
 				<label className="form__group">
 					<p className="form__group-text">Email</p>
-					<input type="text" placeholder="kamrondev@gmail.com"/>
+					<input type="text" placeholder="zohiddev@gmail.com"/>
 				</label>
 
 				<label className="form__group">
@@ -103,12 +102,12 @@ const ProfileInfo = (props) =>{
 
 				<label className="form__group">
 					<p className="form__group-text">{lang === 'uz' ? 'Shahar/Tuman' : 'Город/Район'}</p>
-					<input type="text" placeholder="Xiva"/>
+					<input type="text" placeholder="Urganch"/>
 				</label>
 
 				<label className="form__group w-100">
 					<p className="form__group-text">{lang === 'uz' ? 'Manzil' : 'Адрес'}</p>
-					<input type="text" placeholder="Yangi turmush mahallasi X.Devanov 34A"/>
+					<input type="text" placeholder="Ziyokorlar mahallasi Uzbekiston ko`cha 49 uy"/>
 				</label>
 
 				<div className="form__btn-wrap">
@@ -119,29 +118,39 @@ const ProfileInfo = (props) =>{
 	)
 }
 
-const ProfileOrders = (props) =>{
+const ProfileOrders = ({orders}) =>{
+
 	return(
 		<div className="profile__orders">
 			<div className="profile__orders-row">
-				{/*{*/}
-				{/*    state.user.orders.length > 0*/}
-				{/*        state.user.orders.map(item =>{*/}
-				{/*            return(*/}
-				{/*    <div className="profile__order">*/}
-				{/*        <div className="profile__order-img">*/}
-				{/*            <img src={profile__order_img} alt="profile__order-img"/>*/}
-				{/*        </div>*/}
-				{/*        <div className="profile__order-content">*/}
-				{/*            <h3 className="profile__order-title">Смарт браслет Xiaomi Mi Band 5</h3>*/}
-				{/*            <p className="profile__order-text">Buyurtma qilingan vaqti:  29-11-2021 18:33</p>*/}
-				{/*            <p className="profile__order-text">Narx:  289 000 so’m</p>*/}
-				{/*            <button className="profile__order-btn">Bekor qilingan</button>*/}
-				{/*        </div>*/}
-				{/*    </div>*/}
-				{/*    )*/}
-				{/*})*/}
-				{/*}*/}
+				{
+					orders?.length !== null ? 
+						orders?.map(item => {
+							return(
+								<div className="profile__order" key={item.id}>
+									<div className="profile__order-img">
+										<img src={item.img} alt="profile__order-img"/>
+									</div>
+									<div className="profile__order-content">
+										<h3 className="profile__order-title">Смарт браслет Xiaomi Mi Band 5</h3>
+										<p className="profile__order-text">Buyurtma qilingan vaqti:  29-11-2021 18:33</p>
+										<p className="profile__order-text">Narx:  289 000 so’m</p>
+										<button className="profile__order-btn">Bekor qilingan</button>
+									</div>
+								</div>
+							)
+						}) :
+						<NoProducts/>
+				}
 			</div>
+		</div>
+	)
+}
+
+const NoProducts = () =>{
+	return(
+		<div>
+			<h1>Sizda buyurtirilgan mahsulot mavjud emas</h1>
 		</div>
 	)
 }

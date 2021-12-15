@@ -39,15 +39,23 @@ function AllProductsReducer(state = defaultState, action) {
 
 export const setAllProducts = (payload) =>({type:GET_ALL_PRODUCTS, payload: payload})
 
-export const getAllProducts = (slug, page=1, brand_ids, per_page=16) =>{
-	// console.log(`/v1/product/list?type=${slug}${page ? page : '&page=1'}${brand_ids ? brand_ids : '&brand_ids=0'}&per_page=16`, page, slug, brand_ids)
+export const getAllProducts = (slug, page, brand_ids, per_page=16) =>{
+	 console.log(`/v1/product/list`, {
+		params: {
+			type: slug,
+			page,
+			brand_ids,
+			per_page
+		}
+	})
 	return async (dispatch) =>{
 		dispatch({ type: SHOW_LOADER })
 		$host.get(`/v1/product/list`, {
 			params: {
 				type: slug,
 				page,
-				brand_ids
+				brand_ids,
+				per_page
 			}
 		}).then(function (response){
 			dispatch(setAllProducts(response.data))

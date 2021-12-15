@@ -228,6 +228,17 @@ html{
 				padding: 10px;
 			}
 
+            &-empty{
+                font-family: $main-font;
+				font-style: normal;
+				font-weight: 500;
+				@include adaptive-value('font-size', 18, 16, 1);
+				line-height: 130%;
+				color: $main-color;
+				transition: all 0.3s;
+                padding: 20px;
+            }
+
 			&-name{
 				flex: 1 1 80%;
 				font-family: $main-font;
@@ -2214,6 +2225,141 @@ html{
 	}
 }
 
+.orderModal{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.3);
+	backdrop-filter: blur(17px);
+	@include d-flex(center, center, row, unset);
+	z-index: 1000;
+
+	&__panel{
+		padding: 40px 45px;
+		background-color: $white-color;
+
+		&-isok{
+			.orderModal__title{
+				max-width: 750px;
+			}
+
+			.form__group-btn{
+				padding: 14px 10px !important;
+			}
+
+			a{
+				margin: 0 auto;
+			}
+		}
+	}
+
+	&__title{
+		margin-bottom: 20px;
+		text-align: center;
+		h1{
+			font-family: $main-font;
+			font-style: normal;
+			font-weight: 300;
+			@include  adaptive-value('font-size', 48, 24, 1);
+			line-height: 130%;
+			color: $black-color;
+		}
+	}
+
+	form{
+		.form__group{
+			width: 100%;
+			margin-bottom: 25px;
+            display: block;
+
+			&-text{
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: 500;
+				@include adaptive-value('font-size', 24, 16, 1);
+				line-height: 125%;
+				color: $black-color;
+				margin-bottom: 10px;
+			}
+
+			input,
+            textarea{
+				width: 100%;
+				border: 1px solid $black-color;
+				border-radius: 10px;
+				padding: 14px 20px;
+				font-family: $main-font;
+				font-style: normal;
+				font-weight: normal;
+				@include adaptive-value('font-size', 18, 14, 1);
+				line-height: 120%;
+				color: $black-color;
+				outline: none;
+			}
+
+            &-input-checkbox{
+                width: unset !important;
+                margin-right: 5px;
+            }
+
+            label{
+                display: block;
+                font-family: $main-font;
+				font-style: normal;
+				font-weight: 500;
+				@include adaptive-value('font-size', 16, 14, 1);
+				line-height: 125%;
+				color: $black-color;
+				margin-bottom: 10px;
+            }
+
+			input::-webkit-outer-spin-button,
+			input::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+
+
+		}
+	}
+
+	.small{
+		h1{
+			@include  adaptive-value('font-size', 24, 16, 1);
+		}
+	}
+
+	&__btns{
+		@include d-flex(center, space-between, row, unset);
+
+		button{
+			&:not(:last-child){
+				margin-right: 20px;
+			}
+		}
+	}
+
+	.form__group-btn{
+		margin-top: 20px;
+		width: 100%;
+		background: $main-color;
+		border-radius: 10px;
+		padding: 14px 0;
+		font-family: $main-font;
+		font-style: normal;
+		font-weight: bold;
+		@include adaptive-value('font-size', 18, 14, 1);
+		line-height: 120%;
+		color: $white-color;
+		cursor: pointer;
+
+		&-wrap{
+			width: 100%;
+		}
+	}
+}
 
 /* L O G I N M O D A L - E N D*/
 

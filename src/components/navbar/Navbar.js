@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import logo from '../../assets/images/menu-logo.png'
+import logo from '../../assets/images/SDB_logo_1.png'
 import MenuIcon from "../icons/MenuIcon"
 import SearchIcon from "../icons/SearchIcon"
 import CartIcon from "../icons/CartIcon"
@@ -7,7 +7,7 @@ import UserIcon from "../icons/UserIcon"
 import ArrowRightIcon from "../icons/ArrowRightIcon"
 import {Link, useHistory } from "react-router-dom"
 import CloseIcon from "../icons/CloseIcon"
-import { changeNavbarActiveAC, getCategories} from "../../store/reducers/NavbarReducer"
+import { changeNavbarActiveAC, getCategories, getSearchedProducts} from "../../store/reducers/NavbarReducer"
 import HomeIcon from "../icons/HomeIcon"
 import {useDispatch, useSelector} from "react-redux"
 import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from "react-accessible-accordion"
@@ -15,10 +15,12 @@ import {getCategoryProducts} from "../../store/reducers/FilterReducer"
 import {getUser} from "../../store/reducers/UserReducer"
 import {setIsActiveModal} from "../../store/reducers/MainPageReducer"
 import { setLang } from '../../store/reducers/LangReducer'
+import { getProduct } from '../../store/reducers/ProductReducer'
+import Logo from './../icons/Logo'
 
 function Navbar() {
 	const [activeLinkId, setActiveLinkId] = useState(1)
-	const [serchedProducts, setSerchedProducts] = useState([])
+	//const [serchedProducts, setSerchedProducts] = useState([])
 	const [cartLength, setCartLength] = useState(0)
 	const [search, setSearch] = useState('')
 	const [searchTab, setSearchTab] = useState(false)
@@ -45,10 +47,10 @@ function Navbar() {
 		dispatch(changeNavbarActiveAC())
 	}
 
-	const filterSearchedProducts = () =>{
-		const productss = products.filter(item => search !== '' && (item.name_uz.toLowerCase().includes(search.toLowerCase()) || item.name_ru.toLowerCase().includes(search.toLowerCase())))
-		setSerchedProducts(productss)
-	}
+	//const filterSearchedProducts = () =>{
+	//	const productss = products.filter(item => search !== '' && (item.name_uz.toLowerCase().includes(search.toLowerCase()) || item.name_ru.toLowerCase().includes(search.toLowerCase())))
+	//	setSerchedProducts(productss)
+	//}
 
 	const profileHandler = () =>{
 		const refreshtoken = localStorage.getItem('refreshToken')
@@ -69,6 +71,10 @@ function Navbar() {
 		cart.forEach(item =>{ count += item.qty})
 		setCartLength(count)
 	}, [cart, cartLength])
+
+	useEffect(() =>{
+		dispatch(getSearchedProducts(search))
+	},[search])
 
 	return (
 		<div className="navbar">
@@ -97,7 +103,7 @@ function Navbar() {
 									type="text"
 									placeholder={`${lang === 'uz' ? 'Qidirish' : 'Поиск'}....`}
 									value={search}
-									onChange={(e) => {setSearch(e.target.value); setSearchTab(true); filterSearchedProducts()}}
+									onChange={(e) => {setSearch(e.target.value); setSearchTab(true)}}
 									onBlur={() => setSearchTab(false)}
 								/>
 							</div>
@@ -107,11 +113,14 @@ function Navbar() {
 							</button>
 
 							<div className={searchTab ? "search__products active" : "search__products"}>
-								{serchedProducts !== null ? (
+								{state.searchedProducts.length !== 0 ? (
 									<ul className="search__products-list">
-										{serchedProducts.map(item => (
+										{state.searchedProducts.map(item => (
 											<li key={item.id}>
-												<Link to={`/products/${item.slug}`}  className="search__products-item">
+												<Link to={`/products/product/${item.slug}`}
+												 	  className="search__products-item"
+													   onClick={() => {dispatch(getProduct(item.slug))}}
+													   >
 													<div className="search__products-img">
 														<img src={item.images[0]} alt="search__products-img"/>
 													</div>
@@ -123,7 +132,7 @@ function Navbar() {
 										))}
 									</ul>
 								) : (
-									<div>{lang === 'uz' ? 'Mahsulot topilmadi' : 'Товар не найден'}</div>
+									<div className="search__products-empty">{lang === 'uz' ? 'Mahsulot topilmadi' : 'Товар не найден'}</div>
 								)}
 							</div>
 						</div>
