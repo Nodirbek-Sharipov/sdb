@@ -151,8 +151,8 @@ function OrderModal() {
 			  <label className="form__group">
 						<p className="form__group-text">
 				  {lang === 'uz'
-					? 'Yashash manzilingizni kiriting'
-					: 'Введите секретный код'}
+					? 'Yetkazib berish manzilini kiriting'
+					: 'Введите адрес доставки'}
 						</p>
 						<input
 				  type="text"
@@ -164,7 +164,7 @@ function OrderModal() {
 						<p className="form__group-text">
 				  {lang === 'uz'
 					? 'Telefon raqamingizni kiriting'
-					: 'Введите секретный код'}
+					: 'Введите свой номер телефона'}
 						</p>
 						<IMaskInput
 				  mask={`{+998} 00 000 00 00`}
@@ -226,7 +226,7 @@ function OrderModal() {
 				  className="form__group-btn"
 				  onClick={(e) => handleSendOrderBtn(e)}
 						>
-				  {lang === 'uz' ? 'Rasmiylashtirish' : 'Авторизоваться'}
+				  {lang === 'uz' ? 'Rasmiylashtirish' : 'Регистрация'}
 						</button>
 						<button
 				  className="form__group-btn"

@@ -12,7 +12,7 @@ import { getAllProducts } from '../../store/reducers/AllProductsReducer'
 
 function AllProductsPage(props) {
 	const [sidebarIsActive, setSidebarIsActive] = useState(false)
-	const [isCheck, setIsCheck] = useState([])
+	const [isCheck, setIsCheck] = useState([0])
 	const [page, setPage] = useState(0)
 	const [params, setParams] = useState({page: null, brand_ids: null})
 	const dispatch = useDispatch()
@@ -32,9 +32,13 @@ function AllProductsPage(props) {
   	//  })
   	//}
 
+	  console.log(props.match)
+	  console.log(props.location)
+
 	const handlePageClick = (page) => {
 		//setPage(page.selected+1);
 		setParams({...params,page: page.selected + 1})
+		setPage(page.selected + 1)
   	}
 
   	const handleBrandClick = (id) => {
@@ -44,8 +48,6 @@ function AllProductsPage(props) {
   	    setIsCheck([...isCheck, id])
   	  }
   	}
-
-	  
 
   	function makeTitle(slug) {
   	  let words = slug.split('-')
@@ -58,11 +60,11 @@ function AllProductsPage(props) {
   	}
 
   	useEffect(() => {
-  	  dispatch(getAllProducts(slug, params.page, params.brand_ids))
+  	  dispatch(getAllProducts(slug, params.page, params.brand_ids, 16, search.split('search=').join('').substring(1)))
   	  dispatch(getBrands())
 		setParams({...params, brand_ids: isCheck.join(',')})
 
-  	}, [slug, search, isCheck])
+  	}, [slug, search, isCheck, page])
 
 	  const serialize = obj => Object.keys(obj).map(key => `${key}=${encodeURIComponent(obj[key])}`).join('&')
 
@@ -73,18 +75,18 @@ function AllProductsPage(props) {
   	//  })
   	//}, [isCheck])
 
-	  useEffect(() => {
-		history.push({
-			pathname: location.pathname,
-			search: serialize(params),
-		})
-  	}, [params])
+	//   useEffect(() => {
+	// 	history.push({
+	// 		pathname: location.pathname,
+	// 		search: serialize(params),
+	// 	})
+  	// }, [params])
 
   	return (
   	  <div className="categoryPage">
   	    <div className="container">
   	      <div className="categoryPage__title">
-  	        <h1>{makeTitle(props.match.params.id)}</h1>
+  	        <h1>{lang === 'uz' ? 'Mahsulotlar' : 'Продукты'}</h1>
   	        <button
   	          className="categoryPage__btn"
   	          onClick={() => {
@@ -101,7 +103,7 @@ function AllProductsPage(props) {
   	        </button>
   	      </div>
   	      <div className="categoryPage__row">
-  	        <div
+  	        {/* <div
   	          className={
   	            sidebarIsActive
   	              ? 'categoryPage__sidebar active'
@@ -145,9 +147,9 @@ function AllProductsPage(props) {
   	              </li>
   	            ))}
   	          </ul>
-  	        </div>
+  	        </div> */}
 
-  	        <div className="categoryPage__products">
+  	        <div className="categoryPage__products" style={{width: '100%'}}>
   	          {products ? (
   	            products.length > 0 ? (
   	              <Products state={products} match={props.match.params.slug} />

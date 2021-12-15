@@ -12,7 +12,9 @@ import CheckIcon from "../../components/icons/CheckIcon"
 
 function CategoryPage(props) {
 	const [sidebarIsActive, setSidebarIsActive] = useState(false)
+	const [brandFilter, setBrandFilter] = useState(false)
 	const [isCheck, setIsCheck] = useState([0])
+	const [params, setParams] = useState({page: null, brand_ids: null})
 	const dispatch = useDispatch()
 	const state = useSelector(state => state)
 	const products = state.filterReducer.products
@@ -26,17 +28,30 @@ function CategoryPage(props) {
 	const search = props.location.search
 
 
-	const handlePageClick = (page) => {
-		history.push({ pathname: location.pathname, search: `?page=${page.selected + 1}`})
-	}
+	// const handlePageClick = (page) => {
+	// 	history.push({ pathname: location.pathname, search: `?page=${page.selected + 1}`})
+	// }
 
-	const handleBrandClick = (id) =>{
-		if(isCheck.includes(id)){
-			setIsCheck(isCheck.filter(el => el !== id))
-		} else{
-			setIsCheck([...isCheck, id])
-		}
-	}
+	const handlePageClick = (page) => {
+		//setPage(page.selected+1);
+		setParams({...params,page: page.selected + 1})
+  	}
+
+	// const handleBrandClick = (id) =>{
+	// 	if(isCheck.includes(id)){
+	// 		setIsCheck(isCheck.filter(el => el !== id))
+	// 	} else{
+	// 		setIsCheck([...isCheck, id])
+	// 	}
+	// }
+
+	const handleBrandClick = (id) => {
+  	  if (isCheck.includes(id)) {
+  	    setIsCheck(isCheck.filter((el) => el !== id))
+  	  } else {
+  	    setIsCheck([...isCheck, id])
+  	  }
+  	}
 
 	function makeTitle(slug) {
 		let words = slug.split('-')
@@ -48,14 +63,35 @@ function CategoryPage(props) {
 		return words.join(' ')
 	}
 
-	useEffect(() => {
-		dispatch(getCategoryProducts(slug,search))
-		dispatch(getBrands())
-	},[slug, search])
+	const serialize = obj => Object.keys(obj).map(key => `${key}=${encodeURIComponent(obj[key])}`).join('&')
+
 
 	useEffect(() => {
-		history.push({ pathname: location.pathname, search: `?brand_ids=${isCheck.length === 0 ? 0 : isCheck.join(',')}`})
-	},[isCheck])
+		if(slug === 'smartfon-va-telefonlar' || slug === 'smartfonlar' || slug === 'planshetlar'){
+			setBrandFilter(true)
+		}else{
+			setBrandFilter(false)
+		}
+		console.log(brandFilter)
+	}, [slug, props.location.pathname])
+
+	useEffect(() => {
+		dispatch(getCategoryProducts(slug,params.page, params.brand_ids))
+		dispatch(getBrands())
+		setParams({...params, brand_ids: isCheck.join(',')})
+	},[slug, search, isCheck])
+
+	// useEffect(() => {
+	// 	history.push({ pathname: location.pathname, search: `?brand_ids=${isCheck.length === 0 ? 0 : isCheck.join(',')}`})
+	// },[isCheck])
+
+
+	useEffect(() => {
+		history.push({
+			pathname: location.pathname,
+			search: serialize(params),
+		})
+  	}, [params])
 
 	return (
 		<div className="categoryPage">
@@ -77,40 +113,43 @@ function CategoryPage(props) {
 
 				</div>
 				<div className="categoryPage__row">
-					<div   className={sidebarIsActive ? "categoryPage__sidebar active" : "categoryPage__sidebar"}>
-						<div className="categoryPage__sidebar-title">
-							<h3>{lang === 'uz' ? 'Brendlar' : 'Бренды'}</h3>
-						</div>
+					{
+						brandFilter ?
+						<div className={sidebarIsActive ? "categoryPage__sidebar active" : "categoryPage__sidebar"}>
+							<div className="categoryPage__sidebar-title">
+								<h3>{lang === 'uz' ? 'Brendlar' : 'Бренды'}</h3>
+							</div>
 
-						<ul className="categoryPage__sidebar-list">
-							<li className="categoryPage__sidebar-list__item" onClick={() => handleBrandClick(0)}>
-								<span className="categoryPage__sidebar-list__icon">
-									{isCheck.includes(0) ? <CheckIcon/> : <UncheckIcon/>}
-								</span>
-
-								<span className="categoryPage__sidebar-list__text">
-									{lang === 'uz' ? 'Barchasini ko’rsatish' : 'Показать все'}
-								</span>
-							</li>
-							{state.brands.brands.map(item => (
-								<li
-									className="categoryPage__sidebar-list__item"
-									key={item.id}
-									onClick={() => handleBrandClick(item.id)}
-								>
+							<ul className="categoryPage__sidebar-list">
+								<li className="categoryPage__sidebar-list__item" onClick={() => handleBrandClick(0)}>
 									<span className="categoryPage__sidebar-list__icon">
-										{isCheck.includes(item.id) ? <CheckIcon/> : <UncheckIcon/>}
+										{isCheck.includes(0) ? <CheckIcon/> : <UncheckIcon/>}
 									</span>
 
 									<span className="categoryPage__sidebar-list__text">
-										{item[`name_${lang}`]}
+										{lang === 'uz' ? 'Barchasini ko’rsatish' : 'Показать все'}
 									</span>
 								</li>
-							))}
-						</ul>
-					</div>
+								{state.brands.brands.map(item => (
+									<li
+										className="categoryPage__sidebar-list__item"
+										key={item.id}
+										onClick={() => handleBrandClick(item.id)}
+									>
+										<span className="categoryPage__sidebar-list__icon">
+											{isCheck.includes(item.id) ? <CheckIcon/> : <UncheckIcon/>}
+										</span>
 
-					<div className="categoryPage__products">
+										<span className="categoryPage__sidebar-list__text">
+											{item[`name_${lang}`]}
+										</span>
+									</li>
+								))}
+							</ul>
+						</div> : null
+					}
+
+					<div className="categoryPage__products" style={brandFilter ? {width: '78%'} : {width: '100%'}}>
 						{products ? products.length > 0 ? <Products state={products} match={props.match.params.slug}/> : <NoProduct/> :  <FullPageLoader />}
 					</div>
 				</div>

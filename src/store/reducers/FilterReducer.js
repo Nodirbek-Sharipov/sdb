@@ -1,4 +1,4 @@
-import {$authHost, $host} from "../../http"
+import {$host} from "../../http"
 const GET_CATEGORY_PRODUCTS = 'GET_CATEGORY_PRODUCTS'
 const SHOW_LOADER = "SHOW_LOADER"
 const HIDE_LOADER = "HIDE_LOADER"
@@ -47,10 +47,10 @@ function FilterReducer(state = defaultState, action) {
 export const setCategoryProducts = (payload) =>({type:GET_CATEGORY_PRODUCTS, payload: payload})
 // export const setCategoryRecommendedProducts = (payload) => ({type: SET_RECOMMENDED_PRODUCTS, payload: payload});
 
-export const getCategoryProducts = (slug, search) =>{
+export const getCategoryProducts = (slug,page, brand_ids=0, per_page=16) =>{
 	return async (dispatch) =>{
 		dispatch({ type: SHOW_LOADER })
-		$host.get(`/v1/category/${slug}${search ? search : '?page=1'}&per_page=16`).then(function (response){
+		$host.get(`/v1/category/${slug}`, {params: {page, brand_ids, per_page}}).then(function (response){
 			dispatch(setCategoryProducts(response.data))
 			dispatch({ type: HIDE_LOADER })
 		}).catch(error => {console.log(error)})

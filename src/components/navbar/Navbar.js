@@ -16,7 +16,7 @@ import {getUser} from "../../store/reducers/UserReducer"
 import {setIsActiveModal} from "../../store/reducers/MainPageReducer"
 import { setLang } from '../../store/reducers/LangReducer'
 import { getProduct } from '../../store/reducers/ProductReducer'
-import Logo from './../icons/Logo'
+import { getAllProducts } from '../../store/reducers/AllProductsReducer'
 
 function Navbar() {
 	const [activeLinkId, setActiveLinkId] = useState(1)
@@ -59,6 +59,14 @@ function Navbar() {
 			history.push('/profile')
 		} else{
 			dispatch(setIsActiveModal(true))
+		}
+	}
+
+	const handleKeyPress = (e) => {
+		if(e.key === 'Enter'){
+			dispatch(getAllProducts('default',1, 0, 16,search))
+			history.push(`/products/default?search=${search}`)
+			setSearchTab(false)
 		}
 	}
 
@@ -105,6 +113,7 @@ function Navbar() {
 									value={search}
 									onChange={(e) => {setSearch(e.target.value); setSearchTab(true)}}
 									onBlur={() => setSearchTab(false)}
+									onKeyPress={(e) => handleKeyPress(e)}
 								/>
 							</div>
 

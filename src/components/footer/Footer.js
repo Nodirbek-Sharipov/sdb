@@ -97,7 +97,7 @@ function Footer(props) {
 						</div>
 
 						<div className="social__links">
-							<a href='https://t.me/samsung_dehkonbozor' target="_blank" className="social__link" rel="noreferrer">
+							<a href='https://t.me/samsung_dehkonbozor1' target="_blank" className="social__link" rel="noreferrer">
 								<span className="social__link-icon">
 									<TelegramIcon/>
 								</span>
